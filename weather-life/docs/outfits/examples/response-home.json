@@ -1,0 +1,95 @@
+{
+  "recommendationType": "RULE_BASED",
+  "catalogVersion": "1.0.0",
+  "input": {
+    "temperature": 24.0,
+    "humidity": 50.0,
+    "windSpeed": 0.0,
+    "sky": "CLOUDY",
+    "precipitation": "NONE",
+    "gender": "FEMALE",
+    "occasion": "HOME",
+    "preference": "ANY",
+    "thermalPreference": "NORMAL",
+    "minTemperature": null,
+    "maxTemperature": null,
+    "count": 3,
+    "seed": 0
+  },
+  "selectionTemperature": 24.0,
+  "outerSelectionTemperature": 24.0,
+  "outfits": [
+    {
+      "id": "00dacf22-6414-3624-841c-3706b12bff00",
+      "structure": "SEPARATES",
+      "top": {
+        "id": "C161",
+        "name": "라운지 긴소매",
+        "slot": "TOP"
+      },
+      "bottom": {
+        "id": "C166",
+        "name": "라운지 긴바지",
+        "slot": "BOTTOM"
+      },
+      "onePiece": null,
+      "innerTop": null,
+      "outer": null,
+      "outerUsage": "NONE",
+      "baseLayer": null,
+      "shoes": null,
+      "accessories": [],
+      "reasons": [
+        "의류별 추천 기온 범위와 선택한 용도에 맞춰 조합했습니다."
+      ]
+    },
+    {
+      "id": "09256710-b6d3-32d4-bef6-3ce1c38b56cb",
+      "structure": "ONE_PIECE",
+      "top": null,
+      "bottom": null,
+      "onePiece": {
+        "id": "C169",
+        "name": "긴소매 원피스 잠옷",
+        "slot": "ONE_PIECE"
+      },
+      "innerTop": null,
+      "outer": null,
+      "outerUsage": "NONE",
+      "baseLayer": null,
+      "shoes": null,
+      "accessories": [],
+      "reasons": [
+        "의류별 추천 기온 범위와 선택한 용도에 맞춰 조합했습니다."
+      ]
+    },
+    {
+      "id": "96226367-f3ed-3265-b835-46fc3e4b35f2",
+      "structure": "SEPARATES",
+      "top": {
+        "id": "C161",
+        "name": "라운지 긴소매",
+        "slot": "TOP"
+      },
+      "bottom": {
+        "id": "C165",
+        "name": "파자마 긴바지",
+        "slot": "BOTTOM"
+      },
+      "onePiece": null,
+      "innerTop": null,
+      "outer": null,
+      "outerUsage": "NONE",
+      "baseLayer": null,
+      "shoes": null,
+      "accessories": [],
+      "reasons": [
+        "의류별 추천 기온 범위와 선택한 용도에 맞춰 조합했습니다."
+      ]
+    }
+  ],
+  "advice": [
+    "HOME은 입력한 기온을 실내 온도로 해석하며 실외의 비·바람·일교차는 반영하지 않습니다."
+  ],
+  "warnings": []
+}

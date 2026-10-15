@@ -1,0 +1,3943 @@
+{
+  "version": "1.0.0",
+  "description": "사용자가 제공한 의류 목록을 바탕으로 일상·출근·운동·홈웨어용 종류를 정리한 수작업 카탈로그. 온도 범위와 점수는 경험적 설정이며 실제 제품의 소재와 두께에 따라 다릅니다.",
+  "items": [
+    {
+      "id": "C001",
+      "name": "기본 반소매 티셔츠",
+      "slot": "TOP",
+      "genders": [
+        "MALE",
+        "FEMALE",
+        "UNISEX"
+      ],
+      "occasions": [
+        "DAILY",
+        "EXERCISE"
+      ],
+      "style": "CASUAL",
+      "minTemperature": 22,
+      "maxTemperature": 50,
+      "idealTemperature": 28,
+      "breathability": 4,
+      "waterResistance": 0,
+      "windResistance": 0,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": [
+        "INNER_OK"
+      ]
+    },
+    {
+      "id": "C002",
+      "name": "오버핏 반소매 티셔츠",
+      "slot": "TOP",
+      "genders": [
+        "MALE",
+        "FEMALE",
+        "UNISEX"
+      ],
+      "occasions": [
+        "DAILY",
+        "EXERCISE"
+      ],
+      "style": "CASUAL",
+      "minTemperature": 22,
+      "maxTemperature": 50,
+      "idealTemperature": 28,
+      "breathability": 4,
+      "waterResistance": 0,
+      "windResistance": 0,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": [
+        "INNER_OK"
+      ]
+    },
+    {
+      "id": "C003",
+      "name": "카라 반소매 티셔츠",
+      "slot": "TOP",
+      "genders": [
+        "MALE",
+        "FEMALE",
+        "UNISEX"
+      ],
+      "occasions": [
+        "DAILY",
+        "OFFICE"
+      ],
+      "style": "SMART",
+      "minTemperature": 22,
+      "maxTemperature": 50,
+      "idealTemperature": 28,
+      "breathability": 4,
+      "waterResistance": 0,
+      "windResistance": 0,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": [
+        "INNER_OK"
+      ]
+    },
+    {
+      "id": "C004",
+      "name": "린넨 반소매 셔츠",
+      "slot": "TOP",
+      "genders": [
+        "MALE",
+        "FEMALE",
+        "UNISEX"
+      ],
+      "occasions": [
+        "DAILY",
+        "OFFICE"
+      ],
+      "style": "SMART",
+      "minTemperature": 20,
+      "maxTemperature": 50,
+      "idealTemperature": 27,
+      "breathability": 5,
+      "waterResistance": 0,
+      "windResistance": 0,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": [
+        "INNER_OK"
+      ]
+    },
+    {
+      "id": "C005",
+      "name": "하와이안 셔츠",
+      "slot": "TOP",
+      "genders": [
+        "MALE"
+      ],
+      "occasions": [
+        "DAILY"
+      ],
+      "style": "CASUAL",
+      "minTemperature": 22,
+      "maxTemperature": 50,
+      "idealTemperature": 28,
+      "breathability": 4,
+      "waterResistance": 0,
+      "windResistance": 0,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C006",
+      "name": "민소매 러닝",
+      "slot": "TOP",
+      "genders": [
+        "MALE"
+      ],
+      "occasions": [
+        "DAILY",
+        "EXERCISE"
+      ],
+      "style": "CASUAL",
+      "minTemperature": 25,
+      "maxTemperature": 50,
+      "idealTemperature": 31,
+      "breathability": 5,
+      "waterResistance": 0,
+      "windResistance": 0,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C007",
+      "name": "나시",
+      "slot": "TOP",
+      "genders": [
+        "MALE"
+      ],
+      "occasions": [
+        "DAILY",
+        "EXERCISE"
+      ],
+      "style": "CASUAL",
+      "minTemperature": 25,
+      "maxTemperature": 50,
+      "idealTemperature": 31,
+      "breathability": 5,
+      "waterResistance": 0,
+      "windResistance": 0,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C008",
+      "name": "기본 롱슬리브",
+      "slot": "TOP",
+      "genders": [
+        "MALE",
+        "FEMALE",
+        "UNISEX"
+      ],
+      "occasions": [
+        "DAILY",
+        "OFFICE",
+        "EXERCISE"
+      ],
+      "style": "CASUAL",
+      "minTemperature": 12,
+      "maxTemperature": 28,
+      "idealTemperature": 21,
+      "breathability": 4,
+      "waterResistance": 0,
+      "windResistance": 0,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": [
+        "INNER_OK"
+      ]
+    },
+    {
+      "id": "C009",
+      "name": "헨리넥 롱슬리브",
+      "slot": "TOP",
+      "genders": [
+        "MALE"
+      ],
+      "occasions": [
+        "DAILY",
+        "OFFICE"
+      ],
+      "style": "SMART",
+      "minTemperature": 12,
+      "maxTemperature": 28,
+      "idealTemperature": 21,
+      "breathability": 4,
+      "waterResistance": 0,
+      "windResistance": 0,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": [
+        "INNER_OK"
+      ]
+    },
+    {
+      "id": "C010",
+      "name": "얇은 카라 티셔츠",
+      "slot": "TOP",
+      "genders": [
+        "MALE"
+      ],
+      "occasions": [
+        "DAILY",
+        "OFFICE"
+      ],
+      "style": "SMART",
+      "minTemperature": 12,
+      "maxTemperature": 28,
+      "idealTemperature": 21,
+      "breathability": 4,
+      "waterResistance": 0,
+      "windResistance": 0,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": [
+        "INNER_OK"
+      ]
+    },
+    {
+      "id": "C011",
+      "name": "드레스 셔츠",
+      "slot": "TOP",
+      "genders": [
+        "MALE",
+        "FEMALE",
+        "UNISEX"
+      ],
+      "occasions": [
+        "DAILY",
+        "OFFICE"
+      ],
+      "style": "SMART",
+      "minTemperature": 8,
+      "maxTemperature": 27,
+      "idealTemperature": 20,
+      "breathability": 3,
+      "waterResistance": 0,
+      "windResistance": 0,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": [
+        "INNER_OK"
+      ]
+    },
+    {
+      "id": "C012",
+      "name": "옥스퍼드 셔츠",
+      "slot": "TOP",
+      "genders": [
+        "MALE",
+        "FEMALE",
+        "UNISEX"
+      ],
+      "occasions": [
+        "DAILY",
+        "OFFICE"
+      ],
+      "style": "SMART",
+      "minTemperature": 8,
+      "maxTemperature": 27,
+      "idealTemperature": 20,
+      "breathability": 3,
+      "waterResistance": 0,
+      "windResistance": 0,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": [
+        "INNER_OK"
+      ]
+    },
+    {
+      "id": "C013",
+      "name": "캐주얼 셔츠",
+      "slot": "TOP",
+      "genders": [
+        "MALE",
+        "FEMALE",
+        "UNISEX"
+      ],
+      "occasions": [
+        "DAILY"
+      ],
+      "style": "CASUAL",
+      "minTemperature": 8,
+      "maxTemperature": 27,
+      "idealTemperature": 20,
+      "breathability": 3,
+      "waterResistance": 0,
+      "windResistance": 0,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": [
+        "INNER_OK"
+      ]
+    },
+    {
+      "id": "C014",
+      "name": "린넨 긴소매 셔츠",
+      "slot": "TOP",
+      "genders": [
+        "MALE",
+        "FEMALE",
+        "UNISEX"
+      ],
+      "occasions": [
+        "DAILY",
+        "OFFICE"
+      ],
+      "style": "SMART",
+      "minTemperature": 20,
+      "maxTemperature": 50,
+      "idealTemperature": 27,
+      "breathability": 5,
+      "waterResistance": 0,
+      "windResistance": 0,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": [
+        "INNER_OK"
+      ]
+    },
+    {
+      "id": "C015",
+      "name": "데님 셔츠",
+      "slot": "TOP",
+      "genders": [
+        "MALE",
+        "FEMALE",
+        "UNISEX"
+      ],
+      "occasions": [
+        "DAILY"
+      ],
+      "style": "CASUAL",
+      "minTemperature": -50,
+      "maxTemperature": 19,
+      "idealTemperature": 13,
+      "breathability": 2,
+      "waterResistance": 0,
+      "windResistance": 1,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": [
+        "AVOID_RAIN"
+      ]
+    },
+    {
+      "id": "C016",
+      "name": "플라넬 체크 셔츠",
+      "slot": "TOP",
+      "genders": [
+        "MALE",
+        "FEMALE",
+        "UNISEX"
+      ],
+      "occasions": [
+        "DAILY"
+      ],
+      "style": "CASUAL",
+      "minTemperature": -50,
+      "maxTemperature": 19,
+      "idealTemperature": 13,
+      "breathability": 2,
+      "waterResistance": 0,
+      "windResistance": 1,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": [
+        "AVOID_RAIN"
+      ]
+    },
+    {
+      "id": "C017",
+      "name": "맨투맨",
+      "slot": "TOP",
+      "genders": [
+        "MALE",
+        "FEMALE",
+        "UNISEX"
+      ],
+      "occasions": [
+        "DAILY",
+        "EXERCISE"
+      ],
+      "style": "CASUAL",
+      "minTemperature": -50,
+      "maxTemperature": 22,
+      "idealTemperature": 15,
+      "breathability": 2,
+      "waterResistance": 0,
+      "windResistance": 0,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C018",
+      "name": "세미오버 맨투맨",
+      "slot": "TOP",
+      "genders": [
+        "MALE",
+        "FEMALE",
+        "UNISEX"
+      ],
+      "occasions": [
+        "DAILY",
+        "EXERCISE"
+      ],
+      "style": "CASUAL",
+      "minTemperature": -50,
+      "maxTemperature": 22,
+      "idealTemperature": 15,
+      "breathability": 2,
+      "waterResistance": 0,
+      "windResistance": 0,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C019",
+      "name": "후드 티셔츠",
+      "slot": "TOP",
+      "genders": [
+        "MALE",
+        "FEMALE",
+        "UNISEX"
+      ],
+      "occasions": [
+        "DAILY",
+        "EXERCISE"
+      ],
+      "style": "CASUAL",
+      "minTemperature": -50,
+      "maxTemperature": 22,
+      "idealTemperature": 15,
+      "breathability": 2,
+      "waterResistance": 0,
+      "windResistance": 0,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C020",
+      "name": "여름용 쿨니트",
+      "slot": "TOP",
+      "genders": [
+        "MALE",
+        "FEMALE",
+        "UNISEX"
+      ],
+      "occasions": [
+        "DAILY",
+        "OFFICE"
+      ],
+      "style": "SMART",
+      "minTemperature": 20,
+      "maxTemperature": 50,
+      "idealTemperature": 27,
+      "breathability": 5,
+      "waterResistance": 0,
+      "windResistance": 0,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C021",
+      "name": "린넨 니트",
+      "slot": "TOP",
+      "genders": [
+        "MALE",
+        "FEMALE",
+        "UNISEX"
+      ],
+      "occasions": [
+        "DAILY",
+        "OFFICE"
+      ],
+      "style": "SMART",
+      "minTemperature": 20,
+      "maxTemperature": 50,
+      "idealTemperature": 27,
+      "breathability": 5,
+      "waterResistance": 0,
+      "windResistance": 0,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C022",
+      "name": "라운드넥 니트",
+      "slot": "TOP",
+      "genders": [
+        "MALE",
+        "FEMALE",
+        "UNISEX"
+      ],
+      "occasions": [
+        "DAILY",
+        "OFFICE"
+      ],
+      "style": "SMART",
+      "minTemperature": -50,
+      "maxTemperature": 20,
+      "idealTemperature": 10,
+      "breathability": 2,
+      "waterResistance": 0,
+      "windResistance": 0,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C023",
+      "name": "V넥 니트",
+      "slot": "TOP",
+      "genders": [
+        "MALE",
+        "FEMALE",
+        "UNISEX"
+      ],
+      "occasions": [
+        "DAILY",
+        "OFFICE"
+      ],
+      "style": "SMART",
+      "minTemperature": -50,
+      "maxTemperature": 20,
+      "idealTemperature": 10,
+      "breathability": 2,
+      "waterResistance": 0,
+      "windResistance": 0,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C024",
+      "name": "모크넥 니트",
+      "slot": "TOP",
+      "genders": [
+        "MALE",
+        "FEMALE",
+        "UNISEX"
+      ],
+      "occasions": [
+        "DAILY",
+        "OFFICE"
+      ],
+      "style": "SMART",
+      "minTemperature": -50,
+      "maxTemperature": 20,
+      "idealTemperature": 10,
+      "breathability": 2,
+      "waterResistance": 0,
+      "windResistance": 0,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C025",
+      "name": "터틀넥 니트",
+      "slot": "TOP",
+      "genders": [
+        "MALE",
+        "FEMALE",
+        "UNISEX"
+      ],
+      "occasions": [
+        "DAILY",
+        "OFFICE"
+      ],
+      "style": "SMART",
+      "minTemperature": -50,
+      "maxTemperature": 13,
+      "idealTemperature": 3,
+      "breathability": 1,
+      "waterResistance": 0,
+      "windResistance": 0,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C026",
+      "name": "굵은 케이블 니트",
+      "slot": "TOP",
+      "genders": [
+        "MALE",
+        "FEMALE",
+        "UNISEX"
+      ],
+      "occasions": [
+        "DAILY",
+        "OFFICE"
+      ],
+      "style": "SMART",
+      "minTemperature": -50,
+      "maxTemperature": 13,
+      "idealTemperature": 3,
+      "breathability": 1,
+      "waterResistance": 0,
+      "windResistance": 0,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C027",
+      "name": "니트 조끼",
+      "slot": "TOP",
+      "genders": [
+        "MALE",
+        "FEMALE",
+        "UNISEX"
+      ],
+      "occasions": [
+        "DAILY",
+        "OFFICE"
+      ],
+      "style": "SMART",
+      "minTemperature": 10,
+      "maxTemperature": 25,
+      "idealTemperature": 18,
+      "breathability": 3,
+      "waterResistance": 0,
+      "windResistance": 0,
+      "bottomType": "NONE",
+      "requiresInnerTop": true,
+      "tags": []
+    },
+    {
+      "id": "C028",
+      "name": "숏 팬츠",
+      "slot": "BOTTOM",
+      "genders": [
+        "MALE",
+        "FEMALE",
+        "UNISEX"
+      ],
+      "occasions": [
+        "DAILY"
+      ],
+      "style": "CASUAL",
+      "minTemperature": 23,
+      "maxTemperature": 50,
+      "idealTemperature": 29,
+      "breathability": 5,
+      "waterResistance": 0,
+      "windResistance": 0,
+      "bottomType": "SHORTS",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C029",
+      "name": "버뮤다 반바지",
+      "slot": "BOTTOM",
+      "genders": [
+        "MALE",
+        "FEMALE",
+        "UNISEX"
+      ],
+      "occasions": [
+        "DAILY"
+      ],
+      "style": "CASUAL",
+      "minTemperature": 23,
+      "maxTemperature": 50,
+      "idealTemperature": 29,
+      "breathability": 5,
+      "waterResistance": 0,
+      "windResistance": 0,
+      "bottomType": "SHORTS",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C030",
+      "name": "린넨 반바지",
+      "slot": "BOTTOM",
+      "genders": [
+        "MALE",
+        "FEMALE",
+        "UNISEX"
+      ],
+      "occasions": [
+        "DAILY"
+      ],
+      "style": "CASUAL",
+      "minTemperature": 23,
+      "maxTemperature": 50,
+      "idealTemperature": 29,
+      "breathability": 5,
+      "waterResistance": 0,
+      "windResistance": 0,
+      "bottomType": "SHORTS",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C031",
+      "name": "트레이닝 반바지",
+      "slot": "BOTTOM",
+      "genders": [
+        "MALE",
+        "FEMALE",
+        "UNISEX"
+      ],
+      "occasions": [
+        "DAILY",
+        "EXERCISE"
+      ],
+      "style": "CASUAL",
+      "minTemperature": 23,
+      "maxTemperature": 50,
+      "idealTemperature": 29,
+      "breathability": 5,
+      "waterResistance": 0,
+      "windResistance": 0,
+      "bottomType": "SHORTS",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C032",
+      "name": "생지 데님",
+      "slot": "BOTTOM",
+      "genders": [
+        "MALE",
+        "FEMALE",
+        "UNISEX"
+      ],
+      "occasions": [
+        "DAILY"
+      ],
+      "style": "CASUAL",
+      "minTemperature": -5,
+      "maxTemperature": 26,
+      "idealTemperature": 18,
+      "breathability": 3,
+      "waterResistance": 0,
+      "windResistance": 1,
+      "bottomType": "PANTS",
+      "requiresInnerTop": false,
+      "tags": [
+        "AVOID_RAIN"
+      ]
+    },
+    {
+      "id": "C033",
+      "name": "워싱 청바지",
+      "slot": "BOTTOM",
+      "genders": [
+        "MALE",
+        "FEMALE",
+        "UNISEX"
+      ],
+      "occasions": [
+        "DAILY"
+      ],
+      "style": "CASUAL",
+      "minTemperature": -5,
+      "maxTemperature": 26,
+      "idealTemperature": 18,
+      "breathability": 3,
+      "waterResistance": 0,
+      "windResistance": 1,
+      "bottomType": "PANTS",
+      "requiresInnerTop": false,
+      "tags": [
+        "AVOID_RAIN"
+      ]
+    },
+    {
+      "id": "C034",
+      "name": "스트레이트 청바지",
+      "slot": "BOTTOM",
+      "genders": [
+        "MALE",
+        "FEMALE",
+        "UNISEX"
+      ],
+      "occasions": [
+        "DAILY"
+      ],
+      "style": "CASUAL",
+      "minTemperature": -5,
+      "maxTemperature": 26,
+      "idealTemperature": 18,
+      "breathability": 3,
+      "waterResistance": 0,
+      "windResistance": 1,
+      "bottomType": "PANTS",
+      "requiresInnerTop": false,
+      "tags": [
+        "AVOID_RAIN"
+      ]
+    },
+    {
+      "id": "C035",
+      "name": "와이드 청바지",
+      "slot": "BOTTOM",
+      "genders": [
+        "MALE",
+        "FEMALE",
+        "UNISEX"
+      ],
+      "occasions": [
+        "DAILY"
+      ],
+      "style": "CASUAL",
+      "minTemperature": -5,
+      "maxTemperature": 26,
+      "idealTemperature": 18,
+      "breathability": 3,
+      "waterResistance": 0,
+      "windResistance": 1,
+      "bottomType": "PANTS",
+      "requiresInnerTop": false,
+      "tags": [
+        "AVOID_RAIN"
+      ]
+    },
+    {
+      "id": "C036",
+      "name": "기모 청바지",
+      "slot": "BOTTOM",
+      "genders": [
+        "MALE",
+        "FEMALE",
+        "UNISEX"
+      ],
+      "occasions": [
+        "DAILY"
+      ],
+      "style": "CASUAL",
+      "minTemperature": -50,
+      "maxTemperature": 15,
+      "idealTemperature": 4,
+      "breathability": 1,
+      "waterResistance": 0,
+      "windResistance": 1,
+      "bottomType": "PANTS",
+      "requiresInnerTop": false,
+      "tags": [
+        "AVOID_RAIN"
+      ]
+    },
+    {
+      "id": "C037",
+      "name": "여름용 쿨데님",
+      "slot": "BOTTOM",
+      "genders": [
+        "MALE",
+        "FEMALE",
+        "UNISEX"
+      ],
+      "occasions": [
+        "DAILY"
+      ],
+      "style": "CASUAL",
+      "minTemperature": 18,
+      "maxTemperature": 50,
+      "idealTemperature": 26,
+      "breathability": 4,
+      "waterResistance": 0,
+      "windResistance": 0,
+      "bottomType": "PANTS",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C038",
+      "name": "사계절 슬랙스",
+      "slot": "BOTTOM",
+      "genders": [
+        "MALE",
+        "FEMALE",
+        "UNISEX"
+      ],
+      "occasions": [
+        "DAILY",
+        "OFFICE"
+      ],
+      "style": "SMART",
+      "minTemperature": -5,
+      "maxTemperature": 26,
+      "idealTemperature": 18,
+      "breathability": 3,
+      "waterResistance": 0,
+      "windResistance": 1,
+      "bottomType": "PANTS",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C039",
+      "name": "치노 팬츠",
+      "slot": "BOTTOM",
+      "genders": [
+        "MALE",
+        "FEMALE",
+        "UNISEX"
+      ],
+      "occasions": [
+        "DAILY",
+        "OFFICE"
+      ],
+      "style": "SMART",
+      "minTemperature": -5,
+      "maxTemperature": 26,
+      "idealTemperature": 18,
+      "breathability": 3,
+      "waterResistance": 0,
+      "windResistance": 1,
+      "bottomType": "PANTS",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C040",
+      "name": "쿨슬랙스",
+      "slot": "BOTTOM",
+      "genders": [
+        "MALE",
+        "FEMALE",
+        "UNISEX"
+      ],
+      "occasions": [
+        "DAILY",
+        "OFFICE"
+      ],
+      "style": "SMART",
+      "minTemperature": 18,
+      "maxTemperature": 50,
+      "idealTemperature": 26,
+      "breathability": 4,
+      "waterResistance": 0,
+      "windResistance": 0,
+      "bottomType": "PANTS",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C041",
+      "name": "얇은 린넨 긴바지",
+      "slot": "BOTTOM",
+      "genders": [
+        "MALE",
+        "FEMALE",
+        "UNISEX"
+      ],
+      "occasions": [
+        "DAILY",
+        "OFFICE"
+      ],
+      "style": "SMART",
+      "minTemperature": 18,
+      "maxTemperature": 50,
+      "idealTemperature": 26,
+      "breathability": 4,
+      "waterResistance": 0,
+      "windResistance": 0,
+      "bottomType": "PANTS",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C042",
+      "name": "기모 슬랙스",
+      "slot": "BOTTOM",
+      "genders": [
+        "MALE",
+        "FEMALE",
+        "UNISEX"
+      ],
+      "occasions": [
+        "DAILY",
+        "OFFICE"
+      ],
+      "style": "SMART",
+      "minTemperature": -50,
+      "maxTemperature": 15,
+      "idealTemperature": 4,
+      "breathability": 1,
+      "waterResistance": 0,
+      "windResistance": 1,
+      "bottomType": "PANTS",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C043",
+      "name": "울 와이드 팬츠",
+      "slot": "BOTTOM",
+      "genders": [
+        "MALE",
+        "FEMALE",
+        "UNISEX"
+      ],
+      "occasions": [
+        "DAILY",
+        "OFFICE"
+      ],
+      "style": "SMART",
+      "minTemperature": -50,
+      "maxTemperature": 15,
+      "idealTemperature": 4,
+      "breathability": 1,
+      "waterResistance": 0,
+      "windResistance": 1,
+      "bottomType": "PANTS",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C044",
+      "name": "카고 팬츠",
+      "slot": "BOTTOM",
+      "genders": [
+        "MALE",
+        "FEMALE",
+        "UNISEX"
+      ],
+      "occasions": [
+        "DAILY"
+      ],
+      "style": "CASUAL",
+      "minTemperature": -5,
+      "maxTemperature": 26,
+      "idealTemperature": 18,
+      "breathability": 3,
+      "waterResistance": 0,
+      "windResistance": 1,
+      "bottomType": "PANTS",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C045",
+      "name": "조거 팬츠",
+      "slot": "BOTTOM",
+      "genders": [
+        "MALE",
+        "FEMALE",
+        "UNISEX"
+      ],
+      "occasions": [
+        "DAILY"
+      ],
+      "style": "CASUAL",
+      "minTemperature": -5,
+      "maxTemperature": 26,
+      "idealTemperature": 18,
+      "breathability": 3,
+      "waterResistance": 0,
+      "windResistance": 1,
+      "bottomType": "PANTS",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C046",
+      "name": "코듀로이 바지",
+      "slot": "BOTTOM",
+      "genders": [
+        "MALE",
+        "FEMALE",
+        "UNISEX"
+      ],
+      "occasions": [
+        "DAILY",
+        "OFFICE"
+      ],
+      "style": "CASUAL",
+      "minTemperature": -50,
+      "maxTemperature": 15,
+      "idealTemperature": 4,
+      "breathability": 1,
+      "waterResistance": 0,
+      "windResistance": 1,
+      "bottomType": "PANTS",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C047",
+      "name": "바람막이",
+      "slot": "OUTER",
+      "genders": [
+        "MALE",
+        "FEMALE",
+        "UNISEX"
+      ],
+      "occasions": [
+        "DAILY"
+      ],
+      "style": "CASUAL",
+      "minTemperature": 12,
+      "maxTemperature": 28,
+      "idealTemperature": 18,
+      "breathability": 3,
+      "waterResistance": 0,
+      "windResistance": 1,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C048",
+      "name": "사파리 재킷",
+      "slot": "OUTER",
+      "genders": [
+        "MALE",
+        "FEMALE",
+        "UNISEX"
+      ],
+      "occasions": [
+        "DAILY"
+      ],
+      "style": "CASUAL",
+      "minTemperature": 12,
+      "maxTemperature": 28,
+      "idealTemperature": 18,
+      "breathability": 3,
+      "waterResistance": 0,
+      "windResistance": 1,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C049",
+      "name": "셔츠형 재킷",
+      "slot": "OUTER",
+      "genders": [
+        "MALE",
+        "FEMALE",
+        "UNISEX"
+      ],
+      "occasions": [
+        "DAILY"
+      ],
+      "style": "CASUAL",
+      "minTemperature": 12,
+      "maxTemperature": 28,
+      "idealTemperature": 18,
+      "breathability": 3,
+      "waterResistance": 0,
+      "windResistance": 1,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C050",
+      "name": "트랙 재킷",
+      "slot": "OUTER",
+      "genders": [
+        "MALE",
+        "FEMALE",
+        "UNISEX"
+      ],
+      "occasions": [
+        "DAILY"
+      ],
+      "style": "CASUAL",
+      "minTemperature": 12,
+      "maxTemperature": 28,
+      "idealTemperature": 18,
+      "breathability": 3,
+      "waterResistance": 0,
+      "windResistance": 1,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C051",
+      "name": "집업 후드티",
+      "slot": "OUTER",
+      "genders": [
+        "MALE",
+        "FEMALE",
+        "UNISEX"
+      ],
+      "occasions": [
+        "DAILY"
+      ],
+      "style": "CASUAL",
+      "minTemperature": 12,
+      "maxTemperature": 28,
+      "idealTemperature": 18,
+      "breathability": 3,
+      "waterResistance": 0,
+      "windResistance": 1,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C052",
+      "name": "가디건",
+      "slot": "OUTER",
+      "genders": [
+        "MALE",
+        "FEMALE",
+        "UNISEX"
+      ],
+      "occasions": [
+        "DAILY",
+        "OFFICE"
+      ],
+      "style": "SMART",
+      "minTemperature": 12,
+      "maxTemperature": 23,
+      "idealTemperature": 18,
+      "breathability": 3,
+      "waterResistance": 0,
+      "windResistance": 0,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C053",
+      "name": "테일러드 블레이저",
+      "slot": "OUTER",
+      "genders": [
+        "MALE",
+        "FEMALE",
+        "UNISEX"
+      ],
+      "occasions": [
+        "DAILY",
+        "OFFICE"
+      ],
+      "style": "SMART",
+      "minTemperature": 5,
+      "maxTemperature": 21,
+      "idealTemperature": 13,
+      "breathability": 2,
+      "waterResistance": 0,
+      "windResistance": 2,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C054",
+      "name": "데님 재킷",
+      "slot": "OUTER",
+      "genders": [
+        "MALE",
+        "FEMALE",
+        "UNISEX"
+      ],
+      "occasions": [
+        "DAILY"
+      ],
+      "style": "CASUAL",
+      "minTemperature": 5,
+      "maxTemperature": 21,
+      "idealTemperature": 13,
+      "breathability": 2,
+      "waterResistance": 0,
+      "windResistance": 2,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": [
+        "AVOID_RAIN"
+      ]
+    },
+    {
+      "id": "C055",
+      "name": "트러커 재킷",
+      "slot": "OUTER",
+      "genders": [
+        "MALE",
+        "FEMALE",
+        "UNISEX"
+      ],
+      "occasions": [
+        "DAILY"
+      ],
+      "style": "CASUAL",
+      "minTemperature": 5,
+      "maxTemperature": 21,
+      "idealTemperature": 13,
+      "breathability": 2,
+      "waterResistance": 0,
+      "windResistance": 2,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": [
+        "AVOID_RAIN"
+      ]
+    },
+    {
+      "id": "C056",
+      "name": "가죽 라이더 재킷",
+      "slot": "OUTER",
+      "genders": [
+        "MALE",
+        "FEMALE",
+        "UNISEX"
+      ],
+      "occasions": [
+        "DAILY"
+      ],
+      "style": "CASUAL",
+      "minTemperature": 5,
+      "maxTemperature": 21,
+      "idealTemperature": 13,
+      "breathability": 2,
+      "waterResistance": 0,
+      "windResistance": 2,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C057",
+      "name": "MA-1 항공점퍼",
+      "slot": "OUTER",
+      "genders": [
+        "MALE",
+        "FEMALE",
+        "UNISEX"
+      ],
+      "occasions": [
+        "DAILY"
+      ],
+      "style": "CASUAL",
+      "minTemperature": 5,
+      "maxTemperature": 21,
+      "idealTemperature": 13,
+      "breathability": 2,
+      "waterResistance": 0,
+      "windResistance": 2,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C058",
+      "name": "블루종",
+      "slot": "OUTER",
+      "genders": [
+        "MALE",
+        "FEMALE",
+        "UNISEX"
+      ],
+      "occasions": [
+        "DAILY"
+      ],
+      "style": "CASUAL",
+      "minTemperature": 5,
+      "maxTemperature": 21,
+      "idealTemperature": 13,
+      "breathability": 2,
+      "waterResistance": 0,
+      "windResistance": 2,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C059",
+      "name": "트렌치코트",
+      "slot": "OUTER",
+      "genders": [
+        "MALE",
+        "FEMALE",
+        "UNISEX"
+      ],
+      "occasions": [
+        "DAILY",
+        "OFFICE"
+      ],
+      "style": "SMART",
+      "minTemperature": 5,
+      "maxTemperature": 21,
+      "idealTemperature": 13,
+      "breathability": 2,
+      "waterResistance": 0,
+      "windResistance": 2,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C060",
+      "name": "울 숏코트",
+      "slot": "OUTER",
+      "genders": [
+        "MALE",
+        "FEMALE",
+        "UNISEX"
+      ],
+      "occasions": [
+        "DAILY",
+        "OFFICE"
+      ],
+      "style": "SMART",
+      "minTemperature": -5,
+      "maxTemperature": 15,
+      "idealTemperature": 8,
+      "breathability": 1,
+      "waterResistance": 0,
+      "windResistance": 2,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C061",
+      "name": "체스터필드 롱코트",
+      "slot": "OUTER",
+      "genders": [
+        "MALE",
+        "FEMALE",
+        "UNISEX"
+      ],
+      "occasions": [
+        "DAILY",
+        "OFFICE"
+      ],
+      "style": "SMART",
+      "minTemperature": -5,
+      "maxTemperature": 15,
+      "idealTemperature": 8,
+      "breathability": 1,
+      "waterResistance": 0,
+      "windResistance": 2,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C062",
+      "name": "더플코트",
+      "slot": "OUTER",
+      "genders": [
+        "MALE",
+        "FEMALE",
+        "UNISEX"
+      ],
+      "occasions": [
+        "DAILY",
+        "OFFICE"
+      ],
+      "style": "SMART",
+      "minTemperature": -5,
+      "maxTemperature": 15,
+      "idealTemperature": 8,
+      "breathability": 1,
+      "waterResistance": 0,
+      "windResistance": 2,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C063",
+      "name": "피코트",
+      "slot": "OUTER",
+      "genders": [
+        "MALE",
+        "FEMALE",
+        "UNISEX"
+      ],
+      "occasions": [
+        "DAILY",
+        "OFFICE"
+      ],
+      "style": "SMART",
+      "minTemperature": -5,
+      "maxTemperature": 15,
+      "idealTemperature": 8,
+      "breathability": 1,
+      "waterResistance": 0,
+      "windResistance": 2,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C064",
+      "name": "경량 패딩 재킷",
+      "slot": "OUTER",
+      "genders": [
+        "MALE",
+        "FEMALE",
+        "UNISEX"
+      ],
+      "occasions": [
+        "DAILY",
+        "OFFICE"
+      ],
+      "style": "CASUAL",
+      "minTemperature": 5,
+      "maxTemperature": 21,
+      "idealTemperature": 13,
+      "breathability": 2,
+      "waterResistance": 0,
+      "windResistance": 2,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C065",
+      "name": "경량 패딩 조끼",
+      "slot": "OUTER",
+      "genders": [
+        "MALE",
+        "FEMALE",
+        "UNISEX"
+      ],
+      "occasions": [
+        "DAILY"
+      ],
+      "style": "CASUAL",
+      "minTemperature": 5,
+      "maxTemperature": 21,
+      "idealTemperature": 13,
+      "breathability": 2,
+      "waterResistance": 0,
+      "windResistance": 0,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C066",
+      "name": "숏패딩",
+      "slot": "OUTER",
+      "genders": [
+        "MALE",
+        "FEMALE",
+        "UNISEX"
+      ],
+      "occasions": [
+        "DAILY",
+        "OFFICE"
+      ],
+      "style": "CASUAL",
+      "minTemperature": -50,
+      "maxTemperature": 8,
+      "idealTemperature": -2,
+      "breathability": 1,
+      "waterResistance": 0,
+      "windResistance": 2,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C067",
+      "name": "롱패딩",
+      "slot": "OUTER",
+      "genders": [
+        "MALE",
+        "FEMALE",
+        "UNISEX"
+      ],
+      "occasions": [
+        "DAILY",
+        "OFFICE"
+      ],
+      "style": "CASUAL",
+      "minTemperature": -50,
+      "maxTemperature": 8,
+      "idealTemperature": -2,
+      "breathability": 1,
+      "waterResistance": 0,
+      "windResistance": 2,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C068",
+      "name": "다운 파카",
+      "slot": "OUTER",
+      "genders": [
+        "MALE",
+        "FEMALE",
+        "UNISEX"
+      ],
+      "occasions": [
+        "DAILY",
+        "OFFICE"
+      ],
+      "style": "CASUAL",
+      "minTemperature": -50,
+      "maxTemperature": 8,
+      "idealTemperature": -2,
+      "breathability": 1,
+      "waterResistance": 0,
+      "windResistance": 2,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C069",
+      "name": "무스탕",
+      "slot": "OUTER",
+      "genders": [
+        "MALE",
+        "FEMALE",
+        "UNISEX"
+      ],
+      "occasions": [
+        "DAILY",
+        "OFFICE"
+      ],
+      "style": "CASUAL",
+      "minTemperature": -50,
+      "maxTemperature": 8,
+      "idealTemperature": -2,
+      "breathability": 1,
+      "waterResistance": 0,
+      "windResistance": 2,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C070",
+      "name": "플리스 재킷",
+      "slot": "OUTER",
+      "genders": [
+        "MALE",
+        "FEMALE",
+        "UNISEX"
+      ],
+      "occasions": [
+        "DAILY"
+      ],
+      "style": "CASUAL",
+      "minTemperature": 5,
+      "maxTemperature": 21,
+      "idealTemperature": 13,
+      "breathability": 2,
+      "waterResistance": 0,
+      "windResistance": 0,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C071",
+      "name": "발열 내의 상하의",
+      "slot": "BASE_LAYER",
+      "genders": [
+        "MALE",
+        "FEMALE",
+        "UNISEX"
+      ],
+      "occasions": [
+        "DAILY",
+        "OFFICE",
+        "EXERCISE"
+      ],
+      "style": "CASUAL",
+      "minTemperature": -50,
+      "maxTemperature": 5,
+      "idealTemperature": 0,
+      "breathability": 3,
+      "waterResistance": 0,
+      "windResistance": 0,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C072",
+      "name": "스트랩 나시",
+      "slot": "TOP",
+      "genders": [
+        "FEMALE"
+      ],
+      "occasions": [
+        "DAILY"
+      ],
+      "style": "CASUAL",
+      "minTemperature": 25,
+      "maxTemperature": 50,
+      "idealTemperature": 31,
+      "breathability": 5,
+      "waterResistance": 0,
+      "windResistance": 0,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C073",
+      "name": "끈나시",
+      "slot": "TOP",
+      "genders": [
+        "FEMALE"
+      ],
+      "occasions": [
+        "DAILY"
+      ],
+      "style": "CASUAL",
+      "minTemperature": 25,
+      "maxTemperature": 50,
+      "idealTemperature": 31,
+      "breathability": 5,
+      "waterResistance": 0,
+      "windResistance": 0,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C074",
+      "name": "크롭 반소매 티셔츠",
+      "slot": "TOP",
+      "genders": [
+        "FEMALE"
+      ],
+      "occasions": [
+        "DAILY"
+      ],
+      "style": "CASUAL",
+      "minTemperature": 22,
+      "maxTemperature": 50,
+      "idealTemperature": 28,
+      "breathability": 4,
+      "waterResistance": 0,
+      "windResistance": 0,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": [
+        "INNER_OK"
+      ]
+    },
+    {
+      "id": "C075",
+      "name": "루즈핏 반소매 티셔츠",
+      "slot": "TOP",
+      "genders": [
+        "FEMALE"
+      ],
+      "occasions": [
+        "DAILY"
+      ],
+      "style": "CASUAL",
+      "minTemperature": 22,
+      "maxTemperature": 50,
+      "idealTemperature": 28,
+      "breathability": 4,
+      "waterResistance": 0,
+      "windResistance": 0,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": [
+        "INNER_OK"
+      ]
+    },
+    {
+      "id": "C076",
+      "name": "린넨 반소매 블라우스",
+      "slot": "TOP",
+      "genders": [
+        "FEMALE"
+      ],
+      "occasions": [
+        "DAILY",
+        "OFFICE"
+      ],
+      "style": "SMART",
+      "minTemperature": 20,
+      "maxTemperature": 50,
+      "idealTemperature": 27,
+      "breathability": 5,
+      "waterResistance": 0,
+      "windResistance": 0,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": [
+        "INNER_OK"
+      ]
+    },
+    {
+      "id": "C077",
+      "name": "뷔스티에",
+      "slot": "TOP",
+      "genders": [
+        "FEMALE"
+      ],
+      "occasions": [
+        "DAILY"
+      ],
+      "style": "CASUAL",
+      "minTemperature": 20,
+      "maxTemperature": 50,
+      "idealTemperature": 27,
+      "breathability": 5,
+      "waterResistance": 0,
+      "windResistance": 0,
+      "bottomType": "NONE",
+      "requiresInnerTop": true,
+      "tags": []
+    },
+    {
+      "id": "C078",
+      "name": "시스루 긴소매 티셔츠",
+      "slot": "TOP",
+      "genders": [
+        "FEMALE"
+      ],
+      "occasions": [
+        "DAILY"
+      ],
+      "style": "CASUAL",
+      "minTemperature": 12,
+      "maxTemperature": 28,
+      "idealTemperature": 21,
+      "breathability": 4,
+      "waterResistance": 0,
+      "windResistance": 0,
+      "bottomType": "NONE",
+      "requiresInnerTop": true,
+      "tags": []
+    },
+    {
+      "id": "C079",
+      "name": "오프숄더 긴소매 티셔츠",
+      "slot": "TOP",
+      "genders": [
+        "FEMALE"
+      ],
+      "occasions": [
+        "DAILY"
+      ],
+      "style": "CASUAL",
+      "minTemperature": 12,
+      "maxTemperature": 28,
+      "idealTemperature": 21,
+      "breathability": 4,
+      "waterResistance": 0,
+      "windResistance": 0,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C080",
+      "name": "오버핏 셔츠",
+      "slot": "TOP",
+      "genders": [
+        "FEMALE"
+      ],
+      "occasions": [
+        "DAILY",
+        "OFFICE"
+      ],
+      "style": "SMART",
+      "minTemperature": 8,
+      "maxTemperature": 27,
+      "idealTemperature": 20,
+      "breathability": 3,
+      "waterResistance": 0,
+      "windResistance": 0,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": [
+        "INNER_OK"
+      ]
+    },
+    {
+      "id": "C081",
+      "name": "시폰 블라우스",
+      "slot": "TOP",
+      "genders": [
+        "FEMALE"
+      ],
+      "occasions": [
+        "DAILY",
+        "OFFICE"
+      ],
+      "style": "SMART",
+      "minTemperature": 8,
+      "maxTemperature": 27,
+      "idealTemperature": 20,
+      "breathability": 3,
+      "waterResistance": 0,
+      "windResistance": 0,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": [
+        "INNER_OK"
+      ]
+    },
+    {
+      "id": "C082",
+      "name": "레이스 블라우스",
+      "slot": "TOP",
+      "genders": [
+        "FEMALE"
+      ],
+      "occasions": [
+        "DAILY",
+        "OFFICE"
+      ],
+      "style": "SMART",
+      "minTemperature": 8,
+      "maxTemperature": 27,
+      "idealTemperature": 20,
+      "breathability": 3,
+      "waterResistance": 0,
+      "windResistance": 0,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": [
+        "INNER_OK"
+      ]
+    },
+    {
+      "id": "C083",
+      "name": "프릴 블라우스",
+      "slot": "TOP",
+      "genders": [
+        "FEMALE"
+      ],
+      "occasions": [
+        "DAILY",
+        "OFFICE"
+      ],
+      "style": "SMART",
+      "minTemperature": 8,
+      "maxTemperature": 27,
+      "idealTemperature": 20,
+      "breathability": 3,
+      "waterResistance": 0,
+      "windResistance": 0,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": [
+        "INNER_OK"
+      ]
+    },
+    {
+      "id": "C084",
+      "name": "실크 블라우스",
+      "slot": "TOP",
+      "genders": [
+        "FEMALE"
+      ],
+      "occasions": [
+        "DAILY",
+        "OFFICE"
+      ],
+      "style": "SMART",
+      "minTemperature": 8,
+      "maxTemperature": 27,
+      "idealTemperature": 20,
+      "breathability": 3,
+      "waterResistance": 0,
+      "windResistance": 0,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": [
+        "INNER_OK"
+      ]
+    },
+    {
+      "id": "C085",
+      "name": "크롭 맨투맨",
+      "slot": "TOP",
+      "genders": [
+        "FEMALE"
+      ],
+      "occasions": [
+        "DAILY"
+      ],
+      "style": "CASUAL",
+      "minTemperature": -50,
+      "maxTemperature": 22,
+      "idealTemperature": 15,
+      "breathability": 2,
+      "waterResistance": 0,
+      "windResistance": 0,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C086",
+      "name": "여름용 그물 니트",
+      "slot": "TOP",
+      "genders": [
+        "FEMALE"
+      ],
+      "occasions": [
+        "DAILY"
+      ],
+      "style": "CASUAL",
+      "minTemperature": 20,
+      "maxTemperature": 50,
+      "idealTemperature": 27,
+      "breathability": 5,
+      "waterResistance": 0,
+      "windResistance": 0,
+      "bottomType": "NONE",
+      "requiresInnerTop": true,
+      "tags": []
+    },
+    {
+      "id": "C087",
+      "name": "반소매 니트",
+      "slot": "TOP",
+      "genders": [
+        "FEMALE"
+      ],
+      "occasions": [
+        "DAILY",
+        "OFFICE"
+      ],
+      "style": "SMART",
+      "minTemperature": 20,
+      "maxTemperature": 50,
+      "idealTemperature": 27,
+      "breathability": 5,
+      "waterResistance": 0,
+      "windResistance": 0,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C088",
+      "name": "오프숄더 니트",
+      "slot": "TOP",
+      "genders": [
+        "FEMALE"
+      ],
+      "occasions": [
+        "DAILY"
+      ],
+      "style": "CASUAL",
+      "minTemperature": -50,
+      "maxTemperature": 20,
+      "idealTemperature": 10,
+      "breathability": 2,
+      "waterResistance": 0,
+      "windResistance": 0,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C089",
+      "name": "골지 니트",
+      "slot": "TOP",
+      "genders": [
+        "FEMALE"
+      ],
+      "occasions": [
+        "DAILY"
+      ],
+      "style": "CASUAL",
+      "minTemperature": -50,
+      "maxTemperature": 20,
+      "idealTemperature": 10,
+      "breathability": 2,
+      "waterResistance": 0,
+      "windResistance": 0,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C090",
+      "name": "핫팬츠",
+      "slot": "BOTTOM",
+      "genders": [
+        "FEMALE"
+      ],
+      "occasions": [
+        "DAILY"
+      ],
+      "style": "CASUAL",
+      "minTemperature": 23,
+      "maxTemperature": 50,
+      "idealTemperature": 29,
+      "breathability": 5,
+      "waterResistance": 0,
+      "windResistance": 0,
+      "bottomType": "SHORTS",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C091",
+      "name": "5부 반바지",
+      "slot": "BOTTOM",
+      "genders": [
+        "FEMALE"
+      ],
+      "occasions": [
+        "DAILY"
+      ],
+      "style": "CASUAL",
+      "minTemperature": 23,
+      "maxTemperature": 50,
+      "idealTemperature": 29,
+      "breathability": 5,
+      "waterResistance": 0,
+      "windResistance": 0,
+      "bottomType": "SHORTS",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C092",
+      "name": "스키니진",
+      "slot": "BOTTOM",
+      "genders": [
+        "FEMALE"
+      ],
+      "occasions": [
+        "DAILY"
+      ],
+      "style": "CASUAL",
+      "minTemperature": -5,
+      "maxTemperature": 26,
+      "idealTemperature": 18,
+      "breathability": 3,
+      "waterResistance": 0,
+      "windResistance": 1,
+      "bottomType": "PANTS",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C093",
+      "name": "부츠컷 팬츠",
+      "slot": "BOTTOM",
+      "genders": [
+        "FEMALE"
+      ],
+      "occasions": [
+        "DAILY"
+      ],
+      "style": "CASUAL",
+      "minTemperature": -5,
+      "maxTemperature": 26,
+      "idealTemperature": 18,
+      "breathability": 3,
+      "waterResistance": 0,
+      "windResistance": 1,
+      "bottomType": "PANTS",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C094",
+      "name": "와이드 슬랙스",
+      "slot": "BOTTOM",
+      "genders": [
+        "FEMALE"
+      ],
+      "occasions": [
+        "DAILY",
+        "OFFICE"
+      ],
+      "style": "SMART",
+      "minTemperature": -5,
+      "maxTemperature": 26,
+      "idealTemperature": 18,
+      "breathability": 3,
+      "waterResistance": 0,
+      "windResistance": 1,
+      "bottomType": "PANTS",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C095",
+      "name": "미니스커트",
+      "slot": "BOTTOM",
+      "genders": [
+        "FEMALE"
+      ],
+      "occasions": [
+        "DAILY"
+      ],
+      "style": "CASUAL",
+      "minTemperature": 8,
+      "maxTemperature": 27,
+      "idealTemperature": 19,
+      "breathability": 3,
+      "waterResistance": 0,
+      "windResistance": 0,
+      "bottomType": "SKIRT",
+      "requiresInnerTop": false,
+      "tags": [
+        "WIND_SENSITIVE"
+      ]
+    },
+    {
+      "id": "C096",
+      "name": "데님 스커트",
+      "slot": "BOTTOM",
+      "genders": [
+        "FEMALE"
+      ],
+      "occasions": [
+        "DAILY"
+      ],
+      "style": "CASUAL",
+      "minTemperature": 8,
+      "maxTemperature": 27,
+      "idealTemperature": 19,
+      "breathability": 3,
+      "waterResistance": 0,
+      "windResistance": 0,
+      "bottomType": "SKIRT",
+      "requiresInnerTop": false,
+      "tags": [
+        "WIND_SENSITIVE"
+      ]
+    },
+    {
+      "id": "C097",
+      "name": "미디스커트",
+      "slot": "BOTTOM",
+      "genders": [
+        "FEMALE"
+      ],
+      "occasions": [
+        "DAILY",
+        "OFFICE"
+      ],
+      "style": "SMART",
+      "minTemperature": 8,
+      "maxTemperature": 27,
+      "idealTemperature": 19,
+      "breathability": 3,
+      "waterResistance": 0,
+      "windResistance": 0,
+      "bottomType": "SKIRT",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C098",
+      "name": "A라인 스커트",
+      "slot": "BOTTOM",
+      "genders": [
+        "FEMALE"
+      ],
+      "occasions": [
+        "DAILY",
+        "OFFICE"
+      ],
+      "style": "SMART",
+      "minTemperature": 8,
+      "maxTemperature": 27,
+      "idealTemperature": 19,
+      "breathability": 3,
+      "waterResistance": 0,
+      "windResistance": 0,
+      "bottomType": "SKIRT",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C099",
+      "name": "H라인 스커트",
+      "slot": "BOTTOM",
+      "genders": [
+        "FEMALE"
+      ],
+      "occasions": [
+        "DAILY",
+        "OFFICE"
+      ],
+      "style": "SMART",
+      "minTemperature": 8,
+      "maxTemperature": 27,
+      "idealTemperature": 19,
+      "breathability": 3,
+      "waterResistance": 0,
+      "windResistance": 0,
+      "bottomType": "SKIRT",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C100",
+      "name": "롱스커트",
+      "slot": "BOTTOM",
+      "genders": [
+        "FEMALE"
+      ],
+      "occasions": [
+        "DAILY"
+      ],
+      "style": "CASUAL",
+      "minTemperature": 19,
+      "maxTemperature": 50,
+      "idealTemperature": 26,
+      "breathability": 4,
+      "waterResistance": 0,
+      "windResistance": 0,
+      "bottomType": "SKIRT",
+      "requiresInnerTop": false,
+      "tags": [
+        "WIND_SENSITIVE"
+      ]
+    },
+    {
+      "id": "C101",
+      "name": "플리츠 스커트",
+      "slot": "BOTTOM",
+      "genders": [
+        "FEMALE"
+      ],
+      "occasions": [
+        "DAILY"
+      ],
+      "style": "CASUAL",
+      "minTemperature": 19,
+      "maxTemperature": 50,
+      "idealTemperature": 26,
+      "breathability": 4,
+      "waterResistance": 0,
+      "windResistance": 0,
+      "bottomType": "SKIRT",
+      "requiresInnerTop": false,
+      "tags": [
+        "WIND_SENSITIVE"
+      ]
+    },
+    {
+      "id": "C102",
+      "name": "밴딩 스커트",
+      "slot": "BOTTOM",
+      "genders": [
+        "FEMALE"
+      ],
+      "occasions": [
+        "DAILY"
+      ],
+      "style": "CASUAL",
+      "minTemperature": 19,
+      "maxTemperature": 50,
+      "idealTemperature": 26,
+      "breathability": 4,
+      "waterResistance": 0,
+      "windResistance": 0,
+      "bottomType": "SKIRT",
+      "requiresInnerTop": false,
+      "tags": [
+        "WIND_SENSITIVE"
+      ]
+    },
+    {
+      "id": "C103",
+      "name": "울 미디스커트",
+      "slot": "BOTTOM",
+      "genders": [
+        "FEMALE"
+      ],
+      "occasions": [
+        "DAILY",
+        "OFFICE"
+      ],
+      "style": "SMART",
+      "minTemperature": -50,
+      "maxTemperature": 17,
+      "idealTemperature": 7,
+      "breathability": 2,
+      "waterResistance": 0,
+      "windResistance": 1,
+      "bottomType": "SKIRT",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C104",
+      "name": "코듀로이 롱스커트",
+      "slot": "BOTTOM",
+      "genders": [
+        "FEMALE"
+      ],
+      "occasions": [
+        "DAILY",
+        "OFFICE"
+      ],
+      "style": "SMART",
+      "minTemperature": -50,
+      "maxTemperature": 17,
+      "idealTemperature": 7,
+      "breathability": 2,
+      "waterResistance": 0,
+      "windResistance": 1,
+      "bottomType": "SKIRT",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C105",
+      "name": "가죽 스커트",
+      "slot": "BOTTOM",
+      "genders": [
+        "FEMALE"
+      ],
+      "occasions": [
+        "DAILY",
+        "OFFICE"
+      ],
+      "style": "SMART",
+      "minTemperature": -50,
+      "maxTemperature": 17,
+      "idealTemperature": 7,
+      "breathability": 2,
+      "waterResistance": 0,
+      "windResistance": 1,
+      "bottomType": "SKIRT",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C106",
+      "name": "끈나시 원피스",
+      "slot": "ONE_PIECE",
+      "genders": [
+        "FEMALE"
+      ],
+      "occasions": [
+        "DAILY"
+      ],
+      "style": "CASUAL",
+      "minTemperature": 22,
+      "maxTemperature": 50,
+      "idealTemperature": 29,
+      "breathability": 5,
+      "waterResistance": 0,
+      "windResistance": 0,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C107",
+      "name": "반소매 원피스",
+      "slot": "ONE_PIECE",
+      "genders": [
+        "FEMALE"
+      ],
+      "occasions": [
+        "DAILY"
+      ],
+      "style": "CASUAL",
+      "minTemperature": 22,
+      "maxTemperature": 50,
+      "idealTemperature": 29,
+      "breathability": 5,
+      "waterResistance": 0,
+      "windResistance": 0,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C108",
+      "name": "린넨 원피스",
+      "slot": "ONE_PIECE",
+      "genders": [
+        "FEMALE"
+      ],
+      "occasions": [
+        "DAILY"
+      ],
+      "style": "CASUAL",
+      "minTemperature": 22,
+      "maxTemperature": 50,
+      "idealTemperature": 29,
+      "breathability": 5,
+      "waterResistance": 0,
+      "windResistance": 0,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C109",
+      "name": "시폰 원피스",
+      "slot": "ONE_PIECE",
+      "genders": [
+        "FEMALE"
+      ],
+      "occasions": [
+        "DAILY"
+      ],
+      "style": "CASUAL",
+      "minTemperature": 12,
+      "maxTemperature": 28,
+      "idealTemperature": 21,
+      "breathability": 3,
+      "waterResistance": 0,
+      "windResistance": 0,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": [
+        "WIND_SENSITIVE"
+      ]
+    },
+    {
+      "id": "C110",
+      "name": "롱 원피스",
+      "slot": "ONE_PIECE",
+      "genders": [
+        "FEMALE"
+      ],
+      "occasions": [
+        "DAILY"
+      ],
+      "style": "CASUAL",
+      "minTemperature": 12,
+      "maxTemperature": 28,
+      "idealTemperature": 21,
+      "breathability": 3,
+      "waterResistance": 0,
+      "windResistance": 0,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": [
+        "WIND_SENSITIVE"
+      ]
+    },
+    {
+      "id": "C111",
+      "name": "미니 원피스",
+      "slot": "ONE_PIECE",
+      "genders": [
+        "FEMALE"
+      ],
+      "occasions": [
+        "DAILY"
+      ],
+      "style": "CASUAL",
+      "minTemperature": 12,
+      "maxTemperature": 28,
+      "idealTemperature": 21,
+      "breathability": 3,
+      "waterResistance": 0,
+      "windResistance": 0,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": [
+        "WIND_SENSITIVE"
+      ]
+    },
+    {
+      "id": "C112",
+      "name": "셔츠 원피스",
+      "slot": "ONE_PIECE",
+      "genders": [
+        "FEMALE"
+      ],
+      "occasions": [
+        "DAILY",
+        "OFFICE"
+      ],
+      "style": "SMART",
+      "minTemperature": 12,
+      "maxTemperature": 28,
+      "idealTemperature": 21,
+      "breathability": 3,
+      "waterResistance": 0,
+      "windResistance": 0,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C113",
+      "name": "니트 원피스",
+      "slot": "ONE_PIECE",
+      "genders": [
+        "FEMALE"
+      ],
+      "occasions": [
+        "DAILY",
+        "OFFICE"
+      ],
+      "style": "SMART",
+      "minTemperature": -50,
+      "maxTemperature": 19,
+      "idealTemperature": 10,
+      "breathability": 2,
+      "waterResistance": 0,
+      "windResistance": 0,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C114",
+      "name": "트위드 원피스",
+      "slot": "ONE_PIECE",
+      "genders": [
+        "FEMALE"
+      ],
+      "occasions": [
+        "DAILY",
+        "OFFICE"
+      ],
+      "style": "SMART",
+      "minTemperature": -50,
+      "maxTemperature": 19,
+      "idealTemperature": 10,
+      "breathability": 2,
+      "waterResistance": 0,
+      "windResistance": 0,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C115",
+      "name": "뷔스티에 원피스",
+      "slot": "ONE_PIECE",
+      "genders": [
+        "FEMALE"
+      ],
+      "occasions": [
+        "DAILY"
+      ],
+      "style": "CASUAL",
+      "minTemperature": 12,
+      "maxTemperature": 28,
+      "idealTemperature": 21,
+      "breathability": 3,
+      "waterResistance": 0,
+      "windResistance": 0,
+      "bottomType": "NONE",
+      "requiresInnerTop": true,
+      "tags": []
+    },
+    {
+      "id": "C116",
+      "name": "멜빵치마",
+      "slot": "ONE_PIECE",
+      "genders": [
+        "FEMALE"
+      ],
+      "occasions": [
+        "DAILY"
+      ],
+      "style": "CASUAL",
+      "minTemperature": 12,
+      "maxTemperature": 28,
+      "idealTemperature": 21,
+      "breathability": 3,
+      "waterResistance": 0,
+      "windResistance": 0,
+      "bottomType": "NONE",
+      "requiresInnerTop": true,
+      "tags": []
+    },
+    {
+      "id": "C117",
+      "name": "점프수트",
+      "slot": "ONE_PIECE",
+      "genders": [
+        "FEMALE"
+      ],
+      "occasions": [
+        "DAILY"
+      ],
+      "style": "CASUAL",
+      "minTemperature": 12,
+      "maxTemperature": 28,
+      "idealTemperature": 21,
+      "breathability": 3,
+      "waterResistance": 0,
+      "windResistance": 0,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C118",
+      "name": "멜빵바지",
+      "slot": "ONE_PIECE",
+      "genders": [
+        "MALE",
+        "FEMALE",
+        "UNISEX"
+      ],
+      "occasions": [
+        "DAILY"
+      ],
+      "style": "CASUAL",
+      "minTemperature": 12,
+      "maxTemperature": 28,
+      "idealTemperature": 21,
+      "breathability": 3,
+      "waterResistance": 0,
+      "windResistance": 0,
+      "bottomType": "NONE",
+      "requiresInnerTop": true,
+      "tags": []
+    },
+    {
+      "id": "C119",
+      "name": "시스루 가디건",
+      "slot": "OUTER",
+      "genders": [
+        "FEMALE"
+      ],
+      "occasions": [
+        "DAILY"
+      ],
+      "style": "CASUAL",
+      "minTemperature": 12,
+      "maxTemperature": 23,
+      "idealTemperature": 18,
+      "breathability": 3,
+      "waterResistance": 0,
+      "windResistance": 0,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C120",
+      "name": "크롭 가디건",
+      "slot": "OUTER",
+      "genders": [
+        "FEMALE"
+      ],
+      "occasions": [
+        "DAILY"
+      ],
+      "style": "CASUAL",
+      "minTemperature": 12,
+      "maxTemperature": 23,
+      "idealTemperature": 18,
+      "breathability": 3,
+      "waterResistance": 0,
+      "windResistance": 0,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C121",
+      "name": "볼레로 가디건",
+      "slot": "OUTER",
+      "genders": [
+        "FEMALE"
+      ],
+      "occasions": [
+        "DAILY"
+      ],
+      "style": "CASUAL",
+      "minTemperature": 12,
+      "maxTemperature": 23,
+      "idealTemperature": 18,
+      "breathability": 3,
+      "waterResistance": 0,
+      "windResistance": 0,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C122",
+      "name": "크롭 후드 집업",
+      "slot": "OUTER",
+      "genders": [
+        "FEMALE"
+      ],
+      "occasions": [
+        "DAILY"
+      ],
+      "style": "CASUAL",
+      "minTemperature": 12,
+      "maxTemperature": 28,
+      "idealTemperature": 18,
+      "breathability": 3,
+      "waterResistance": 0,
+      "windResistance": 1,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C123",
+      "name": "트랙 집업",
+      "slot": "OUTER",
+      "genders": [
+        "FEMALE"
+      ],
+      "occasions": [
+        "DAILY"
+      ],
+      "style": "CASUAL",
+      "minTemperature": 12,
+      "maxTemperature": 28,
+      "idealTemperature": 18,
+      "breathability": 3,
+      "waterResistance": 0,
+      "windResistance": 1,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C124",
+      "name": "트위드 재킷",
+      "slot": "OUTER",
+      "genders": [
+        "FEMALE"
+      ],
+      "occasions": [
+        "DAILY",
+        "OFFICE"
+      ],
+      "style": "SMART",
+      "minTemperature": 5,
+      "maxTemperature": 21,
+      "idealTemperature": 13,
+      "breathability": 2,
+      "waterResistance": 0,
+      "windResistance": 2,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C125",
+      "name": "야상 재킷",
+      "slot": "OUTER",
+      "genders": [
+        "FEMALE"
+      ],
+      "occasions": [
+        "DAILY"
+      ],
+      "style": "CASUAL",
+      "minTemperature": 5,
+      "maxTemperature": 21,
+      "idealTemperature": 13,
+      "breathability": 2,
+      "waterResistance": 0,
+      "windResistance": 2,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C126",
+      "name": "가죽 트렌치코트",
+      "slot": "OUTER",
+      "genders": [
+        "FEMALE"
+      ],
+      "occasions": [
+        "DAILY"
+      ],
+      "style": "CASUAL",
+      "minTemperature": 5,
+      "maxTemperature": 21,
+      "idealTemperature": 13,
+      "breathability": 2,
+      "waterResistance": 0,
+      "windResistance": 2,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C127",
+      "name": "핸드메이드 코트",
+      "slot": "OUTER",
+      "genders": [
+        "FEMALE"
+      ],
+      "occasions": [
+        "DAILY",
+        "OFFICE"
+      ],
+      "style": "SMART",
+      "minTemperature": -5,
+      "maxTemperature": 15,
+      "idealTemperature": 8,
+      "breathability": 1,
+      "waterResistance": 0,
+      "windResistance": 2,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C128",
+      "name": "울 롱코트",
+      "slot": "OUTER",
+      "genders": [
+        "FEMALE"
+      ],
+      "occasions": [
+        "DAILY",
+        "OFFICE"
+      ],
+      "style": "SMART",
+      "minTemperature": -5,
+      "maxTemperature": 15,
+      "idealTemperature": 8,
+      "breathability": 1,
+      "waterResistance": 0,
+      "windResistance": 2,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C129",
+      "name": "숏코트",
+      "slot": "OUTER",
+      "genders": [
+        "FEMALE"
+      ],
+      "occasions": [
+        "DAILY",
+        "OFFICE"
+      ],
+      "style": "SMART",
+      "minTemperature": -5,
+      "maxTemperature": 15,
+      "idealTemperature": 8,
+      "breathability": 1,
+      "waterResistance": 0,
+      "windResistance": 2,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C130",
+      "name": "퍼 코트",
+      "slot": "OUTER",
+      "genders": [
+        "FEMALE"
+      ],
+      "occasions": [
+        "DAILY"
+      ],
+      "style": "CASUAL",
+      "minTemperature": -50,
+      "maxTemperature": 8,
+      "idealTemperature": -2,
+      "breathability": 1,
+      "waterResistance": 0,
+      "windResistance": 2,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C131",
+      "name": "크롭 패딩",
+      "slot": "OUTER",
+      "genders": [
+        "FEMALE"
+      ],
+      "occasions": [
+        "DAILY"
+      ],
+      "style": "CASUAL",
+      "minTemperature": -50,
+      "maxTemperature": 8,
+      "idealTemperature": -2,
+      "breathability": 1,
+      "waterResistance": 0,
+      "windResistance": 2,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C132",
+      "name": "헤비 다운",
+      "slot": "OUTER",
+      "genders": [
+        "FEMALE"
+      ],
+      "occasions": [
+        "DAILY"
+      ],
+      "style": "CASUAL",
+      "minTemperature": -50,
+      "maxTemperature": 8,
+      "idealTemperature": -2,
+      "breathability": 1,
+      "waterResistance": 0,
+      "windResistance": 2,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C133",
+      "name": "경량 패딩 베스트",
+      "slot": "OUTER",
+      "genders": [
+        "FEMALE"
+      ],
+      "occasions": [
+        "DAILY"
+      ],
+      "style": "CASUAL",
+      "minTemperature": 5,
+      "maxTemperature": 21,
+      "idealTemperature": 13,
+      "breathability": 2,
+      "waterResistance": 0,
+      "windResistance": 0,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C134",
+      "name": "후드형 초경량 방수 레인재킷",
+      "slot": "OUTER",
+      "genders": [
+        "MALE",
+        "FEMALE",
+        "UNISEX"
+      ],
+      "occasions": [
+        "DAILY",
+        "OFFICE",
+        "EXERCISE"
+      ],
+      "style": "CASUAL",
+      "minTemperature": 20,
+      "maxTemperature": 50,
+      "idealTemperature": 27,
+      "breathability": 4,
+      "waterResistance": 2,
+      "windResistance": 2,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C135",
+      "name": "후드형 방수 방풍 재킷",
+      "slot": "OUTER",
+      "genders": [
+        "MALE",
+        "FEMALE",
+        "UNISEX"
+      ],
+      "occasions": [
+        "DAILY",
+        "OFFICE",
+        "EXERCISE"
+      ],
+      "style": "CASUAL",
+      "minTemperature": 5,
+      "maxTemperature": 23,
+      "idealTemperature": 15,
+      "breathability": 3,
+      "waterResistance": 2,
+      "windResistance": 2,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C136",
+      "name": "후드형 발수 다운 파카",
+      "slot": "OUTER",
+      "genders": [
+        "MALE",
+        "FEMALE",
+        "UNISEX"
+      ],
+      "occasions": [
+        "DAILY",
+        "OFFICE",
+        "EXERCISE"
+      ],
+      "style": "CASUAL",
+      "minTemperature": -50,
+      "maxTemperature": 8,
+      "idealTemperature": -2,
+      "breathability": 1,
+      "waterResistance": 1,
+      "windResistance": 2,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C137",
+      "name": "통풍 운동화",
+      "slot": "SHOES",
+      "genders": [
+        "MALE",
+        "FEMALE",
+        "UNISEX"
+      ],
+      "occasions": [
+        "DAILY",
+        "OFFICE",
+        "EXERCISE"
+      ],
+      "style": "CASUAL",
+      "minTemperature": 20,
+      "maxTemperature": 50,
+      "idealTemperature": 28,
+      "breathability": 5,
+      "waterResistance": 0,
+      "windResistance": 0,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C138",
+      "name": "기본 운동화",
+      "slot": "SHOES",
+      "genders": [
+        "MALE",
+        "FEMALE",
+        "UNISEX"
+      ],
+      "occasions": [
+        "DAILY",
+        "OFFICE",
+        "EXERCISE"
+      ],
+      "style": "CASUAL",
+      "minTemperature": -50,
+      "maxTemperature": 50,
+      "idealTemperature": 20,
+      "breathability": 3,
+      "waterResistance": 0,
+      "windResistance": 1,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C139",
+      "name": "로퍼",
+      "slot": "SHOES",
+      "genders": [
+        "MALE",
+        "FEMALE",
+        "UNISEX"
+      ],
+      "occasions": [
+        "DAILY",
+        "OFFICE"
+      ],
+      "style": "SMART",
+      "minTemperature": -50,
+      "maxTemperature": 50,
+      "idealTemperature": 20,
+      "breathability": 3,
+      "waterResistance": 0,
+      "windResistance": 1,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C140",
+      "name": "보온 앵클부츠",
+      "slot": "SHOES",
+      "genders": [
+        "MALE",
+        "FEMALE",
+        "UNISEX"
+      ],
+      "occasions": [
+        "DAILY",
+        "OFFICE"
+      ],
+      "style": "SMART",
+      "minTemperature": -50,
+      "maxTemperature": 15,
+      "idealTemperature": 5,
+      "breathability": 1,
+      "waterResistance": 0,
+      "windResistance": 1,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C141",
+      "name": "방수 운동화",
+      "slot": "SHOES",
+      "genders": [
+        "MALE",
+        "FEMALE",
+        "UNISEX"
+      ],
+      "occasions": [
+        "DAILY",
+        "OFFICE",
+        "EXERCISE"
+      ],
+      "style": "CASUAL",
+      "minTemperature": 5,
+      "maxTemperature": 50,
+      "idealTemperature": 20,
+      "breathability": 3,
+      "waterResistance": 2,
+      "windResistance": 2,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": [
+        "GRIP"
+      ]
+    },
+    {
+      "id": "C142",
+      "name": "접지력 있는 방수 방한화",
+      "slot": "SHOES",
+      "genders": [
+        "MALE",
+        "FEMALE",
+        "UNISEX"
+      ],
+      "occasions": [
+        "DAILY",
+        "OFFICE",
+        "EXERCISE"
+      ],
+      "style": "CASUAL",
+      "minTemperature": -50,
+      "maxTemperature": 12,
+      "idealTemperature": 1,
+      "breathability": 2,
+      "waterResistance": 2,
+      "windResistance": 2,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": [
+        "GRIP"
+      ]
+    },
+    {
+      "id": "C143",
+      "name": "기능성 반소매 티셔츠",
+      "slot": "TOP",
+      "genders": [
+        "MALE",
+        "FEMALE",
+        "UNISEX"
+      ],
+      "occasions": [
+        "EXERCISE"
+      ],
+      "style": "SPORT",
+      "minTemperature": 22,
+      "maxTemperature": 50,
+      "idealTemperature": 28,
+      "breathability": 4,
+      "waterResistance": 0,
+      "windResistance": 0,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": [
+        "INNER_OK",
+        "QUICK_DRY"
+      ]
+    },
+    {
+      "id": "C144",
+      "name": "기능성 긴소매 티셔츠",
+      "slot": "TOP",
+      "genders": [
+        "MALE",
+        "FEMALE",
+        "UNISEX"
+      ],
+      "occasions": [
+        "EXERCISE"
+      ],
+      "style": "SPORT",
+      "minTemperature": 12,
+      "maxTemperature": 28,
+      "idealTemperature": 21,
+      "breathability": 4,
+      "waterResistance": 0,
+      "windResistance": 0,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": [
+        "INNER_OK",
+        "QUICK_DRY"
+      ]
+    },
+    {
+      "id": "C145",
+      "name": "겨울용 기능성 긴소매",
+      "slot": "TOP",
+      "genders": [
+        "MALE",
+        "FEMALE",
+        "UNISEX"
+      ],
+      "occasions": [
+        "EXERCISE"
+      ],
+      "style": "SPORT",
+      "minTemperature": -50,
+      "maxTemperature": 13,
+      "idealTemperature": 3,
+      "breathability": 1,
+      "waterResistance": 0,
+      "windResistance": 0,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": [
+        "INNER_OK"
+      ]
+    },
+    {
+      "id": "C146",
+      "name": "헬스 나시",
+      "slot": "TOP",
+      "genders": [
+        "MALE"
+      ],
+      "occasions": [
+        "EXERCISE"
+      ],
+      "style": "SPORT",
+      "minTemperature": 25,
+      "maxTemperature": 50,
+      "idealTemperature": 31,
+      "breathability": 5,
+      "waterResistance": 0,
+      "windResistance": 0,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C147",
+      "name": "스포츠 브라",
+      "slot": "TOP",
+      "genders": [
+        "FEMALE"
+      ],
+      "occasions": [
+        "EXERCISE"
+      ],
+      "style": "SPORT",
+      "minTemperature": 25,
+      "maxTemperature": 50,
+      "idealTemperature": 31,
+      "breathability": 5,
+      "waterResistance": 0,
+      "windResistance": 0,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C148",
+      "name": "요가 탑",
+      "slot": "TOP",
+      "genders": [
+        "FEMALE"
+      ],
+      "occasions": [
+        "EXERCISE"
+      ],
+      "style": "SPORT",
+      "minTemperature": 25,
+      "maxTemperature": 50,
+      "idealTemperature": 31,
+      "breathability": 5,
+      "waterResistance": 0,
+      "windResistance": 0,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C149",
+      "name": "러닝 쇼츠",
+      "slot": "BOTTOM",
+      "genders": [
+        "MALE",
+        "FEMALE",
+        "UNISEX"
+      ],
+      "occasions": [
+        "EXERCISE"
+      ],
+      "style": "SPORT",
+      "minTemperature": 23,
+      "maxTemperature": 50,
+      "idealTemperature": 29,
+      "breathability": 5,
+      "waterResistance": 0,
+      "windResistance": 0,
+      "bottomType": "SHORTS",
+      "requiresInnerTop": false,
+      "tags": [
+        "QUICK_DRY"
+      ]
+    },
+    {
+      "id": "C150",
+      "name": "바이커 쇼츠",
+      "slot": "BOTTOM",
+      "genders": [
+        "FEMALE"
+      ],
+      "occasions": [
+        "EXERCISE"
+      ],
+      "style": "SPORT",
+      "minTemperature": 23,
+      "maxTemperature": 50,
+      "idealTemperature": 29,
+      "breathability": 5,
+      "waterResistance": 0,
+      "windResistance": 0,
+      "bottomType": "SHORTS",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C151",
+      "name": "운동용 레깅스",
+      "slot": "BOTTOM",
+      "genders": [
+        "MALE",
+        "FEMALE",
+        "UNISEX"
+      ],
+      "occasions": [
+        "EXERCISE"
+      ],
+      "style": "SPORT",
+      "minTemperature": -5,
+      "maxTemperature": 26,
+      "idealTemperature": 18,
+      "breathability": 3,
+      "waterResistance": 0,
+      "windResistance": 1,
+      "bottomType": "PANTS",
+      "requiresInnerTop": false,
+      "tags": [
+        "QUICK_DRY"
+      ]
+    },
+    {
+      "id": "C152",
+      "name": "얇은 트레이닝 긴바지",
+      "slot": "BOTTOM",
+      "genders": [
+        "MALE",
+        "FEMALE",
+        "UNISEX"
+      ],
+      "occasions": [
+        "EXERCISE"
+      ],
+      "style": "SPORT",
+      "minTemperature": 18,
+      "maxTemperature": 50,
+      "idealTemperature": 26,
+      "breathability": 4,
+      "waterResistance": 0,
+      "windResistance": 0,
+      "bottomType": "PANTS",
+      "requiresInnerTop": false,
+      "tags": [
+        "QUICK_DRY"
+      ]
+    },
+    {
+      "id": "C153",
+      "name": "기모 트레이닝 팬츠",
+      "slot": "BOTTOM",
+      "genders": [
+        "MALE",
+        "FEMALE",
+        "UNISEX"
+      ],
+      "occasions": [
+        "EXERCISE"
+      ],
+      "style": "SPORT",
+      "minTemperature": -50,
+      "maxTemperature": 15,
+      "idealTemperature": 4,
+      "breathability": 1,
+      "waterResistance": 0,
+      "windResistance": 1,
+      "bottomType": "PANTS",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C154",
+      "name": "테니스 스커트",
+      "slot": "BOTTOM",
+      "genders": [
+        "FEMALE"
+      ],
+      "occasions": [
+        "EXERCISE"
+      ],
+      "style": "SPORT",
+      "minTemperature": 19,
+      "maxTemperature": 50,
+      "idealTemperature": 26,
+      "breathability": 4,
+      "waterResistance": 0,
+      "windResistance": 0,
+      "bottomType": "SKIRT",
+      "requiresInnerTop": false,
+      "tags": [
+        "WIND_SENSITIVE"
+      ]
+    },
+    {
+      "id": "C155",
+      "name": "운동용 바람막이",
+      "slot": "OUTER",
+      "genders": [
+        "MALE",
+        "FEMALE",
+        "UNISEX"
+      ],
+      "occasions": [
+        "EXERCISE"
+      ],
+      "style": "SPORT",
+      "minTemperature": 12,
+      "maxTemperature": 28,
+      "idealTemperature": 18,
+      "breathability": 3,
+      "waterResistance": 0,
+      "windResistance": 1,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C156",
+      "name": "운동용 보온 재킷",
+      "slot": "OUTER",
+      "genders": [
+        "MALE",
+        "FEMALE",
+        "UNISEX"
+      ],
+      "occasions": [
+        "EXERCISE"
+      ],
+      "style": "SPORT",
+      "minTemperature": 5,
+      "maxTemperature": 21,
+      "idealTemperature": 13,
+      "breathability": 2,
+      "waterResistance": 0,
+      "windResistance": 2,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C157",
+      "name": "운동용 방한 재킷",
+      "slot": "OUTER",
+      "genders": [
+        "MALE",
+        "FEMALE",
+        "UNISEX"
+      ],
+      "occasions": [
+        "EXERCISE"
+      ],
+      "style": "SPORT",
+      "minTemperature": -50,
+      "maxTemperature": 8,
+      "idealTemperature": -2,
+      "breathability": 1,
+      "waterResistance": 0,
+      "windResistance": 2,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C158",
+      "name": "반소매 파자마 상의",
+      "slot": "TOP",
+      "genders": [
+        "MALE",
+        "FEMALE",
+        "UNISEX"
+      ],
+      "occasions": [
+        "HOME"
+      ],
+      "style": "HOME",
+      "minTemperature": 23,
+      "maxTemperature": 50,
+      "idealTemperature": 28,
+      "breathability": 4,
+      "waterResistance": 0,
+      "windResistance": 0,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C159",
+      "name": "얇은 라운지 반소매",
+      "slot": "TOP",
+      "genders": [
+        "MALE",
+        "FEMALE",
+        "UNISEX"
+      ],
+      "occasions": [
+        "HOME"
+      ],
+      "style": "HOME",
+      "minTemperature": 23,
+      "maxTemperature": 50,
+      "idealTemperature": 28,
+      "breathability": 4,
+      "waterResistance": 0,
+      "windResistance": 0,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C160",
+      "name": "긴소매 파자마 상의",
+      "slot": "TOP",
+      "genders": [
+        "MALE",
+        "FEMALE",
+        "UNISEX"
+      ],
+      "occasions": [
+        "HOME"
+      ],
+      "style": "HOME",
+      "minTemperature": 15,
+      "maxTemperature": 27,
+      "idealTemperature": 21,
+      "breathability": 3,
+      "waterResistance": 0,
+      "windResistance": 0,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C161",
+      "name": "라운지 긴소매",
+      "slot": "TOP",
+      "genders": [
+        "MALE",
+        "FEMALE",
+        "UNISEX"
+      ],
+      "occasions": [
+        "HOME"
+      ],
+      "style": "HOME",
+      "minTemperature": 15,
+      "maxTemperature": 27,
+      "idealTemperature": 21,
+      "breathability": 3,
+      "waterResistance": 0,
+      "windResistance": 0,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C162",
+      "name": "보온 수면 상의",
+      "slot": "TOP",
+      "genders": [
+        "MALE",
+        "FEMALE",
+        "UNISEX"
+      ],
+      "occasions": [
+        "HOME"
+      ],
+      "style": "HOME",
+      "minTemperature": -50,
+      "maxTemperature": 20,
+      "idealTemperature": 14,
+      "breathability": 2,
+      "waterResistance": 0,
+      "windResistance": 0,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C163",
+      "name": "파자마 반바지",
+      "slot": "BOTTOM",
+      "genders": [
+        "MALE",
+        "FEMALE",
+        "UNISEX"
+      ],
+      "occasions": [
+        "HOME"
+      ],
+      "style": "HOME",
+      "minTemperature": 23,
+      "maxTemperature": 50,
+      "idealTemperature": 28,
+      "breathability": 4,
+      "waterResistance": 0,
+      "windResistance": 0,
+      "bottomType": "SHORTS",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C164",
+      "name": "얇은 파자마 긴바지",
+      "slot": "BOTTOM",
+      "genders": [
+        "MALE",
+        "FEMALE",
+        "UNISEX"
+      ],
+      "occasions": [
+        "HOME"
+      ],
+      "style": "HOME",
+      "minTemperature": 23,
+      "maxTemperature": 50,
+      "idealTemperature": 28,
+      "breathability": 4,
+      "waterResistance": 0,
+      "windResistance": 0,
+      "bottomType": "PANTS",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C165",
+      "name": "파자마 긴바지",
+      "slot": "BOTTOM",
+      "genders": [
+        "MALE",
+        "FEMALE",
+        "UNISEX"
+      ],
+      "occasions": [
+        "HOME"
+      ],
+      "style": "HOME",
+      "minTemperature": 15,
+      "maxTemperature": 27,
+      "idealTemperature": 21,
+      "breathability": 3,
+      "waterResistance": 0,
+      "windResistance": 0,
+      "bottomType": "PANTS",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C166",
+      "name": "라운지 긴바지",
+      "slot": "BOTTOM",
+      "genders": [
+        "MALE",
+        "FEMALE",
+        "UNISEX"
+      ],
+      "occasions": [
+        "HOME"
+      ],
+      "style": "HOME",
+      "minTemperature": 15,
+      "maxTemperature": 27,
+      "idealTemperature": 21,
+      "breathability": 3,
+      "waterResistance": 0,
+      "windResistance": 0,
+      "bottomType": "PANTS",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C167",
+      "name": "보온 수면바지",
+      "slot": "BOTTOM",
+      "genders": [
+        "MALE",
+        "FEMALE",
+        "UNISEX"
+      ],
+      "occasions": [
+        "HOME"
+      ],
+      "style": "HOME",
+      "minTemperature": -50,
+      "maxTemperature": 20,
+      "idealTemperature": 14,
+      "breathability": 2,
+      "waterResistance": 0,
+      "windResistance": 0,
+      "bottomType": "PANTS",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C168",
+      "name": "반소매 원피스 잠옷",
+      "slot": "ONE_PIECE",
+      "genders": [
+        "FEMALE"
+      ],
+      "occasions": [
+        "HOME"
+      ],
+      "style": "HOME",
+      "minTemperature": 23,
+      "maxTemperature": 50,
+      "idealTemperature": 28,
+      "breathability": 4,
+      "waterResistance": 0,
+      "windResistance": 0,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C169",
+      "name": "긴소매 원피스 잠옷",
+      "slot": "ONE_PIECE",
+      "genders": [
+        "FEMALE"
+      ],
+      "occasions": [
+        "HOME"
+      ],
+      "style": "HOME",
+      "minTemperature": 15,
+      "maxTemperature": 27,
+      "idealTemperature": 21,
+      "breathability": 3,
+      "waterResistance": 0,
+      "windResistance": 0,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": []
+    },
+    {
+      "id": "C170",
+      "name": "보온 원피스 잠옷",
+      "slot": "ONE_PIECE",
+      "genders": [
+        "FEMALE"
+      ],
+      "occasions": [
+        "HOME"
+      ],
+      "style": "HOME",
+      "minTemperature": -50,
+      "maxTemperature": 20,
+      "idealTemperature": 14,
+      "breathability": 2,
+      "waterResistance": 0,
+      "windResistance": 0,
+      "bottomType": "NONE",
+      "requiresInnerTop": false,
+      "tags": []
+    }
+  ]
+}

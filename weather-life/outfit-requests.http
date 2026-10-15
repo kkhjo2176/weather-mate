@@ -1,0 +1,81 @@
+### 최소 요청: 성별 공통 / 일상 외출 / 최대 3벌
+POST http://localhost:8080/api/outfits/recommend
+Content-Type: application/json
+
+{
+  "temperature": 24,
+  "humidity": 65
+}
+
+### 여성복 / 원피스·올인원 선호 / 일교차: 겉옷은 CARRY로 반환
+POST http://localhost:8080/api/outfits/recommend
+Content-Type: application/json
+
+{
+  "temperature": 24,
+  "humidity": 65,
+  "windSpeed": 2,
+  "sky": "SUNNY",
+  "precipitation": "NONE",
+  "gender": "FEMALE",
+  "occasion": "DAILY",
+  "preference": "ONE_PIECE",
+  "thermalPreference": "NORMAL",
+  "minTemperature": 14,
+  "maxTemperature": 26,
+  "count": 3,
+  "seed": 0
+}
+
+### 비 오는 더운 날 / 남성복 / 바지(반바지 포함)
+POST http://localhost:8080/api/outfits/recommend
+Content-Type: application/json
+
+{
+  "temperature": 28,
+  "humidity": 85,
+  "windSpeed": 3,
+  "sky": "CLOUDY",
+  "precipitation": "RAIN",
+  "gender": "MALE",
+  "preference": "PANTS"
+}
+
+### 추운 날 운동
+POST http://localhost:8080/api/outfits/recommend
+Content-Type: application/json
+
+{
+  "temperature": -3,
+  "humidity": 50,
+  "windSpeed": 5,
+  "gender": "UNISEX",
+  "occasion": "EXERCISE",
+  "preference": "PANTS"
+}
+
+### 홈웨어: temperature에 실내 온도를 넣습니다.
+POST http://localhost:8080/api/outfits/recommend
+Content-Type: application/json
+
+{
+  "temperature": 24,
+  "humidity": 50,
+  "gender": "FEMALE",
+  "occasion": "HOME"
+}
+
+### 의류 전체 목록
+GET http://localhost:8080/api/outfits/catalog
+
+### 오류 확인: 습도 범위 초과 -> 400
+POST http://localhost:8080/api/outfits/recommend
+Content-Type: application/json
+
+{
+  "temperature": 24,
+  "humidity": 130
+}
+
+### 오늘의 시간별 의상 추천 - 지역명만 입력
+GET http://localhost:8080/api/outfits/today?regionName=서울특별시 영등포구 신길제1동

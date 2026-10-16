@@ -1,50 +1,9 @@
-
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" th:replace="~{main}">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weather Life</title>
-
-    <link rel="stylesheet" href="/css/style.css">
-    <script src="/js/season-theme.js" defer></script>
 </head>
 <body>
-
-<div class="container">
-
-    <header class="header">
-        <h1>☀️ Weather Life</h1>
-
-        <select id="seasonSelect" class="season-select" aria-label="계절 테마 선택">
-            <option value="spring">🌱 봄</option>
-            <option value="summer">☀️ 여름</option>
-            <option value="autumn">🍂 가을</option>
-            <option value="winter">❄️ 겨울</option>
-        </select>
-    </header>
-
-    <main>
-        <section class="weather-card">
-            <p>오늘의 날씨 · 예시 데이터</p>
-            <h2>22°C</h2>
-            <p>오늘도 좋은 하루 보내세요!</p>
-        </section>
-
-        <div class="card-grid">
-            <section class="info-card">
-                <h3>👕 오늘의 옷차림</h3>
-                <p>날씨에 맞는 스타일을 추천해 드려요.</p>
-            </section>
-
-            <section class="info-card">
-                <h3>🌿 생활 추천</h3>
-                <p>야외활동과 빨래 적합도를 확인하세요.</p>
-            </section>
-        </div>
-    </main>
-
-</div>
-
 </body>
 </html>

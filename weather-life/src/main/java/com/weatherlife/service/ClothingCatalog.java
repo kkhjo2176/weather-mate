@@ -34,5 +34,9 @@ public class ClothingCatalog {
     }
 
     public Data data() { return data; }
-    public List<Garment> items() { return data.items(); }
+
+    public Garment item(String id) {
+        return data.items().stream().filter(g -> g.id().equals(id)).findFirst()
+                .orElseThrow(() -> new IllegalStateException("등록되지 않은 옷 ID: " + id));
+    }
 }

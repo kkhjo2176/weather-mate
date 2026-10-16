@@ -1,283 +1,160 @@
-# Weather Life · 옷 추천 기능 통합본
+# Weather Life · 고정 세트 기반 옷 추천 v2
 
-첨부한 Weather Life 프로젝트에 날씨별 옷 추천을 넣었습니다. 기존 `APIController`의 `/api` 아래에서 호출합니다.
-의류 170종을 JSON 파일로 관리하며, 추천 계산에 외부 AI API·학습 데이터·DB가 필요하지 않습니다.
-프로젝트 자체의 기존 MariaDB 설정은 별개이며, 일반 실행 시 기존 DB 접속 환경이 필요합니다.
+기존 170종 자유 조합을 **고정 캐릭터 36세트 → 새 의류 56종 → 조건부 소품 19종**으로 교체했습니다.
+확정 목록의 `alt`/이름과 아이콘 key를 그대로 사용합니다. 예전의 여러 의류를 숨겨서 다시 추천하거나, 새 캐릭터 세트를 생성하지 않습니다.
 
-## 1. 실행하기
+## 추천 흐름
 
-원본과 같은 **Spring Boot 4.1.1 · JDK 21 · Gradle Wrapper 9.7.1**을 사용합니다.
-IntelliJ에서는 이 폴더의 `build.gradle`을 열고 **Project SDK와 Gradle JVM을 JDK 21**로 선택하세요.
-기존 `WeatherLifeApplication`을 실행하면 추가한 기능도 함께 올라옵니다.
+1. 명시한 성별과 바지/치마/원피스 선호에 맞는 기존 세트만 후보로 둡니다.
+2. 기온·습도·바람·강수를 반영한 추천용 보정 기온으로 적합한 세트를 고릅니다.
+3. 달력 계절은 동점에 가까운 후보를 위한 작은 가점입니다. 쌀쌀한 여름에는 봄/가을, 더운 봄/가을에는 여름 세트가 나옵니다.
+4. 선택한 세트의 `pieces`에 등록된 옷만 조합합니다. 용도는 제한하지 않으므로 일상 추천에 애슬레저 세트도 나올 수 있습니다.
+5. 신발은 날씨에 맞춰 고릅니다. 추우면 발열 내의를 추가하고 필요한 소품만 반환합니다. 필요 없으면 `[]`입니다.
 
-Windows PowerShell:
+예: `f_spring_campus`는 집업 + 조거·트레이닝 + 허용 이너 + 날씨에 맞는 신발입니다.
+원피스 세트에 바지를 붙이거나 패딩 세트에 반바지를 붙이지 않습니다. 일교차가 크면 소품의 `light_outer`로 겉옷을 챙기도록 안내하며, 그림에 없는 겉옷을 착용 슬롯에 추가하지 않습니다.
 
-```powershell
-.\gradlew.bat bootRun
-```
+## 실행
 
-macOS / Linux:
+원본 프로젝트의 Spring Boot 4.1.1 / JDK 21 / Gradle Wrapper 9.7.1 설정을 유지합니다.
+기존 MariaDB·기상청 환경 설정을 사용합니다. 옷 추천 자체는 로컬 JSON과 규칙으로 계산하며 AI API를 호출하지 않습니다.
 
 ```bash
-chmod +x gradlew
+./gradlew test bootJar
 ./gradlew bootRun
 ```
 
-첫 실행 시 Gradle·의존성을 내려받으므로 인터넷이 필요합니다. 추천 자체는 로컬 JSON으로 계산합니다.
-기존 `application.properties`의 DB·기상청 설정을 사용합니다.
+Windows: `./gradlew` 대신 `.\gradlew.bat` 사용. 테스트는 H2와 테스트용 설정을 사용합니다.
 
-테스트 및 실행 JAR 생성:
+## 바로 호출하기
 
-```bash
-./gradlew clean test bootJar
-java -jar build/libs/weatherlife-0.0.1-SNAPSHOT.jar
-```
+```http
+POST /api/outfits/recommend
+Content-Type: application/json
 
-Windows에서는 `./gradlew` 대신 `.\gradlew.bat`를 사용합니다.
-테스트는 `src/test/resources/application.properties`의 H2 메모리 DB와 테스트용 인증값을 사용합니다.
-추천 API 테스트의 기존 날씨 서비스 호출은 mock이므로 실제 기상청에 요청하지 않습니다.
-
-## 2. 바로 API 호출하기
-
-`POST http://localhost:8080/api/outfits/recommend`
-
-```json
 {
-  "temperature": 24,
-  "humidity": 65,
+  "temperature": 32,
+  "humidity": 70,
   "windSpeed": 2,
-  "sky": "SUNNY",
+  "sky": "CLOUDY",
   "precipitation": "NONE",
   "gender": "FEMALE",
-  "occasion": "DAILY",
-  "preference": "ONE_PIECE",
-  "minTemperature": 14,
-  "maxTemperature": 26,
-  "count": 3,
-  "seed": 0
+  "date": "2026-10-15",
+  "count": 1,
+  "seed": 42
 }
 ```
 
-최소 요청은 `{"temperature":24,"humidity":65}`입니다. Postman에서 Body → raw → JSON으로 넣으면 됩니다.
-IDE의 HTTP Client / REST Client 확장을 사용한다면 `outfit-requests.http`에서 여러 예제를 바로 실행할 수 있습니다.
+10월이어도 더운 날씨를 우선하여 등록된 여름 세트를 선택합니다.
 
-PowerShell로 요청하기:
-
-```powershell
-$outfitBody = @{ temperature = 24; humidity = 65; gender = 'FEMALE'; preference = 'PANTS' } | ConvertTo-Json
-Invoke-RestMethod -Method Post -Uri 'http://localhost:8080/api/outfits/recommend' -ContentType 'application/json; charset=utf-8' -Body $outfitBody
-```
-
-## 3. 입력값
-
-| 필드 | 값 / 단위 | 기본값 |
-|---|---|---|
-| temperature | 기온 ℃, -50~50 | **필수** |
-| humidity | 습도 %, 0~100 | **필수** |
-| windSpeed | 풍속 m/s, 0~60 | 0 |
-| sky | SUNNY / PARTLY_CLOUDY / CLOUDY | CLOUDY |
-| precipitation | NONE / RAIN / SNOW / MIXED | NONE |
-| gender | MALE / FEMALE / UNISEX | UNISEX |
-| occasion | DAILY / OFFICE / EXERCISE / HOME | DAILY |
-| preference | ANY / PANTS / SKIRT / ONE_PIECE | ANY |
-| thermalPreference | NORMAL / FEEL_COLD / FEEL_HOT | NORMAL |
-| minTemperature | 외출 시간대 최저기온 ℃ | 미입력 |
-| maxTemperature | 외출 시간대 최고기온 ℃ | 미입력 |
-| count | 원하는 코디 수, 1~5 | 3 |
-| seed | 임의의 코디 선택값. 생략하면 요청마다 난수로 설정되며, 같은 코디를 재현하려면 숫자를 명시하세요. | 랜덤 |
-
-- enum은 **대문자**입니다. 필드명 오타와 잘못된 enum은 HTTP 400입니다.
-- `UNISEX`는 남녀 모든 카탈로그를 무작위로 섞는 값이 아니라 **공통 의류만** 고르는 값입니다.
-- `FEMALE + PANTS`이면 여성용·공통 바지 코디만 나옵니다. 여성복이라고 치마를 강제하지 않습니다.
-- `PANTS`는 긴바지와 반바지 모두를 허용합니다. 길이는 기온 범위에 따라 결정합니다.
-- `ONE_PIECE`는 원피스뿐 아니라 점프수트·멜빵바지·멜빵치마를 포함하는 **올인원 의류** 선호입니다.
-- `OFFICE`는 비교적 단정한 의류에 한정했습니다. 실제 직장의 복장 규정은 따로 적용하세요.
-- `EXERCISE`는 가벼운 야외 운동 기준입니다. 운동 강도별 최적화나 수영복 추천은 구현하지 않았습니다.
-- `HOME`일 때 `temperature`는 **실내 온도**입니다. 실외의 비·바람·일교차·햇빛 보정을 사용하지 않으며 신발과 외투가 나오지 않습니다.
-- 최저·최고기온을 입력하면 `최저 ≤ temperature ≤ 최고`를 만족해야 합니다.
-- 동일한 입력·seed·카탈로그에는 같은 결과가 나옵니다. seed를 바꿔도 후보가 적으면 같은 결과가 나올 수 있습니다.
-
-## 4. 결과 읽는 방법
-
-`outfits` 배열의 각 원소가 **서로 독립된 코디 한 벌**입니다. 배열 원소끼리 옷을 합치지 마세요.
-
-| 필드 | 의미 |
+| API | 내용 |
 |---|---|
-| recommendationType | RULE_BASED: 규칙 기반임을 표시 |
-| catalogVersion | 사용한 JSON 카탈로그 버전 |
-| input | 기본값까지 채운 요청 |
-| selectionTemperature | 옷을 고르기 위한 서비스 내부 보정값. **공식 체감온도 아님** |
-| outerSelectionTemperature | 겉옷을 고를 때 사용한 값. 최저기온이 있으면 이를 반영 |
-| outfits[].top / bottom | 일반 상의·하의. 각 1개 또는 null |
-| outfits[].onePiece | 원피스/점프수트/멜빵옷. 선택되면 일반 top·bottom은 null |
-| outfits[].innerTop | 뷔스티에·니트 조끼·멜빵옷처럼 이너가 필요한 의류의 상의 |
-| outfits[].outer | 겉옷 1개 또는 null |
-| outfits[].outerUsage | WEAR: 착용 / CARRY: 챙기기 / NONE: 없음 |
-| outfits[].baseLayer | 추울 때 덧입는 발열 내의 상하의 또는 null |
-| outfits[].shoes | 신발 1개. HOME에서는 null |
-| outfits[].accessories | 우산·모자·목도리·장갑·보온 스타킹 등의 문자열 목록 |
-| outfits[].reasons | 해당 조합의 간단한 추천 이유 |
-| advice / warnings | 날씨 안내 및 후보 부족·극단적인 날씨 안내 |
+| `POST /api/outfits/recommend` | 직접 전달한 날씨로 추천 |
+| `GET /api/outfits/catalog` | 새 의류 56개와 아이콘 경로 |
+| `GET /api/outfits/sets` | 고정 세트 36개, 기온 설정, 슬롯별 허용 옷 key |
+| `GET /api/outfits/accessories` | 소품 19개와 아이콘 경로 |
+| `GET /api/outfits/today?gu=영등포구&gender=FEMALE` | 저장된 오늘 예보로 시간별 추천 |
+| `GET /api/outfits/by-date?gu=영등포구&date=2026-10-15&gender=MALE` | 지정 날짜의 시간별 추천 |
+| `GET /api/outfits/by-hour?gu=영등포구&at=2026-10-15T14:00:00&gender=FEMALE` | 지정 시각의 추천 |
 
-의류 객체에는 `id`, `name`, `slot`이 들어 있습니다. 화면에는 `name`을 출력하고 이미지 연결에는 `id`를 사용할 수 있습니다.
-이미지 파일과 상품 링크는 포함하지 않았습니다. null인 슬롯은 화면에서 숨기면 됩니다.
-실제 실행 결과 예시는 `docs/outfits/examples/response-*.json`을 참고하세요.
+날씨 조회형 GET은 `regionName`도 계속 지원하며 `gender`, `count`, `seed`를 선택적으로 받습니다.
+기존 시간별 응답 구조를 유지하고 **각 시각마다 기본 1세트**를 반환합니다. 하루 대표 1세트를 별도로 집계하는 API는 아닙니다.
 
-## 5. 잘못된 조합을 막는 방식
+## 요청값
 
-1. **일반 코디:** 상의 1개 + 하의 1개 + 필요한 겉옷/신발/내의.
-2. **원피스 코디:** 원피스류 1개 + 필요한 겉옷/신발/내의. 일반 상의·하의는 없음.
-3. **레이어드 원피스:** 멜빵옷처럼 `requiresInnerTop=true`이면 `innerTop`만 별도로 추가.
-4. 바지와 치마는 같은 `BOTTOM` 슬롯을 사용하므로 동시에 선택될 수 없음.
-5. 가디건·후드 집업은 `OUTER`에만 등록해 상의와 겉옷으로 중복 선택되지 않음.
-6. 같은 의류 ID가 한 코디에 중복되지 않음. 신발만 다른 대안은 별도 코디로 세지 않음.
-7. 이너가 필요한 옷을 단독으로 내보내지 않음. 대응하는 이너가 없으면 그 후보는 버림.
-8. 강풍에는 `WIND_SENSITIVE`, 비에는 `AVOID_RAIN` 항목을 제외.
-9. 비·눈에는 겉옷과 신발의 `waterResistance >= 1`, 눈·진눈깨비에는 신발의 `GRIP` 태그가 필요.
-10. 조건을 만족하는 후보가 없으면 **422**를 반환. 선호를 무시하거나 계절이 맞지 않는 옷을 억지로 채우지 않음.
-
-**색상·패턴·실제 상품 사진의 미적 궁합까지 판단하는 기능은 아닙니다.** 구조·계절·용도 및 기본 스타일을 맞추는 기능입니다.
-
-## 6. 추천 로직을 수정할 위치
-
-| 파일 | 담당 |
+| 필드 | 값 / 기본값 |
 |---|---|
-| `src/main/resources/data/clothing-catalog.json` | 의류 종류·추천 기온·통풍성·방수/방풍·성별·용도 |
-| `src/main/java/com/weatherlife/service/WeatherRules.java` | 습도·햇빛·바람·추위 민감도·일교차 보정, 겉옷/내의 기준 |
-| `src/main/java/com/weatherlife/service/OutfitService.java` | 후보 필터, 점수 계산, 한 벌 조합, 대안 선택 |
-| `src/main/java/com/weatherlife/dto/OutfitTypes.java` | enum 목록 |
-| `src/main/java/com/weatherlife/dto/OutfitRequest.java` | 입력 필드·범위·기본값 |
-| `src/main/java/com/weatherlife/dto/OutfitResponse.java` | 응답 형식 |
-| `src/main/java/com/weatherlife/controller/APIController.java` | REST API 주소 |
+| `temperature`, `humidity` | 필수. ℃ -50~50 / % 0~100 |
+| `windSpeed` | m/s 0~60. 기본 0 |
+| `sky` | SUNNY / PARTLY_CLOUDY / CLOUDY. 기본 CLOUDY |
+| `precipitation` | NONE / RAIN / SNOW / MIXED. 기본 NONE |
+| `gender` | FEMALE / MALE / UNISEX. **프론트에서 선택 성별을 전달하세요.** |
+| `date` | 예보 대상 날짜 YYYY-MM-DD. 생략하면 한국 기준 오늘 |
+| `count` | 1~5. **기본 1**. 늘리면 서로 다른 세트를 적합도 순서로 반환 |
+| `seed` | 생략하면 난수. 같은 입력·날짜·seed는 같은 결과 |
+| `preference` | ANY / PANTS / SKIRT / ONE_PIECE. 기본 ANY |
+| `thermalPreference` | NORMAL / FEEL_COLD / FEEL_HOT. 기본 NORMAL |
+| `minTemperature`, `maxTemperature` | 선택. 최저 ≤ 현재 ≤ 최고. 일교차 안내용 |
+| `precipitationProbability` | 선택. % 0~100. 접이식 우산 판단에 사용 |
+| `precipitationAmount` | 선택. **시간당 mm** 0~1000. 장화 판단에 사용 |
+| `airQuality` | 선택. GOOD / NORMAL / BAD / VERY_BAD. 없으면 마스크 판단 생략 |
+| `occasion` | DAILY / OFFICE / EXERCISE / HOME. 구 호출 호환용으로 받으며 **선택/보정 조건으로 쓰지 않음** |
 
-현재 보정 예: 더운 날 높은 습도는 최대 +2, 따뜻하고 맑으면 +1, 쌀쌀한 날 바람은 최대 -4,
-추위를 많이 타면 -2, 더위를 많이 타면 +2, 야외 운동은 +3으로 추천 기준을 조정합니다.
-이는 구현을 시작하기 위한 **수작업 경험 규칙**입니다. 검증된 체감온도 공식이나 학습 모델이 아닙니다.
-기본 선택 기준이 20℃ 미만이면 겉옷, 5℃ 이하이면 내의를 고려하고, 강수/강풍이면 별도 겉옷 조건을 적용합니다.
+성별 미지정/UNISEX는 남녀 세트를 모두 후보로 사용하고 실제 캐릭터 성별을 `setGender`로 반환합니다.
+공용 캐릭터 이미지가 별도로 없기 때문에 구 버전의 '공통 의류만' 의미와 다릅니다.
+실내복 캐릭터 세트도 없습니다. HOME을 전달해도 실외 날씨로 추천하며 경고를 반환합니다.
+명시한 하의 선호에 맞는 세트가 전혀 없으면 422입니다. 날씨 범위만 맞지 않으면 가장 가까운 등록 세트와 경고를 반환합니다.
 
-점수는 적정 기온과의 거리 + 소재 특성 + 스타일 일치 정도를 조합합니다. 실제 확률이 아니므로 응답에 정확도처럼 표시하지 않습니다.
+## 프론트에서 읽을 값
 
-## 7. 의류를 추가하는 방법
+`outfits[0]`이 가장 적합한 세트입니다. 배열 원소를 서로 합치지 마세요.
 
-JSON의 `items` 배열에 같은 형태의 객체를 추가합니다. 기존 `id`는 이미지 매핑 등이 있으면 변경하지 마세요.
-
-```json
-{
-  "id": "CUSTOM001",
-  "name": "추가한 얇은 셔츠",
-  "slot": "TOP",
-  "genders": ["MALE", "FEMALE", "UNISEX"],
-  "occasions": ["DAILY", "OFFICE"],
-  "style": "SMART",
-  "minTemperature": 18,
-  "maxTemperature": 32,
-  "idealTemperature": 25,
-  "breathability": 4,
-  "waterResistance": 0,
-  "windResistance": 0,
-  "bottomType": "NONE",
-  "requiresInnerTop": false,
-  "tags": ["INNER_OK"]
-}
-```
-
-- `style`: CASUAL / SMART / SPORT / HOME. 스타일 차이는 감점이며 절대 제외 조건은 아닙니다.
-- `breathability`: 0~5. 값이 클수록 통풍성이 좋다고 취급합니다.
-- `waterResistance`, `windResistance`: 0~2. 0은 없음, 1은 약한 기능, 2는 높은 기능.
-- 일반 패딩/가죽/플리스를 방수라고 가정하지 않았습니다. 비 대응용은 별도 기능성 품목입니다.
-- `bottomType`: 하의는 PANTS / SHORTS / SKIRT, 그 외는 NONE.
-- `tags`: INNER_OK(이너로 가능), WIND_SENSITIVE(강풍에 제외), AVOID_RAIN(강수에 제외), GRIP(접지력).
-- `QUICK_DRY`는 확장용 메타데이터입니다. 현재 직접 점수에 사용하지 않으며 통풍성 값으로 반영합니다.
-- 추천 기온 범위의 양 끝값은 포함합니다. `idealTemperature`도 범위 안에 있어야 합니다.
-- 일반 속옷·수영복은 제외했습니다. 발열 내의는 추운 날의 보온 레이어로 포함했습니다.
-- JSON의 중복 ID·잘못된 값은 시작 시 오류로 알려줍니다.
-
-파일은 시작할 때 한 번 읽으므로 변경 후 재시작합니다.
-JAR를 매번 다시 만들기 싫다면 외부 JSON을 읽도록 지정할 수 있습니다.
-
-```bash
-java -jar build/libs/weatherlife-0.0.1-SNAPSHOT.jar --outfit.catalog-location=file:./config/clothing-catalog.json
-```
-
-## 8. 이번에 통합한 위치
-
-| 파일 | 변경 내용 |
+| 필드 | 사용 방법 |
 |---|---|
-| `controller/APIController.java` | 생성자 주입 필드 2개와 `POST /outfits/recommend`, `GET /outfits/catalog` 추가 |
-| `controller/OutfitExceptionHandler.java` | 입력 오류 400 / 추천 후보 없음 422 응답 |
-| `service/OutfitService.java` | 한 벌 조합 및 추천 순위 |
-| `service/WeatherRules.java` | 온도·습도·햇빛·비·바람 해석 |
-| `service/ClothingCatalog.java` | Jackson 3 `JsonMapper`로 의류 JSON 읽기 |
-| `service/NoOutfitException.java` | 조건에 맞는 코디가 없을 때 쓰는 예외 |
-| `dto/OutfitRequest.java`, `dto/OutfitResponse.java` | API 요청·응답 자료형 |
-| `dto/Garment.java`, `dto/OutfitTypes.java` | 의류 메타데이터와 enum |
-| `src/main/resources/data/clothing-catalog.json` | 의류 170종 |
-| `build.gradle` | 테스트 전용 Web MVC starter 및 H2 추가 |
-| `src/test/java/com/weatherlife/OutfitApiTest.java` | 추천 규칙·입력 오류·기존 날씨 경로 테스트 |
-| `src/test/resources/` | 테스트 DB 설정 및 Mockito 설정 |
+| `setKey` | `f_spring_campus` 등 캐릭터 세트 식별자 |
+| `setName`, `setGender`, `season` | 선택 세트의 이름·캐릭터 성별·분류 계절 |
+| `visual.videoPath` | 캐릭터 MP4 경로 |
+| `visual.posterPath`, `visual.gifPath` | 정지 이미지 / 대체 GIF 경로 |
+| `top`, `bottom`, `onePiece`, `innerTop`, `outer`, `shoes`, `baseLayer` | 세부 의류. 없는 슬롯은 null |
+| 각 의류의 `id`, `iconKey` | 새 56개 key. 예: `zipup`, `jogger` |
+| 각 의류의 `name`, `iconPath` | 표시 이름과 SVG 경로 |
+| `outerUsage` | 현재 고정 세트에 겉옷이 있으면 WEAR, 없으면 NONE |
+| `accessoryItems` | `{key, name, iconPath, reason}` 배열. **새 소품 UI에서 사용** |
+| `accessories` | 기존 호출부를 위한 이름 문자열 배열. accessoryItems와 같은 항목 |
+| `reasons`, `advice`, `warnings` | 선택 이유, 날씨 안내, 범위 밖 등의 제한 |
+| `outerSelectionTemperature` | 구 API 호환용 최저기온 보정 참고값. 세트의 겉옷을 교체하는 기준으로 사용하지 않음 |
 
-표의 Java 파일은 `src/main/java/com/weatherlife/` 기준입니다.
-`@RequiredArgsConstructor`가 추가한 `final` 필드의 생성자 주입을 처리합니다.
-컨트롤러의 클래스 수준 `/api`와 메서드 수준 `/outfits/recommend`가 합쳐져 최종 주소가 됩니다.
-이전 예제의 독립 애플리케이션과 `OutfitController`는 넣지 않았습니다.
+정적 파일 URL에는 `static/`이 들어가지 않습니다.
+`/weather/outfits/assets/icons/zipup.svg` → 프로젝트 파일 위치는 `src/main/resources/static/weather/outfits/assets/icons/zipup.svg`입니다.
 
-원본의 Spring Boot/Java/Gradle 버전, 날씨 서비스, 지역 CSV, 템플릿, 운영 설정을 유지했습니다.
-기존 `/api/test`, `/api/short`, `/api/medium/land`, `/api/medium/temperature`를 그대로 사용합니다.
-원본 ZIP의 오래된 빌드 결과와 Gradle 캐시는 소스 배포 ZIP에서 제외했습니다. 실행 시 Gradle이 빌드 결과를 다시 만듭니다.
+**첨부된 백엔드 ZIP에는 실제 PNG/MP4/GIF/SVG 파일이 없었습니다.** 이번 수정은 제공된 목록에 맞춘 경로와 key를 반환합니다.
+프론트 작업자가 가진 `assets` 폴더를 위 위치에 배치해야 그림이 표시됩니다. 실제 이미지 재생/화면 검증은 수행하지 않았습니다.
+프론트 연결 변경점은 [`docs/OUTFIT_V2_MIGRATION.md`](docs/OUTFIT_V2_MIGRATION.md)를 참고하세요.
 
-### 화면에서 호출하기
+## 소품 규칙
 
-현재 통합 범위는 백엔드 API입니다. 기존 대시보드에 옷 추천 UI를 자동으로 삽입하지는 않았습니다.
-같은 서버의 프런트엔드에서는 다음처럼 호출할 수 있습니다.
+최소 개수를 채우지 않습니다. 한 날에 여러 조건이 맞으면 여러 개가 나옵니다. 우산/접이식 우산은 중복하지 않습니다.
 
-```javascript
-const response = await fetch('/api/outfits/recommend', {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify({
-    temperature: 24,
-    humidity: 65,
-    sky: 'SUNNY',
-    precipitation: 'NONE',
-    gender: 'FEMALE',
-    preference: 'PANTS'
-  })
-});
-const result = await response.json();
-if (!response.ok) throw new Error(result.message ?? '추천 요청 실패');
-console.log(result.outfits); // 각 원소가 하나의 완성된 코디입니다.
-```
+| 소품 key | 조건 |
+|---|---|
+| umbrella | 비/진눈깨비, 풍속 10m/s 미만 |
+| folding_umbrella | 강수 없음 + 강수확률 ≥40%, 풍속 10m/s 미만 |
+| rain_boots | 비/진눈깨비 + 시간당 강수량 ≥10mm. 추천 신발을 대신할 대안 |
+| parasol | 맑음·강수 없음·≥28℃·풍속 7m/s 미만 |
+| sunglasses | 맑음·강수 없음·≥20℃ |
+| sunscreen | 맑음/구름 많음·강수 없음·≥18℃. UV를 추정하지 않음 |
+| cap | 맑음·강수 없음·≥25℃·풍속 7m/s 미만 |
+| fan | ≥30℃ 또는 기존 불쾌지수 계산값 ≥80 |
+| water_bottle | ≥28℃ 또는 애슬레저 세트 |
+| cool_sleeve | ≥30℃ |
+| light_outer | 겉옷이 없는 세트 + 일교차 ≥10℃ |
+| scarf / gloves | ≤5℃ / ≤0℃ |
+| beanie | ≤0℃ 또는 ≤5℃ + 풍속 ≥5m/s |
+| earmuffs | ≤-5℃ 또는 ≤3℃ + 풍속 ≥8m/s |
+| hotpack / thermos | ≤-5℃ / ≤3℃ |
+| lip_balm | 습도 ≤35% |
+| mask | 전달된 airQuality가 BAD / VERY_BAD일 때만 |
 
-기상청 응답을 서버에서 자동으로 해석해 추천하는 연결은 별도입니다. 이 API에는 사용할 시간대의 기온·습도 등을 숫자로 넘겨주세요.
-Thymeleaf 컨트롤러 등 서버 내부에서는 `OutfitService`를 생성자 주입받아 `recommend(OutfitRequest)`를 직접 호출해도 됩니다.
+소품의 온도 조건은 원본 기온을 사용합니다. 옷의 보정 기온과 구분합니다.
+DB 예보의 POP/PCP도 전달합니다. PCP의 `강수없음`은 0, `30~50mm`/`50mm 이상`은 하한값을 쓰고, `미만`/알 수 없는 값은 null로 둡니다.
+미세먼지 API 수집은 이번 작업에 추가하지 않았습니다.
 
-## 9. 오류 응답
+## 설정을 수정할 파일
 
-| HTTP | code | 의미 |
-|---|---|---|
-| 400 | INVALID_REQUEST | 필수값 누락, 범위 초과, 잘못된 최저/최고기온 |
-| 400 | INVALID_JSON | JSON 문법·필드명·enum·숫자 형식 오류 |
-| 422 | NO_MATCHING_OUTFIT | 성별·용도·선호·날씨를 모두 만족하는 조합이 없음 |
+| 파일 | 역할 |
+|---|---|
+| `data/clothing-catalog.json` | 새 의류 56개. 예전 C001 등은 제거 |
+| `data/outfit-sets.json` | 기존 세트 36개, 권장 기온, `pieces` 허용 조합 |
+| `data/accessory-catalog.json` | 소품 19개 이름/아이콘 경로 |
+| `WeatherRules.java` | 옷 선택용 기온 보정. 습도 최대 +2, 햇빛 +1, 찬바람 최대 -4, 체질 ±2 |
+| `OutfitService.java` | 날씨 점수와 세트 안의 의류 선택 |
+| `AccessoryService.java` | 날씨 조건별 소품 선택 |
+| `ShortForecastOutfitMapper.java` | 날짜·시간별 예보, POP/PCP 전달 |
 
-`count`보다 적은 후보만 있으면 가능한 후보와 `warnings`를 HTTP 200으로 반환합니다.
-추천 DTO의 알 수 없는 필드만 거절하며 기존 API의 전역 Jackson 설정을 바꾸지 않습니다.
-의류 데이터 파일 손상은 시작 시 오류로 알려줍니다.
+세트 점수는 `100 - |보정기온 - 적정기온|×4`, 비 세트 가점 24, 강풍 대응 가점 8 등을 사용합니다.
+달력 계절은 +0.5에 그칩니다. 먼저 권장 기온에 들어오는 후보를 고르므로 계절 가점으로 더운 날 겨울옷을 선택하지 않습니다.
+이 값들은 프로젝트용 수작업 경험 규칙이며 학습 모델·공식 체감온도 공식·검증된 착용 만족도 점수가 아닙니다.
+일반 패딩·코트·바람막이를 방수로 가정하지 않습니다. 추운 비에는 보온 세트와 방수 신발/소품을 고르고 겉옷의 한계를 안내합니다.
+56개 중 고정 세트에 연결되지 않은 항목도 카탈로그에는 유지합니다. 항목을 모두 쓰려고 기존 이미지와 다른 조합을 만들지 않습니다.
 
-## 10. 참고 및 검증
-
-카탈로그 수치와 추천 규칙은 사용자의 의류 분류를 바탕으로 사람이 정한 초깃값입니다.
-실제 착용 만족도를 측정한 데이터셋이나 학습 모델은 아닙니다.
-
-호환성 확인에 사용한 공식 문서:
-
-- https://docs.spring.io/spring-boot/4.1/reference/features/json.html
-- https://docs.spring.io/spring-boot/4.1/reference/testing/spring-boot-applications.html
-
-이번 통합본의 검증 범위는 `docs/outfits/VERIFICATION.md`에 기록합니다.
-
-## 6. 시간별 기상청 단기예보 → 옷 추천 (신규)
-
-`GET /api/outfits/today?regionName=서울특별시 영등포구 신길제1동`
-
-기상청 원본 데이터를 **오늘 날짜의 시간별 DTO**로 변환하고 시간순 Map에 담아 코디를 반환합니다.
-연결 구조·JSON 예시는 [`docs/HOURLY_OUTFIT_API.md`](docs/HOURLY_OUTFIT_API.md)를 참고하세요.
+검증 내역: [`docs/outfits/VERIFICATION.md`](docs/outfits/VERIFICATION.md)

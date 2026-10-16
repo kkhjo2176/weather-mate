@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<!-- 오늘의 날씨: 오늘 / 내일 / 모레 카드 (오늘 카드에 포커스) -->
+<section class="wl-card wl-today" th:fragment="today-weather">
+    <h2 class="wl-title">
+        <img th:src="@{/image/icon/cloud-title.svg}" alt="">
+        오늘의 날씨
+    </h2>
+
+    <div class="wl-today-slider">
+        <ul class="wl-today-list">
+            <li class="wl-day-card" th:each="day : ${dailyWeathers}"
+                th:classappend="${day.today} ? 'is-today'">
+                <div class="wl-day-head">
+                    <span class="wl-day-date" th:text="${day.dateLabel}">07. 12 (일)</span>
+                    <span class="wl-day-tag" th:text="${day.dayTag}">오늘</span>
+                </div>
+
+                <div class="wl-day-temp">
+                    <img th:src="@{${day.weatherIcon}}" th:alt="${day.condition}">
+                    <strong><span th:text="${day.temperature}">22</span><small>℃</small></strong>
+                </div>
+
+                <div class="wl-day-desc">
+                    <p class="wl-day-condition" th:text="${day.condition}">비</p>
+                    <p th:text="|예측 ${day.forecastTemp}°C / 체감 ${day.feelsLikeTemp}°C|">예측 22°C / 체감 24°C</p>
+                    <p th:text="|기상청 ${day.kmaTemp}°C|">기상청 22°C</p>
+                </div>
+
+                <img class="wl-day-character" th:src="@{${day.characterImage}}" alt="날씨 캐릭터">
+
+                <div class="wl-discomfort">
+                    <p>불쾌지수 <strong th:text="${day.discomfortIndex}">78</strong></p>
+                    <div class="wl-discomfort-bar">
+                        <img class="wl-discomfort-marker" th:src="@{/image/character/face.svg}" alt=""
+                             th:style="|left: ${day.discomfortIndex}%|">
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</section>
+
+</body>
+</html>

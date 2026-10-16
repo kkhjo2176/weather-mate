@@ -22,7 +22,9 @@
                         th:selected="${district == location}">종로구</option>
             </select>
             <img th:src="@{/image/icon/chevron-down.svg}" alt="" class="wl-select-arrow">
-        </label>
+                </label>
+        <span id="todayDisplay" class="wl-header-info"></span>
+        <span id="seasonDisplay" class="wl-header-info"></span>
     </div>
 </header>
 

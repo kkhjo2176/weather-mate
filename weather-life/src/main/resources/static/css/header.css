@@ -19,12 +19,12 @@
 .wl-logo h1 {
     font-size: 36px;
     font-weight: 800;
-    color: #1d3c78;
+    color: var(--c-text);
     letter-spacing: -0.5px;
 }
 .wl-logo p {
     font-size: 15px;
-    color: #3d5478;
+    color: var(--c-text-sub);
     margin-top: 2px;
 }
 
@@ -57,4 +57,73 @@
     margin-right: -28px;
     cursor: pointer;
     outline: none;
+}
+/* 모든 계절에서 헤더 가독성 확보 */
+.wl-header {
+    padding: 20px 24px;
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    box-shadow: var(--shadow);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.wl-header-controls {
+    align-items: center;
+}
+
+.wl-header-info {
+    background: rgba(255, 255, 255, 0.85);
+}
+
+@media (max-width: 600px) {
+    .wl-header {
+        padding: 16px;
+    }
+}
+/* 헤더 전체를 감싸던 박스 제거 */
+.wl-header {
+    padding: 0;
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+}
+
+/* 로고 박스 / 위치·날짜·계절 박스 */
+.wl-logo,
+.wl-header-controls {
+    padding: 18px 22px;
+    background: rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.55);
+    border-radius: 20px;
+    box-shadow: var(--shadow);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+}
+
+.wl-header-controls {
+    align-items: center;
+}
+
+/* 날짜·계절의 개별 박스는 제거 */
+.wl-header-info {
+    padding: 0 4px;
+    background: transparent;
+    border: none;
+    border-radius: 0;
+}
+
+@media (max-width: 600px) {
+    .wl-logo,
+    .wl-header-controls {
+        padding: 14px 16px;
+    }
+}
+.wl-logo,
+.wl-header-controls {
+    background: rgba(255, 255, 255, 0.7);
 }

@@ -2,7 +2,7 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <body>
 
-<!-- 헤더: 로고 (지역 선택은 fragment/today-weather의 오늘 칸 날짜 표시 반대편으로 이동) -->
+<!-- 헤더: 로고, 지역 선택 -->
 <header class="wl-header" th:fragment="header">
     <a class="wl-logo" th:href="@{/}">
         <img th:src="@{/image/weather/rain.svg}" alt="Weather Life 로고">
@@ -11,6 +11,19 @@
             <p>AI가 예측하는, 조금 더 특별한 내일의 날씨</p>
         </div>
     </a>
+
+    <div class="wl-header-controls">
+        <!-- 지역 선택: 서울특별시 25개 구 (기본 선택값은 ${location}) -->
+        <label class="wl-select">
+            <img th:src="@{/image/icon/pin.svg}" alt="" class="wl-select-icon">
+            <select name="district" class="wl-select-input" aria-label="지역 선택">
+                <option th:each="district : ${districts}"
+                        th:value="${district}" th:text="${district}"
+                        th:selected="${district == location}">종로구</option>
+            </select>
+            <img th:src="@{/image/icon/chevron-down.svg}" alt="" class="wl-select-arrow">
+        </label>
+    </div>
 </header>
 
 </body>

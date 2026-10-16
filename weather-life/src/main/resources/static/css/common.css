@@ -74,3 +74,38 @@ button { font: inherit; border: none; background: none; cursor: pointer; }
 @media (max-width: 860px) {
     .wl-row { grid-template-columns: 1fr; }
 }
+html[data-season="spring"] {
+    --c-primary: #83ad76;
+    --c-primary-soft: #edf5e7;
+    --c-text: #405d43;
+    --c-border: #dce8d5;
+    --season-bg: #f6f9f0;
+}
+
+html[data-season="summer"] {
+    --c-primary: #4196cf;
+    --c-primary-soft: #e4f3ff;
+    --c-text: #315e80;
+    --c-border: #d4e9f8;
+    --season-bg: #edf7ff;
+}
+
+html[data-season="autumn"] {
+    --c-primary: #a67b58;
+    --c-primary-soft: #f5e9da;
+    --c-text: #73533c;
+    --c-border: #eadbca;
+    --season-bg: #faf3e9;
+}
+
+html[data-season="winter"] {
+    --c-primary: #8daec7;
+    --c-primary-soft: #eaf2f8;
+    --c-text: #526d82;
+    --c-border: #dfe8f1;
+    --season-bg: #f5f9fd;
+}
+
+html[data-season] body {
+    background: var(--season-bg);
+}

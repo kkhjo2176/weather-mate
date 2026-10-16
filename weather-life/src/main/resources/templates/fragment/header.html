@@ -11,19 +11,6 @@
             <p>AI가 예측하는, 조금 더 특별한 내일의 날씨</p>
         </div>
     </a>
-
-    <div class="wl-header-controls">
-        <!-- 지역 선택: 서울특별시 25개 구 (기본 선택값은 ${location}) -->
-        <label class="wl-select">
-            <img th:src="@{/image/icon/pin.svg}" alt="" class="wl-select-icon">
-            <select name="district" class="wl-select-input" aria-label="지역 선택">
-                <option th:each="district : ${districts}"
-                        th:value="${district}" th:text="${district}"
-                        th:selected="${district == location}">종로구</option>
-            </select>
-            <img th:src="@{/image/icon/chevron-down.svg}" alt="" class="wl-select-arrow">
-        </label>
-    </div>
 </header>
 
 </body>

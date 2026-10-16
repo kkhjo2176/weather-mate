@@ -9,6 +9,8 @@
     <link rel="stylesheet" th:href="@{/css/today-weather.css}">
     <link rel="stylesheet" th:href="@{/css/life-info.css}">
     <link rel="stylesheet" th:href="@{/css/gauges.css}">
+    <link rel="stylesheet" th:href="@{/css/seasonal-theme.css}">
+    <link rel="stylesheet" th:href="@{/css/weather-effects.css}">
 </head>
 <body>
 
@@ -72,5 +74,24 @@
 </div>
 
 <script th:src="@{/js/main.js}"></script>
+<script th:src="@{/js/season-theme.js}"></script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const season = new URLSearchParams(location.search).get("season");
+    const labels = {
+        spring: "🌱 봄",
+        summer: "☀️ 여름",
+        autumn: "🍂 가을",
+        winter: "❄️ 겨울"
+    };
+
+    if (Object.hasOwn(labels, season)) {
+        document.documentElement.dataset.season = season;
+        const display = document.getElementById("seasonDisplay");
+        if (display) display.textContent = labels[season];
+    }
+});
+</script>
+<script th:src="@{/js/weather-effects.js}"></script>
 </body>
 </html>

@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import os
+import json
 import secrets
 from contextlib import asynccontextmanager
 from datetime import date, datetime
@@ -129,6 +130,20 @@ def create_app(data_dir: Path | None = None, api_key: str | None = None,
                           "forecast_init_utc": r["manifest"]["forecast_init_utc"],
                           "valid_dates": [utc_time(p["valid_time_utc"]).astimezone(KST).date()
                                           for p in r["manifest"]["points"]]} for r in saved]}
+
+    @app.get("/v1/update-status", dependencies=[Depends(authorize)])
+    def update_status():
+        path = root / "auto_update_status.json"
+        if not path.exists():
+            return {"state": "not_started", "message": "Start start_auto_update.py in another terminal."}
+        try:
+            state = json.loads(path.read_text(encoding="utf-8"))
+            checked = utc_time(state["updated_at_utc"])
+            interval = float(state["check_interval_seconds"])
+        except (OSError, ValueError, KeyError, TypeError):
+            raise HTTPException(status_code=503, detail="Updater status unreadable.") from None
+        stale = (clock() - checked).total_seconds() > max(180, interval * 2)
+        return {**state, "status_is_stale": stale}
 
     @app.get("/v1/forecasts", response_model=ForecastResponse, dependencies=[Depends(authorize)])
     def forecasts(request: Request, response: Response,

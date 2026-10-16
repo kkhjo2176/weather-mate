@@ -17,7 +17,9 @@
                 오늘의 추천 복장
             </h3>
             <div class="wl-life-visual">
-                <img class="wl-life-character" th:src="@{${outfit.characterImage}}" alt="추천 복장 캐릭터">
+                <img class="wl-life-character"
+     th:src="@{/weather/outfits/assets/characters/f_autumn_basic_340_poster.png}"
+     alt="아이보리 긴팔과 청바지를 입은 캐릭터">
                 <ul class="wl-outfit-items">
                     <li th:each="item : ${outfit.items}">
                         <img th:src="@{${item.image}}" th:alt="${item.name}" th:title="${item.name}">
@@ -35,7 +37,13 @@
                 오늘의 추천 운동
             </h3>
             <div class="wl-life-visual">
-                <img class="wl-life-character" th:src="@{${exercise.characterImage}}" alt="추천 운동 캐릭터">
+                <video class="wl-life-character"
+       autoplay muted loop playsinline
+       th:poster="@{/weather/activities/activity_autumn_walk_340_poster.png}"
+       aria-label="단풍 공원을 산책하는 캐릭터">
+    <source th:src="@{/weather/activities/activity_autumn_walk_340.mp4}"
+            type="video/mp4">
+</video>
                 <ul class="wl-exercise-options">
                     <li th:each="option : ${exercise.options}" th:classappend="${option.selected} ? 'is-selected'">
                         <img th:src="@{${option.icon}}" alt="">
@@ -65,7 +73,7 @@
             <article class="wl-life-box wl-laundry">
                 <h3 class="wl-subtitle">
                     <img th:src="@{/image/icon/basket.svg}" alt="">
-                    빨래 건조지수
+                    빨래 건조 전망
                 </h3>
                 <img class="wl-laundry-image" th:src="@{${laundry.image}}" alt="빨래 건조 상황">
                 <div class="wl-laundry-status" th:classappend="${laundry.level}">

@@ -2,7 +2,7 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <body>
 
-<!-- 오늘의 날씨: 어제 / 오늘 / 내일 카드 슬라이드 -->
+<!-- 오늘의 날씨: 오늘 / 내일 / 모레 카드 (오늘 카드에 포커스) -->
 <section class="wl-card wl-today" th:fragment="today-weather">
     <h2 class="wl-title">
         <img th:src="@{/image/icon/cloud-title.svg}" alt="">
@@ -10,10 +10,6 @@
     </h2>
 
     <div class="wl-today-slider">
-        <button type="button" class="wl-slide-btn prev" aria-label="이전">
-            <img th:src="@{/image/icon/chevron-left.svg}" alt="">
-        </button>
-
         <ul class="wl-today-list">
             <li class="wl-day-card" th:each="day : ${dailyWeathers}"
                 th:classappend="${day.today} ? 'is-today'">
@@ -44,16 +40,6 @@
                 </div>
             </li>
         </ul>
-
-        <button type="button" class="wl-slide-btn next" aria-label="다음">
-            <img th:src="@{/image/icon/chevron-right.svg}" alt="">
-        </button>
-    </div>
-
-    <div class="wl-dots">
-        <span class="is-active"></span>
-        <span></span>
-        <span></span>
     </div>
 </section>
 

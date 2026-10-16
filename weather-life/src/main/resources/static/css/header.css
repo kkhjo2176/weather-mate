@@ -48,4 +48,19 @@
     color: var(--c-text);
 }
 .wl-select-icon { width: 24px; height: 24px; }
-.wl-select-arrow { width: 18px; height: 18px; margin-left: 6px; }
+.wl-select-arrow { width: 18px; height: 18px; margin-left: 6px; pointer-events: none; }
+
+/* 지역 선택 드롭다운: 기본 화살표를 숨기고 카드 모양 안에 넣는다 */
+.wl-select { position: relative; cursor: pointer; }
+.wl-select-input {
+    appearance: none;
+    -webkit-appearance: none;
+    border: 0;
+    background: transparent;
+    font: inherit;
+    color: inherit;
+    padding-right: 28px;
+    margin-right: -28px;
+    cursor: pointer;
+    outline: none;
+}

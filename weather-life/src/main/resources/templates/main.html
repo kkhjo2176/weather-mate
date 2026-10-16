@@ -7,7 +7,6 @@
     <link rel="stylesheet" th:href="@{/css/common.css}">
     <link rel="stylesheet" th:href="@{/css/header.css}">
     <link rel="stylesheet" th:href="@{/css/today-weather.css}">
-    <link rel="stylesheet" th:href="@{/css/weekly-calendar.css}">
     <link rel="stylesheet" th:href="@{/css/life-info.css}">
     <link rel="stylesheet" th:href="@{/css/gauges.css}">
 </head>
@@ -19,27 +18,22 @@
   실제 컨트롤러가 같은 이름의 모델 값을 내려주게 되면 이 th:with 블록만 지우면 됩니다.
 -->
 <div class="wl-container" th:with="
-        location='서울특별시',
-        selectedDate='2026. 07. 12 (일)',
+        location='종로구',
+        districts=${ {'종로구', '중구', '용산구', '성동구', '광진구',
+                      '동대문구', '중랑구', '성북구', '강북구', '도봉구',
+                      '노원구', '은평구', '서대문구', '마포구', '양천구',
+                      '강서구', '구로구', '금천구', '영등포구', '동작구',
+                      '관악구', '서초구', '강남구', '송파구', '강동구'} },
         dailyWeathers=${ {
-            {'dateLabel':'07. 11 (토)', 'dayTag':'어제', 'today':false, 'weatherIcon':'/image/weather/rain.svg',
-             'temperature':24, 'condition':'비', 'forecastTemp':25, 'feelsLikeTemp':26, 'kmaTemp':24,
-             'characterImage':'/image/character/rain-yesterday.svg', 'discomfortIndex':65},
             {'dateLabel':'07. 12 (일)', 'dayTag':'오늘', 'today':true, 'weatherIcon':'/image/weather/rain.svg',
              'temperature':22, 'condition':'비', 'forecastTemp':22, 'feelsLikeTemp':24, 'kmaTemp':22,
              'characterImage':'/image/character/rain-today.svg', 'discomfortIndex':78},
             {'dateLabel':'07. 13 (월)', 'dayTag':'내일', 'today':false, 'weatherIcon':'/image/weather/rain.svg',
              'temperature':26, 'condition':'흐리고 비', 'forecastTemp':27, 'feelsLikeTemp':28, 'kmaTemp':26,
-             'characterImage':'/image/character/rain-tomorrow.svg', 'discomfortIndex':62}
-        } },
-        weeklyWeathers=${ {
-            {'dateLabel':'07. 12 (일)', 'today':true,  'weatherIcon':'/image/weather/rain.svg',      'minTemp':22, 'maxTemp':24},
-            {'dateLabel':'07. 13 (월)', 'today':false, 'weatherIcon':'/image/weather/rain.svg',      'minTemp':26, 'maxTemp':28},
-            {'dateLabel':'07. 14 (화)', 'today':false, 'weatherIcon':'/image/weather/cloud.svg',     'minTemp':27, 'maxTemp':29},
-            {'dateLabel':'07. 15 (수)', 'today':false, 'weatherIcon':'/image/weather/sun-cloud.svg', 'minTemp':29, 'maxTemp':31},
-            {'dateLabel':'07. 16 (목)', 'today':false, 'weatherIcon':'/image/weather/sun-cloud.svg', 'minTemp':30, 'maxTemp':32},
-            {'dateLabel':'07. 17 (금)', 'today':false, 'weatherIcon':'/image/weather/rain.svg',      'minTemp':28, 'maxTemp':30},
-            {'dateLabel':'07. 18 (토)', 'today':false, 'weatherIcon':'/image/weather/rain.svg',      'minTemp':26, 'maxTemp':28}
+             'characterImage':'/image/character/rain-tomorrow.svg', 'discomfortIndex':62},
+            {'dateLabel':'07. 14 (화)', 'dayTag':'모레', 'today':false, 'weatherIcon':'/image/weather/cloud.svg',
+             'temperature':27, 'condition':'흐림', 'forecastTemp':28, 'feelsLikeTemp':29, 'kmaTemp':27,
+             'characterImage':'/image/character/rain-dayafter.svg', 'discomfortIndex':70}
         } },
         outfit=${ {'characterImage':'/image/character/outfit.svg',
                    'items':{ {'name':'우비', 'image':'/image/item/raincoat.svg'},
@@ -60,18 +54,15 @@
                         {'name':'방수 가방', 'image':'/image/item/waterproof-bag.svg'},
                         {'name':'물병', 'image':'/image/item/bottle.svg'} } },
         laundry=${ {'image':'/image/laundry/laundry-rain.svg', 'percent':25, 'message':'건조 어려워요!', 'level':'bad'} },
-        gauges=${ { {'title':'자외선 지수', 'icon':'/image/icon/sun.svg', 'value':'2', 'unit':'', 'status':'낮음', 'percent':20, 'color':'blue'},
-                    {'title':'미세먼지', 'icon':'/image/icon/dust.svg', 'value':'28', 'unit':'', 'status':'좋음', 'percent':35, 'color':'green'},
-                    {'title':'강수확률', 'icon':'/image/icon/umbrella.svg', 'value':'90', 'unit':'%', 'status':'높음', 'percent':90, 'color':'red'},
-                    {'title':'바람 세기', 'icon':'/image/icon/wind.svg', 'value':'5', 'unit':'m/s', 'status':'강함', 'percent':70, 'color':'orange'} } }">
+        gauges=${ { {'key':'uv', 'title':'자외선 지수', 'icon':'/image/icon/sun.svg', 'value':'2', 'unit':'', 'status':'낮음', 'percent':20, 'color':'blue'},
+                    {'key':'dust', 'title':'미세먼지', 'icon':'/image/icon/dust.svg', 'value':'28', 'unit':'', 'status':'좋음', 'percent':35, 'color':'green'},
+                    {'key':'pop', 'title':'강수확률', 'icon':'/image/icon/umbrella.svg', 'value':'90', 'unit':'%', 'status':'높음', 'percent':90, 'color':'red'},
+                    {'key':'wind', 'title':'바람 세기', 'icon':'/image/icon/wind.svg', 'value':'5', 'unit':'m/s', 'status':'강함', 'percent':70, 'color':'orange'} } }">
     <!-- 헤더 -->
     <header th:replace="~{fragment/header :: header}"></header>
 
-    <!-- 오늘의 날씨 + 주간 날씨 캘린더 -->
-    <div class="wl-row">
-        <section th:replace="~{fragment/today-weather :: today-weather}"></section>
-        <section th:replace="~{fragment/weekly-calendar :: weekly-calendar}"></section>
-    </div>
+    <!-- 오늘의 날씨 (오늘 / 내일 / 모레) : 주간 날씨 캘린더를 제거하고 가로 전체 폭 사용 -->
+    <section th:replace="~{fragment/today-weather :: today-weather}"></section>
 
     <!-- AI 생활 정보 -->
     <section th:replace="~{fragment/life-info :: life-info}"></section>

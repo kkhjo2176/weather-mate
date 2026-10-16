@@ -2,9 +2,11 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <body>
 
-<!-- 하단 게이지: 자외선 지수 / 미세먼지 / 강수확률 / 바람 세기 -->
+<!-- 하단 게이지: 자외선 지수 / 미세먼지 / 강수확률 / 바람 세기
+     강수확률·바람 세기는 js/main.js 가 /api/short (APIController.getShortForecast) 응답으로 갱신한다. -->
 <section class="wl-gauges" th:fragment="gauges">
-    <article class="wl-card wl-gauge" th:each="gauge : ${gauges}" th:classappend="${gauge.color}">
+    <article class="wl-card wl-gauge" th:each="gauge : ${gauges}" th:classappend="${gauge.color}"
+             th:attr="data-gauge=${gauge.key}">
         <h3 class="wl-subtitle">
             <img th:src="@{${gauge.icon}}" alt="">
             <span th:text="${gauge.title}">자외선 지수</span>
@@ -18,8 +20,8 @@
                       th:style="|stroke-dasharray: ${gauge.percent} 100|"/>
             </svg>
             <div class="wl-gauge-value">
-                <strong><span th:text="${gauge.value}">2</span><small th:text="${gauge.unit}"></small></strong>
-                <p th:text="${gauge.status}">낮음</p>
+                <strong><span class="wl-gauge-num" th:text="${gauge.value}">2</span><small class="wl-gauge-unit" th:text="${gauge.unit}"></small></strong>
+                <p class="wl-gauge-status" th:text="${gauge.status}">낮음</p>
             </div>
         </div>
     </article>

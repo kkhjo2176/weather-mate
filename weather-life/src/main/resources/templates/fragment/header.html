@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<!-- 헤더: 로고, 지역 선택, 날짜 선택 -->
+<header class="wl-header" th:fragment="header">
+    <a class="wl-logo" th:href="@{/}">
+        <img th:src="@{/image/weather/rain.svg}" alt="Weather Life 로고">
+        <div class="wl-logo-text">
+            <h1>Weather Life</h1>
+            <p>AI가 예측하는, 조금 더 특별한 내일의 날씨</p>
+        </div>
+    </a>
+
+    <div class="wl-header-controls">
+        <button type="button" class="wl-select">
+            <img th:src="@{/image/icon/pin.svg}" alt="" class="wl-select-icon">
+            <span th:text="${location}">서울특별시</span>
+            <img th:src="@{/image/icon/chevron-down.svg}" alt="" class="wl-select-arrow">
+        </button>
+        <button type="button" class="wl-select">
+            <img th:src="@{/image/icon/calendar.svg}" alt="" class="wl-select-icon">
+            <span th:text="${selectedDate}">2026. 07. 12 (일)</span>
+            <img th:src="@{/image/icon/chevron-down.svg}" alt="" class="wl-select-arrow">
+        </button>
+    </div>
+</header>
+
+</body>
+</html>

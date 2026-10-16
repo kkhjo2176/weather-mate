@@ -1,0 +1,52 @@
+[
+  {
+    "check": "catalog",
+    "status": 200,
+    "items": 170
+  },
+  {
+    "check": "request-daily-pants",
+    "status": 200,
+    "outfits": 3
+  },
+  {
+    "check": "request-dress-evening",
+    "status": 200,
+    "outfits": 3
+  },
+  {
+    "check": "request-home",
+    "status": 200,
+    "outfits": 3
+  },
+  {
+    "check": "request-rain",
+    "status": 200,
+    "outfits": 3
+  },
+  {
+    "check": "request-snow",
+    "status": 200,
+    "outfits": 3
+  },
+  {
+    "check": "invalid request",
+    "status": 400,
+    "code": "INVALID_REQUEST"
+  },
+  {
+    "check": "invalid request",
+    "status": 400,
+    "code": "INVALID_JSON"
+  },
+  {
+    "check": "invalid request",
+    "status": 400,
+    "code": "INVALID_REQUEST"
+  },
+  {
+    "check": "no matching outfit",
+    "status": 422,
+    "code": "NO_MATCHING_OUTFIT"
+  }
+]

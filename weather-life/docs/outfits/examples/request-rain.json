@@ -1,0 +1,8 @@
+{
+  "temperature": 28,
+  "humidity": 85,
+  "windSpeed": 3,
+  "precipitation": "RAIN",
+  "gender": "MALE",
+  "preference": "PANTS"
+}

@@ -1,0 +1,7 @@
+{
+  "temperature": -5,
+  "humidity": 70,
+  "windSpeed": 4,
+  "precipitation": "SNOW",
+  "gender": "UNISEX"
+}

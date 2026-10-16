@@ -1,0 +1,109 @@
+{
+  "recommendationType": "RULE_BASED",
+  "catalogVersion": "1.0.0",
+  "input": {
+    "temperature": 24.0,
+    "humidity": 65.0,
+    "windSpeed": 0.0,
+    "sky": "CLOUDY",
+    "precipitation": "NONE",
+    "gender": "FEMALE",
+    "occasion": "DAILY",
+    "preference": "PANTS",
+    "thermalPreference": "NORMAL",
+    "minTemperature": null,
+    "maxTemperature": null,
+    "count": 3,
+    "seed": 0
+  },
+  "selectionTemperature": 24.0,
+  "outerSelectionTemperature": 24.0,
+  "outfits": [
+    {
+      "id": "1b9091e3-e6e6-31a8-8a6d-1aea611123e2",
+      "structure": "SEPARATES",
+      "top": {
+        "id": "C021",
+        "name": "린넨 니트",
+        "slot": "TOP"
+      },
+      "bottom": {
+        "id": "C041",
+        "name": "얇은 린넨 긴바지",
+        "slot": "BOTTOM"
+      },
+      "onePiece": null,
+      "innerTop": null,
+      "outer": null,
+      "outerUsage": "NONE",
+      "baseLayer": null,
+      "shoes": {
+        "id": "C139",
+        "name": "로퍼",
+        "slot": "SHOES"
+      },
+      "accessories": [],
+      "reasons": [
+        "의류별 추천 기온 범위와 선택한 용도에 맞춰 조합했습니다."
+      ]
+    },
+    {
+      "id": "f1f28db1-b209-32d5-af00-4e0ce3396ff8",
+      "structure": "SEPARATES",
+      "top": {
+        "id": "C087",
+        "name": "반소매 니트",
+        "slot": "TOP"
+      },
+      "bottom": {
+        "id": "C040",
+        "name": "쿨슬랙스",
+        "slot": "BOTTOM"
+      },
+      "onePiece": null,
+      "innerTop": null,
+      "outer": null,
+      "outerUsage": "NONE",
+      "baseLayer": null,
+      "shoes": {
+        "id": "C139",
+        "name": "로퍼",
+        "slot": "SHOES"
+      },
+      "accessories": [],
+      "reasons": [
+        "의류별 추천 기온 범위와 선택한 용도에 맞춰 조합했습니다."
+      ]
+    },
+    {
+      "id": "6c1d4e02-6966-350a-b95a-00fae9f95948",
+      "structure": "SEPARATES",
+      "top": {
+        "id": "C079",
+        "name": "오프숄더 긴소매 티셔츠",
+        "slot": "TOP"
+      },
+      "bottom": {
+        "id": "C037",
+        "name": "여름용 쿨데님",
+        "slot": "BOTTOM"
+      },
+      "onePiece": null,
+      "innerTop": null,
+      "outer": null,
+      "outerUsage": "NONE",
+      "baseLayer": null,
+      "shoes": {
+        "id": "C137",
+        "name": "통풍 운동화",
+        "slot": "SHOES"
+      },
+      "accessories": [],
+      "reasons": [
+        "의류별 추천 기온 범위와 선택한 용도에 맞춰 조합했습니다."
+      ]
+    }
+  ],
+  "advice": [],
+  "warnings": []
+}

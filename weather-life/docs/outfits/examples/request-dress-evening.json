@@ -1,0 +1,10 @@
+{
+  "temperature": 24,
+  "humidity": 65,
+  "windSpeed": 2,
+  "sky": "SUNNY",
+  "gender": "FEMALE",
+  "preference": "ONE_PIECE",
+  "minTemperature": 14,
+  "maxTemperature": 26
+}

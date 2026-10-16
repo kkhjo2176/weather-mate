@@ -92,6 +92,113 @@
         if (!select) return;
 
         loadShortForecast(select.value);
-        select.addEventListener('change', () => loadShortForecast(select.value));
+        window.loadOutfitCard(select.value);
+        select.addEventListener('change', () => {
+            loadShortForecast(select.value);
+            window.loadOutfitCard(select.value);
+        });
     });
+})();
+
+// ===== 오늘의 추천 복장(TodayOutfitController, GET /api/outfits/today) 로 '오늘의 추천 복장' 카드 갱신 =====
+// weather-unit 캐릭터/아이콘 그림(static/weather/outfits/assets)을 그대로 사용한다.
+// 날씨 DB에 오늘 예보가 없거나 요청이 실패하면 템플릿의 목업 내용을 그대로 둔다.
+(() => {
+    const LOG = '[weather-life]';
+
+    const pad = (n) => String(n).padStart(2, '0');
+
+    // "HH:mm" 키 중 지금 이후 가장 가까운 시각(없으면 마지막 시각)을 고른다.
+    const pickNearestHour = (hourlyRecommendations) => {
+        const keys = Object.keys(hourlyRecommendations ?? {}).sort();
+        if (keys.length === 0) return null;
+        const now = new Date();
+        const nowKey = `${pad(now.getHours())}:${pad(now.getMinutes())}`;
+        const key = keys.find((k) => k >= nowKey) ?? keys[keys.length - 1];
+        return { key, outfitResponse: hourlyRecommendations[key] };
+    };
+
+    // 날씨 조건에 맞춘 헤드라인/설명 문구. 백엔드 reasons는 기술 설명이라 화면 문구는 여기서 만든다.
+    const buildOutfitCopy = (input, setName) => {
+        const precipitation = input?.precipitation;
+        const sky = input?.sky;
+        const temperature = input?.temperature;
+
+        if (precipitation === 'RAIN' || precipitation === 'MIXED') {
+            return { title: '비 오는 날은 방수 아이템이 좋아요!', description: '우산과 방수 아이템으로<br>비에도 쾌적하게 외출하세요.' };
+        }
+        if (precipitation === 'SNOW') {
+            return { title: '눈 오는 날은 미끄럼 방지가 중요해요!', description: '방한 신발과 따뜻한 겉옷으로<br>눈길도 안전하게 다녀오세요.' };
+        }
+        if (typeof temperature === 'number' && temperature >= 28) {
+            return { title: '더운 날엔 가볍고 시원하게 입으세요!', description: '통풍 잘 되는 옷으로<br>더위를 가볍게 이겨내세요.' };
+        }
+        if (typeof temperature === 'number' && temperature <= 5) {
+            return { title: '쌀쌀한 날엔 든든하게 챙겨 입으세요!', description: '보온 아이템을 더해<br>포근하게 외출하세요.' };
+        }
+        if (sky === 'SUNNY') {
+            return { title: '맑은 날, 오늘의 추천 옷차림이에요!', description: `${setName}로<br>가볍게 하루를 시작해보세요.` };
+        }
+        return { title: '오늘 날씨엔 이 옷차림이 딱이에요!', description: `${setName}로<br>편안한 하루 보내세요.` };
+    };
+
+    // 아우터(없으면 상의) + 소품을 최대 4개까지, 모자라면 신발로 채운다.
+    const pickDisplayItems = (outfit) => {
+        const items = [];
+        const main = outfit.outer ?? outfit.top ?? outfit.onePiece;
+        if (main) items.push({ name: main.name, image: main.iconPath });
+        (outfit.accessoryItems ?? []).forEach((a) => items.push({ name: a.name, image: a.iconPath }));
+        if (items.length < 4 && outfit.shoes) items.push({ name: outfit.shoes.name, image: outfit.shoes.iconPath });
+        return items.slice(0, 4);
+    };
+
+    const renderOutfitCard = (outfitResponse) => {
+        const outfit = outfitResponse?.outfits?.[0];
+        if (!outfit) return;
+
+        const characterImg = document.getElementById('wl-outfit-character');
+        if (characterImg && outfit.visual?.posterPath) {
+            characterImg.src = outfit.visual.posterPath;
+            characterImg.alt = outfit.setName ? `${outfit.setName} 캐릭터` : '추천 복장 캐릭터';
+        }
+
+        const itemsList = document.getElementById('wl-outfit-items');
+        if (itemsList) {
+            itemsList.replaceChildren();
+            pickDisplayItems(outfit).forEach(({ name, image }) => {
+                const li = document.createElement('li');
+                const img = document.createElement('img');
+                img.src = image;
+                img.alt = name;
+                img.title = name;
+                li.appendChild(img);
+                itemsList.appendChild(li);
+            });
+        }
+
+        const { title, description } = buildOutfitCopy(outfitResponse.input, outfit.setName);
+        const headline = document.getElementById('wl-outfit-headline');
+        if (headline) headline.textContent = title;
+        const desc = document.getElementById('wl-outfit-desc');
+        if (desc) desc.innerHTML = description;
+    };
+
+    const loadOutfitCard = async (district) => {
+        console.info(LOG, '오늘의 추천 복장 요청:', district);
+        try {
+            const res = await fetch(`/api/outfits/today?gu=${encodeURIComponent(district)}`);
+            if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+            const data = await res.json();
+            const picked = pickNearestHour(data?.hourlyRecommendations);
+            if (!picked) throw new Error('추천 가능한 시간대가 없습니다.');
+
+            console.info(LOG, `오늘의 추천 복장 수신: 사용 시각 ${picked.key}`);
+            renderOutfitCard(picked.outfitResponse);
+        } catch (e) {
+            console.warn(LOG, '오늘의 추천 복장을 불러오지 못해 기존 값을 유지합니다:', e.message);
+        }
+    };
+
+    window.loadOutfitCard = loadOutfitCard;
 })();

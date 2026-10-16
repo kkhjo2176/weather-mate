@@ -1,183 +1,146 @@
 package com.weatherlife.service;
 
-import com.weatherlife.service.ClothingCatalog;
-import com.weatherlife.dto.OutfitRequest;
-import com.weatherlife.dto.OutfitResponse;
-import com.weatherlife.dto.OutfitResponse.Item;
-import com.weatherlife.dto.OutfitResponse.Outfit;
-import com.weatherlife.dto.Garment;
+import com.weatherlife.dto.*;
+import com.weatherlife.dto.OutfitResponse.*;
+import com.weatherlife.service.OutfitSetCatalog.Definition;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.Validator;
 import org.springframework.stereotype.Service;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
-import java.util.function.Predicate;
 import static com.weatherlife.dto.OutfitTypes.*;
 
-/** 외부 AI/API/DB 없이 카탈로그의 옷을 필터링하고 점수를 매겨 한 벌로 조합합니다. */
+/** 날씨로 고정 세트를 고르고, 그 세트의 허용 슬롯 안에서만 세부 의류를 선택합니다. */
 @Service
 public class OutfitService {
     private final ClothingCatalog catalog;
+    private final OutfitSetCatalog sets;
+    private final AccessoryService accessories;
     private final Validator validator;
 
-    public OutfitService(ClothingCatalog catalog, Validator validator) {
+    public OutfitService(ClothingCatalog catalog, OutfitSetCatalog sets,
+                         AccessoryService accessories, Validator validator) {
         this.catalog = catalog;
+        this.sets = sets;
+        this.accessories = accessories;
         this.validator = validator;
     }
 
     public OutfitResponse recommend(OutfitRequest request) {
         Objects.requireNonNull(request, "request");
-        // 컨트롤러를 거치지 않고 Thymeleaf용 서비스에서 호출해도 유효성을 검사합니다.
         var violations = validator.validate(request);
         if (!violations.isEmpty()) throw new ConstraintViolationException(violations);
         var ctx = WeatherRules.evaluate(request);
         var random = new Random(request.seed());
-        var candidates = new LinkedHashMap<String, Candidate>();
-
-        // 한 요청에서 여러 조합을 만들어 점수가 좋은 순서로 고릅니다.
-        // 같은 입력+seed+카탈로그에는 같은 결과가 나옵니다. 새 후보는 seed를 바꾸면 됩니다.
-        for (int attempt = 0; attempt < 80; attempt++) {
-            if (request.preference() != Preference.ONE_PIECE)
-                add(candidates, assemble(ctx, false, random));
-            if (request.preference() == Preference.ANY || request.preference() == Preference.ONE_PIECE)
-                add(candidates, assemble(ctx, true, random));
-        }
+        var warnings = new LinkedHashSet<>(ctx.warnings());
+        // 용도와 달력 계절은 후보를 제외하지 않습니다. 명시한 성별/하의 선호는 유지합니다.
+        var candidates = sets.sets().stream()
+                .filter(s -> request.gender() == Gender.UNISEX || s.gender() == request.gender())
+                .filter(s -> matchesPreference(s, request.preference())).toList();
         if (candidates.isEmpty()) throw new NoOutfitException();
-
-        var selected = candidates.values().stream()
-                .sorted(Comparator.comparingDouble(Candidate::score).reversed()
-                        .thenComparing(c -> c.outfit().id()))
-                .limit(request.count()).map(Candidate::outfit).toList();
-        var warnings = new ArrayList<>(ctx.warnings());
-        if (selected.size() < request.count()) warnings.add("조건을 만족하는 서로 다른 코디가 적어 " + selected.size() + "개만 반환했습니다.");
-        return new OutfitResponse("RULE_BASED", catalog.data().version(), request,
-                ctx.temperature(), ctx.outerTemperature(), selected, ctx.advice(), List.copyOf(warnings));
+        var fitting = candidates.stream().filter(s -> distance(ctx.temperature(), s.minTemperature(), s.maxTemperature()) == 0).toList();
+        if (fitting.isEmpty()) {
+            // 기존 이미지 밖의 조합을 만들지 않고 가장 가까운 등록 세트로 한정합니다.
+            double closest = candidates.stream().mapToDouble(s -> distance(ctx.temperature(), s.minTemperature(), s.maxTemperature())).min().orElseThrow();
+            fitting = candidates.stream().filter(s -> distance(ctx.temperature(), s.minTemperature(), s.maxTemperature()) == closest).toList();
+            warnings.add("등록된 세트의 권장 기온 범위 밖이어서 가장 가까운 세트를 반환했습니다. 착용 적합성을 확인하세요.");
+        }
+        record Ranked(Definition set, double score) { }
+        var ranked = fitting.stream().map(s -> new Ranked(s, scoreSet(s, ctx) + random.nextDouble() * 0.2))
+                .sorted(Comparator.comparingDouble(Ranked::score).reversed().thenComparing(x -> x.set().key()))
+                .limit(request.count()).toList();
+        var outfits = new ArrayList<Outfit>();
+        for (var entry : ranked) outfits.add(assemble(entry.set(), ctx, random, warnings));
+        if (outfits.size() < request.count()) warnings.add("조건에 맞는 서로 다른 세트가 적어 " + outfits.size() + "개만 반환했습니다.");
+        if (request.gender() == Gender.UNISEX)
+            warnings.add("성별 미지정/UNISEX는 남녀 세트를 모두 후보로 사용합니다. 캐릭터 성별을 고정하려면 MALE 또는 FEMALE을 전달하세요.");
+        return new OutfitResponse("RULE_BASED", catalog.data().version(), request, ctx.temperature(),
+                ctx.outerTemperature(), List.copyOf(outfits), ctx.advice(), List.copyOf(warnings));
     }
 
-    private record Candidate(Outfit outfit, String signature, double score) { }
-
-    private static void add(Map<String, Candidate> candidates, Candidate c) {
-        if (c != null) candidates.merge(c.signature(), c, (a, b) -> a.score() >= b.score() ? a : b);
+    private boolean matchesPreference(Definition set, Preference p) {
+        boolean dress = !set.ids("onePiece").isEmpty();
+        return switch (p) {
+            case ANY -> true;
+            case ONE_PIECE -> dress;
+            case PANTS -> !dress && set.ids("bottom").stream().allMatch(id -> catalog.item(id).bottomType() != BottomType.SKIRT);
+            case SKIRT -> !dress && set.ids("bottom").stream().allMatch(id -> catalog.item(id).bottomType() == BottomType.SKIRT);
+        };
     }
 
-    private Candidate assemble(WeatherRules.Context ctx, boolean dressMode, Random random) {
-        var r = ctx.request();
-        Garment top = null, bottom = null, dress = null, inner = null, outer = null, base = null, shoes = null;
-        Garment anchor;
-        if (dressMode) {
-            dress = pick(Slot.ONE_PIECE, ctx, ctx.temperature(), null, g -> true, random);
-            if (dress == null) return null;
-            anchor = dress;
-        } else {
-            top = pick(Slot.TOP, ctx, ctx.temperature(), null, g -> true, random);
-            if (top == null) return null;
-            anchor = top;
-            bottom = pick(Slot.BOTTOM, ctx, ctx.temperature(), top.style(), g -> switch (r.preference()) {
-                case PANTS -> g.bottomType() == BottomType.PANTS || g.bottomType() == BottomType.SHORTS;
-                case SKIRT -> g.bottomType() == BottomType.SKIRT;
-                default -> true;
-            }, random);
-            if (bottom == null) return null;
+    private double scoreSet(Definition set, WeatherRules.Context ctx) {
+        double score = 100 - Math.abs(ctx.temperature() - set.idealTemperature()) * 4;
+        score -= distance(ctx.temperature(), set.minTemperature(), set.maxTemperature()) * 12;
+        if (ctx.wet()) {
+            if (set.tags().contains("RAIN")) score += 24;
+            if (set.ids("outer").contains("leather_jacket")) score -= 15;
+        } else if (set.tags().contains("RAIN")) score -= 18;
+        if (ctx.windy()) {
+            if (set.tags().contains("WIND")) score += 8;
+            if (set.tags().contains("WIND_SENSITIVE")) score -= 20;
         }
-        // 뷔스티에·멜빵옷·니트 조끼 등은 별도 innerTop을 채웁니다.
-        if (anchor.requiresInnerTop()) {
-            inner = pick(Slot.TOP, ctx, ctx.temperature(), anchor.style(),
-                    g -> !g.requiresInnerTop() && g.tags().contains("INNER_OK") && !g.id().equals(anchor.id()), random);
-            if (inner == null) return null;
-        }
-        if (ctx.outerRequired()) {
-            outer = pick(Slot.OUTER, ctx, ctx.outerTemperature(), anchor.style(), g -> true, random);
-            if (outer == null) return null;
-        }
-        if (ctx.baseLayerRequired()) {
-            base = pick(Slot.BASE_LAYER, ctx, ctx.temperature(), anchor.style(), g -> true, random);
-            if (base == null) return null;
-        }
-        if (r.occasion() != Occasion.HOME) {
-            shoes = pick(Slot.SHOES, ctx, ctx.temperature(), anchor.style(), g -> true, random);
-            if (shoes == null) return null;
-        }
+        // 계절은 근접 후보의 작은 가점일 뿐, 여름의 추위/봄가을의 더위를 막지 않습니다.
+        if (season(ctx.request().date().getMonthValue()) == set.season()) score += 0.5;
+        return score;
+    }
 
-        var items = new ArrayList<Garment>();
-        for (var item : new Garment[]{top, bottom, dress, inner, outer, base, shoes}) if (item != null) items.add(item);
-        // 하나의 옷이 다른 슬롯에 중복 추천되는 것을 막습니다.
-        if (items.stream().map(Garment::id).distinct().count() != items.size()) return null;
-        var accessories = accessories(ctx, bottom, dress);
+    private Outfit assemble(Definition set, WeatherRules.Context ctx, Random random, Set<String> warnings) {
+        Garment top = pick(set, "top", ctx, random), bottom = pick(set, "bottom", ctx, random);
+        Garment dress = pick(set, "onePiece", ctx, random), inner = pick(set, "innerTop", ctx, random);
+        Garment outer = pick(set, "outer", ctx, random), shoes = pick(set, "shoes", ctx, random);
+        Garment base = ctx.baseLayerRequired() ? catalog.item("thermal") : null;
+        OuterUsage usage = outer == null ? OuterUsage.NONE : OuterUsage.WEAR;
+        var extras = accessories.select(ctx, set, usage);
         var reasons = new ArrayList<String>();
-        reasons.add("의류별 추천 기온 범위와 선택한 용도에 맞춰 조합했습니다.");
-        if (ctx.wet()) reasons.add("겉옷과 신발은 카탈로그에 등록된 방수·발수 등급을 반영했습니다.");
-        if (inner != null) reasons.add("단독 착용용이 아닌 의류에 이너 상의를 함께 구성했습니다.");
-        if (ctx.baseLayerRequired()) reasons.add("추운 조건이어서 발열 내의를 추가했습니다.");
-        if (ctx.outerUsage() == OuterUsage.CARRY) reasons.add("겉옷은 지금 입는 용도가 아니라 낮은 기온에 대비해 챙기는 용도입니다.");
-
-        var structure = !dressMode ? Structure.SEPARATES
-                : inner == null ? Structure.ONE_PIECE : Structure.LAYERED_ONE_PIECE;
-        // 신발만 바뀐 코디는 같은 조합으로 취급해 대안의 다양성을 확보합니다.
-        String signature = String.join("|", id(top), id(bottom), id(dress), id(inner), id(outer), id(base));
-        String fullSignature = signature + "|" + id(shoes);
-        String outfitId = UUID.nameUUIDFromBytes(fullSignature.getBytes(StandardCharsets.UTF_8)).toString();
-        var outfit = new Outfit(outfitId, structure, Item.of(top), Item.of(bottom), Item.of(dress), Item.of(inner),
-                Item.of(outer), ctx.outerUsage(), Item.of(base), Item.of(shoes), accessories, List.copyOf(reasons));
-        double meanScore = items.stream().mapToDouble(g -> score(g, ctx,
-                g.slot() == Slot.OUTER ? ctx.outerTemperature() : ctx.temperature(), anchor.style())).average().orElse(0);
-        // 작은 변동만 허용합니다. 기온·용도·선호 등 필수 조건은 이미 필터로 지켜집니다.
-        return new Candidate(outfit, signature, meanScore + random.nextDouble() * 3);
+        reasons.add("기온·습도·바람·강수에 맞춰 이미지가 있는 고정 세트를 선택했습니다.");
+        reasons.add("세부 의류는 " + set.key() + "에 허용된 조합 안에서만 선택했습니다.");
+        if (set.season() != season(ctx.request().date().getMonthValue()))
+            reasons.add("달력 계절보다 전달된 날씨를 우선했습니다.");
+        if (base != null) reasons.add("추운 날씨에 대비해 겉으로 보이는 세트를 바꾸지 않는 발열 내의를 추가했습니다.");
+        if (ctx.wet() && (outer == null || outer.waterResistance() == 0))
+            warnings.add("선택된 세트의 일반 겉옷을 방수 의류로 간주하지 않습니다. 비·눈 대비는 신발·소품 및 별도 안내를 확인하세요.");
+        if (ctx.windy() && set.tags().contains("WIND_SENSITIVE"))
+            warnings.add("선택한 세트에 바람에 날릴 수 있는 치마·원피스가 포함되어 있습니다.");
+        var structure = dress == null ? Structure.SEPARATES : inner == null ? Structure.ONE_PIECE : Structure.LAYERED_ONE_PIECE;
+        String signature = set.key() + "|" + String.join("|", id(top), id(bottom), id(dress), id(inner), id(outer), id(base), id(shoes));
+        String outfitId = UUID.nameUUIDFromBytes(signature.getBytes(StandardCharsets.UTF_8)).toString();
+        return new Outfit(outfitId, set.key(), set.name(), set.gender(), set.season(), Visual.of(set.key()), structure,
+                Item.of(top), Item.of(bottom), Item.of(dress), Item.of(inner), Item.of(outer), usage,
+                Item.of(base), Item.of(shoes), extras.stream().map(AccessoryItem::name).toList(), extras, List.copyOf(reasons));
     }
 
-    private Garment pick(Slot slot, WeatherRules.Context ctx, double t, Style style,
-                         Predicate<Garment> extra, Random random) {
-        List<Garment> eligible = catalog.items().stream()
-                .filter(g -> g.slot() == slot && eligible(g, ctx, t) && extra.test(g)).toList();
-        if (eligible.isEmpty()) return null;
-        double best = eligible.stream().mapToDouble(g -> score(g, ctx, t, style)).max().orElseThrow();
-        Garment selected = null;
-        double selectedScore = -Double.MAX_VALUE;
-        for (var g : eligible) {
-            double s = score(g, ctx, t, style);
-            if (s < best - 10) continue;
-            double varied = s + random.nextDouble() * 12;
-            if (varied > selectedScore) { selected = g; selectedScore = varied; }
+    private Garment pick(Definition set, String part, WeatherRules.Context ctx, Random random) {
+        var options = set.ids(part).stream().map(catalog::item).toList();
+        if (options.isEmpty()) return null;
+        if (part.equals("shoes")) {
+            var precipitation = ctx.request().precipitation();
+            if (precipitation == Precipitation.SNOW || precipitation == Precipitation.MIXED)
+                options = options.stream().filter(g -> g.tags().contains("GRIP") && g.waterResistance() > 0).toList();
+            else if (ctx.wet()) options = options.stream().filter(g -> g.waterResistance() > 0).toList();
+            // 강수 때 범용 운동화를 방수로 바꾸어 해석하지 않습니다.
+            if (options.isEmpty()) throw new IllegalStateException("세트의 날씨 대응 신발 후보가 없습니다: " + set.key());
         }
-        return selected;
-    }
-
-    private boolean eligible(Garment g, WeatherRules.Context ctx, double t) {
-        var r = ctx.request();
-        if (!g.genders().contains(r.gender()) || !g.occasions().contains(r.occasion())) return false;
-        if (t < g.minTemperature() || t > g.maxTemperature()) return false;
-        if (ctx.wet() && g.tags().contains("AVOID_RAIN")) return false;
-        if (ctx.windy() && g.tags().contains("WIND_SENSITIVE")) return false;
-        if (ctx.wet() && (g.slot() == Slot.OUTER || g.slot() == Slot.SHOES) && g.waterResistance() < 1) return false;
-        if (ctx.windy() && g.slot() == Slot.OUTER && g.windResistance() < 1) return false;
-        if ((r.precipitation() == Precipitation.SNOW || r.precipitation() == Precipitation.MIXED)
-                && r.occasion() != Occasion.HOME && g.slot() == Slot.SHOES && !g.tags().contains("GRIP")) return false;
-        return true;
-    }
-
-    private double score(Garment g, WeatherRules.Context ctx, double t, Style style) {
-        double s = 100 - Math.abs(t - g.idealTemperature()) * 1.5;
-        if (style != null && g.style() != style) s -= 6;
-        if (ctx.request().temperature() >= 23 && ctx.request().humidity() >= 70) s += g.breathability() * 3;
-        else if (ctx.request().temperature() >= 27) s += g.breathability() * 2;
-        if (ctx.wet()) s += g.waterResistance() * 5;
-        if (ctx.windy()) s += g.windResistance() * 4;
-        return s;
-    }
-
-    private List<String> accessories(WeatherRules.Context ctx, Garment bottom, Garment dress) {
-        if (ctx.request().occasion() == Occasion.HOME) return List.of();
-        var result = new ArrayList<String>();
-        if (ctx.wet() && ctx.request().precipitation() != Precipitation.SNOW) {
-            if (!ctx.windy() && ctx.request().occasion() != Occasion.EXERCISE) result.add("우산");
-            else result.add("후드가 있는 방수 겉옷");
+        Garment best = null;
+        double bestScore = -Double.MAX_VALUE;
+        for (var g : options) {
+            double t = ctx.temperature();
+            double score = 100 - Math.abs(t - g.idealTemperature()) * 2
+                    - distance(t, g.minTemperature(), g.maxTemperature()) * 8;
+            if (t >= 25) score += g.breathability() * (ctx.request().humidity() >= 70 ? 3 : 1);
+            if (ctx.wet()) score += g.waterResistance() * 5;
+            else if (g.id().equals("rain_sneakers")) score -= 10;
+            if (ctx.windy()) score += g.windResistance() * 2;
+            if (part.equals("shoes") && set.occasionLabel().equals("출근") && g.id().equals("loafers")) score += 3;
+            if (part.equals("shoes") && set.tags().contains("SPORT") && g.style() == Style.SPORT) score += 3;
+            score += random.nextDouble() * 0.5;
+            if (score > bestScore) { best = g; bestScore = score; }
         }
-        if (ctx.temperature() <= 8) result.add("목도리");
-        if (ctx.temperature() <= 3) { result.add("장갑"); result.add("방한 모자"); }
-        if (ctx.temperature() > 15 && ctx.request().sky() == Sky.SUNNY && !ctx.wet()) result.add("챙이 있는 모자");
-        if (ctx.temperature() <= 15 && (dress != null || (bottom != null && bottom.bottomType() == BottomType.SKIRT)))
-            result.add("보온 스타킹 또는 타이즈");
-        return List.copyOf(result);
+        return best;
     }
-
+    private static double distance(double t, double min, double max) { return Math.max(0, Math.max(min - t, t - max)); }
     private static String id(Garment g) { return g == null ? "-" : g.id(); }
+    private static Season season(int month) {
+        return switch (month) { case 3,4,5 -> Season.SPRING; case 6,7,8 -> Season.SUMMER;
+            case 9,10,11 -> Season.AUTUMN; default -> Season.WINTER; };
+    }
 }

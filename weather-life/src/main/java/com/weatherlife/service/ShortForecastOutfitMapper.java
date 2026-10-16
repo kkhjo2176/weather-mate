@@ -4,13 +4,11 @@ import com.weatherlife.dto.OutfitRequest;
 import com.weatherlife.entity.HourlyForecast;
 import com.weatherlife.dto.OutfitTypes.Precipitation;
 import com.weatherlife.dto.OutfitTypes.Sky;
-import org.springframework.boot.json.JsonParserFactory;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashMap;
@@ -19,91 +17,27 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.concurrent.ThreadLocalRandom;
 
-/**
- * /api/short의 기상청 원본 응답을 OutfitRequest로 변환합니다.
- * 기상청 데이터는 한 시간의 모든 값이 한 객체에 들어 있는 게 아니라 category별 행으로 나뉩니다.
- * 따라서 (fcstDate, fcstTime)별로 묶고, 서울 기준 오늘 날짜만 추려서 변환합니다.
- */
+/** DB에 저장된 예보를 지정 날짜의 시간별 의상 추천 입력으로 변환합니다. */
 @Component
 public class ShortForecastOutfitMapper {
-    private static final DateTimeFormatter KMA_DATE = DateTimeFormatter.BASIC_ISO_DATE;
-    private static final DateTimeFormatter KMA_TIME = DateTimeFormatter.ofPattern("HHmm");
     private static final DateTimeFormatter OUTPUT_TIME = DateTimeFormatter.ofPattern("HH:mm");
 
     public record ConversionResult(Map<String, OutfitRequest> hourlyRequests, List<String> skippedHours) { }
 
-    public ConversionResult convert(String rawJson, LocalDate today) {
-        if (rawJson == null || rawJson.isBlank()) {
-            throw new WeatherForecastMappingException("기상청에서 빈 단기예보 응답을 받았습니다.");
-        }
-
-        Map<String, Object> root;
-        try {
-            root = JsonParserFactory.getJsonParser().parseMap(rawJson);
-        } catch (RuntimeException ex) {
-            throw new WeatherForecastMappingException("기상청 단기예보 JSON을 파싱하지 못했습니다.", ex);
-        }
-        if (root == null) {
-            throw new WeatherForecastMappingException("기상청 단기예보 JSON이 객체 형식이 아닙니다.");
-        }
-
-        var response = requiredMap(root.get("response"), "response");
-        var header = requiredMap(response.get("header"), "response.header");
-        String resultCode = str(header.get("resultCode"));
-        if (!"00".equals(resultCode)) {
-            throw new WeatherForecastMappingException("기상청 단기예보 조회 오류 (" + resultCode
-                    + "): " + str(header.get("resultMsg")));
-        }
-        var body = requiredMap(response.get("body"), "response.body");
-        Object rawItems = body.get("items");
-        if (rawItems == null || "".equals(rawItems)) {
-            return new ConversionResult(Map.of(), List.of());
-        }
-        var items = requiredMap(rawItems, "response.body.items");
-        Object itemValue = items.get("item");
-        if (itemValue == null || "".equals(itemValue)) {
-            return new ConversionResult(Map.of(), List.of());
-        }
-        if (!(itemValue instanceof List<?> rows)) {
-            throw new WeatherForecastMappingException("response.body.items.item이 배열이 아닙니다.");
-        }
-
-        // 시간별로 category 값을 모은 뒤, 현재 날짜(Asia/Seoul)만 남깁니다.
-        TreeMap<LocalTime, Map<String, String>> hourly = new TreeMap<>();
-        for (Object value : rows) {
-            if (!(value instanceof Map<?, ?> row)) continue;
-            LocalDate date;
-            LocalTime time;
-            try {
-                date = LocalDate.parse(str(row.get("fcstDate")), KMA_DATE);
-                time = LocalTime.parse(str(row.get("fcstTime")), KMA_TIME);
-            } catch (DateTimeParseException ex) {
-                continue; // 날짜/시간이 없는 행은 매핑 대상에서 제외
-            }
-            if (!today.equals(date)) continue;
-            String category = str(row.get("category"));
-            String forecastValue = str(row.get("fcstValue"));
-            hourly.computeIfAbsent(time, ignored -> new LinkedHashMap<>())
-                    .put(category, forecastValue);
-        }
-
-        return convertGrouped(hourly);
-    }
-
     /** DB에서 로드한 정규화된 시간별 행을 그대로 추천용 입력으로 변환합니다. */
-    public ConversionResult convertStored(java.util.List<HourlyForecast> stored, LocalDate date) {
+    public ConversionResult convertStored(List<HourlyForecast> stored, LocalDate date) {
         TreeMap<LocalTime, Map<String,String>> hourly = new TreeMap<>();
         for (HourlyForecast row : stored) {
             if (row.getForecastAt().toLocalDate().equals(date)) {
                 hourly.put(row.getForecastAt().toLocalTime(), row.categories());
             }
         }
-        return convertGrouped(hourly);
+        return convertGrouped(hourly, date);
     }
 
-    private ConversionResult convertGrouped(TreeMap<LocalTime, Map<String,String>> hourly) {
+    private ConversionResult convertGrouped(TreeMap<LocalTime, Map<String,String>> hourly, LocalDate date) {
         // TMN/TMX는 매시간 나오지 않습니다. 시간별 TMP 전체 및 TMN/TMX로
-        // '오늘의 최저·최고'를 한 번 계산한 다음 모든 시간의 추천에 공통 적용합니다.
+        // '조회 날짜의 최저·최고'를 한 번 계산한 다음 모든 시간의 추천에 공통 적용합니다.
         double min = Double.POSITIVE_INFINITY;
         double max = Double.NEGATIVE_INFINITY;
         for (Map<String, String> values : hourly.values()) {
@@ -141,7 +75,9 @@ public class ShortForecastOutfitMapper {
                     temperature, humidity, windSpeed, sky, rain,
                     null, null, null, null,
                     minTemperature, maxTemperature, null,
-                    ThreadLocalRandom.current().nextLong()
+                    ThreadLocalRandom.current().nextLong(), date,
+                    optionalRange(parseNumber(weather.get("POP")), 100),
+                    optionalRange(parseRainAmount(weather.get("PCP")), 1000), null
             );
             result.put(time, request);
         }
@@ -178,15 +114,18 @@ public class ShortForecastOutfitMapper {
         }
     }
 
-    private static String str(Object value) {
-        return value == null ? "" : value.toString();
+    private static Double optionalRange(Double value, double max) {
+        return value != null && value >= 0 && value <= max ? value : null;
     }
 
-    @SuppressWarnings("unchecked")
-    private static Map<String, Object> requiredMap(Object object, String name) {
-        if (!(object instanceof Map<?, ?> map)) {
-            throw new WeatherForecastMappingException(name + " 필드가 없거나 객체가 아닙니다.");
-        }
-        return (Map<String, Object>) map;
+    /** 범위형 강수량은 하한값을 사용합니다. '미만'·미상은 정확한 값을 만들지 않고 null로 둡니다. */
+    private static Double parseRainAmount(String value) {
+        if (value == null || value.isBlank()) return null;
+        if (value.trim().equals("강수없음")) return 0.0;
+        if (value.contains("미만")) return null;
+        var matcher = java.util.regex.Pattern.compile("^\\s*(\\d+(?:\\.\\d+)?)(?:\\s*(?:mm)?\\s*(?:이상|[~～-]\\s*\\d+(?:\\.\\d+)?\\s*(?:mm)?)?)?\\s*$")
+                .matcher(value);
+        return matcher.matches() ? parseNumber(matcher.group(1)) : null;
     }
+
 }

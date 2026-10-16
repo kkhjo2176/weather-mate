@@ -4,6 +4,8 @@ package com.weatherlife.dto;
 public final class OutfitTypes {
     private OutfitTypes() { }
     public enum Gender { MALE, FEMALE, UNISEX }
+    public enum Season { SPRING, SUMMER, AUTUMN, WINTER }
+    public enum AirQuality { GOOD, NORMAL, BAD, VERY_BAD }
     public enum Occasion { DAILY, OFFICE, EXERCISE, HOME }
     public enum Preference { ANY, PANTS, SKIRT, ONE_PIECE }
     public enum ThermalPreference { NORMAL, FEEL_COLD, FEEL_HOT }

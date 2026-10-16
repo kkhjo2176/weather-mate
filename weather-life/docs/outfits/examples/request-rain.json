@@ -1,8 +1,11 @@
 {
-  "temperature": 28,
+  "temperature": 26,
   "humidity": 85,
-  "windSpeed": 3,
   "precipitation": "RAIN",
-  "gender": "MALE",
-  "preference": "PANTS"
+  "precipitationProbability": 90,
+  "precipitationAmount": 12,
+  "airQuality": "BAD",
+  "gender": "FEMALE",
+  "date": "2026-10-15",
+  "seed": 42
 }

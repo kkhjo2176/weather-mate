@@ -9,13 +9,14 @@ import static com.weatherlife.dto.OutfitTypes.*;
  * 통풍성: 0~5, 방수/방풍: 0~2. JSON 수정 후 재시작하면 반영됩니다.
  */
 public record Garment(
-        String id, String name, Slot slot,
+        String id, String name, String iconPath, Slot slot,
         Set<Gender> genders, Set<Occasion> occasions, Style style,
         double minTemperature, double maxTemperature, double idealTemperature,
         int breathability, int waterResistance, int windResistance,
         BottomType bottomType, boolean requiresInnerTop, Set<String> tags) {
     public Garment {
         if (id == null || id.isBlank() || name == null || name.isBlank()
+                || iconPath == null || iconPath.isBlank()
                 || slot == null || style == null || bottomType == null
                 || genders == null || genders.isEmpty() || occasions == null || occasions.isEmpty()
                 || tags == null || !Double.isFinite(minTemperature) || !Double.isFinite(maxTemperature)

@@ -1,81 +1,35 @@
-### 최소 요청: 성별 공통 / 일상 외출 / 최대 3벌
+### 더운 가을: 여름 세트 허용
 POST http://localhost:8080/api/outfits/recommend
 Content-Type: application/json
 
-{
-  "temperature": 24,
-  "humidity": 65
-}
+{"temperature":32,"humidity":65,"gender":"FEMALE","date":"2026-10-15","count":1,"seed":42}
 
-### 여성복 / 원피스·올인원 선호 / 일교차: 겉옷은 CARRY로 반환
+### 쌀쌀한 여름: 봄/가을 세트 허용
 POST http://localhost:8080/api/outfits/recommend
 Content-Type: application/json
 
-{
-  "temperature": 24,
-  "humidity": 65,
-  "windSpeed": 2,
-  "sky": "SUNNY",
-  "precipitation": "NONE",
-  "gender": "FEMALE",
-  "occasion": "DAILY",
-  "preference": "ONE_PIECE",
-  "thermalPreference": "NORMAL",
-  "minTemperature": 14,
-  "maxTemperature": 26,
-  "count": 3,
-  "seed": 0
-}
+{"temperature":13,"humidity":60,"windSpeed":2,"gender":"MALE","date":"2026-07-15","seed":42}
 
-### 비 오는 더운 날 / 남성복 / 바지(반바지 포함)
+### 비 + 많은 강수 + 알려진 미세먼지
 POST http://localhost:8080/api/outfits/recommend
 Content-Type: application/json
 
-{
-  "temperature": 28,
-  "humidity": 85,
-  "windSpeed": 3,
-  "sky": "CLOUDY",
-  "precipitation": "RAIN",
-  "gender": "MALE",
-  "preference": "PANTS"
-}
+{"temperature":26,"humidity":85,"precipitation":"RAIN","precipitationProbability":90,"precipitationAmount":12,"airQuality":"BAD","gender":"FEMALE","seed":42}
 
-### 추운 날 운동
+### 소품이 필요 없는 온화한 날
 POST http://localhost:8080/api/outfits/recommend
 Content-Type: application/json
 
-{
-  "temperature": -3,
-  "humidity": 50,
-  "windSpeed": 5,
-  "gender": "UNISEX",
-  "occasion": "EXERCISE",
-  "preference": "PANTS"
-}
+{"temperature":20,"humidity":50,"sky":"CLOUDY","gender":"FEMALE","date":"2026-10-15","seed":42}
 
-### 홈웨어: temperature에 실내 온도를 넣습니다.
-POST http://localhost:8080/api/outfits/recommend
-Content-Type: application/json
+### DB 예보 + 성별
+GET http://localhost:8080/api/outfits/today?gu=영등포구&gender=FEMALE
 
-{
-  "temperature": 24,
-  "humidity": 50,
-  "gender": "FEMALE",
-  "occasion": "HOME"
-}
-
-### 의류 전체 목록
+### 새 의류 56개
 GET http://localhost:8080/api/outfits/catalog
 
-### 오류 확인: 습도 범위 초과 -> 400
-POST http://localhost:8080/api/outfits/recommend
-Content-Type: application/json
+### 기존 이미지 세트 36개
+GET http://localhost:8080/api/outfits/sets
 
-{
-  "temperature": 24,
-  "humidity": 130
-}
-
-### 오늘의 시간별 의상 추천 - 지역명만 입력
-GET http://localhost:8080/api/outfits/today?regionName=서울특별시 영등포구 신길제1동
+### 소품 19개
+GET http://localhost:8080/api/outfits/accessories

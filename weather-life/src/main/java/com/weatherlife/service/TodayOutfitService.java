@@ -2,6 +2,7 @@ package com.weatherlife.service;
 
 import com.weatherlife.dto.OutfitResponse;
 import com.weatherlife.dto.TodayOutfitResponse;
+import com.weatherlife.dto.OutfitTypes.Gender;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -30,22 +31,22 @@ public class TodayOutfitService {
         this.outfitService = outfitService;
     }
 
-    public TodayOutfitResponse recommendToday(String regionName) {
+    public TodayOutfitResponse recommendToday(String regionName, Gender gender, Integer count, Long seed) {
         LocalDate today = LocalDate.now(KST);
-        return recommendForDate(regionName, today);
+        return recommendForDate(regionName, today, gender, count, seed);
     }
 
     /** 전체 날짜로 최저/최고기온을 계산한 후 해당 시각의 추천만 실행합니다. */
-    public OutfitResponse recommendForHour(String regionName, LocalDateTime at) {
+    public OutfitResponse recommendForHour(String regionName, LocalDateTime at, Gender gender, Integer count, Long seed) {
         var rows = weatherQueryService.loadDay(regionName, at.toLocalDate());
         var converted = mapper.convertStored(rows, at.toLocalDate());
         String hourKey = at.toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm"));
         var request = converted.hourlyRequests().get(hourKey);
         if (request == null) throw new ForecastNotFoundException(at + " 의상 추천용 예보가 없습니다.");
-        return outfitService.recommend(request);
+        return outfitService.recommend(request.withSelection(gender, count, seed));
     }
 
-    public TodayOutfitResponse recommendForDate(String regionName, LocalDate date) {
+    public TodayOutfitResponse recommendForDate(String regionName, LocalDate date, Gender gender, Integer count, Long seed) {
         var rows = weatherQueryService.loadDay(regionName, date); // DB 조회만 수행
         var converted = mapper.convertStored(rows, date);
 
@@ -55,7 +56,7 @@ public class TodayOutfitService {
         List<String> skipped = new ArrayList<>(converted.skippedHours());
         for (var entry : converted.hourlyRequests().entrySet()) {
             try {
-                recommendations.put(entry.getKey(), outfitService.recommend(entry.getValue()));
+                recommendations.put(entry.getKey(), outfitService.recommend(entry.getValue().withSelection(gender, count, seed)));
             } catch (NoOutfitException ex) {
                 // 한 시각의 의류 후보가 없더라도 다른 시간대의 결과는 반환합니다.
                 skipped.add(entry.getKey());

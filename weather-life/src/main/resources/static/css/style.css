@@ -1,0 +1,118 @@
+
+/* Weather Life - 공통 디자인 */
+:root {
+    --bg: #FAF3E9;
+    --card: #EAD8BF;
+    --accent: #8D6347;
+    --text: #805637;
+    --border: #E5D5C2;
+}
+
+[data-season="spring"] {
+    --bg: #F4F9EC;
+    --card: #DCECCB;
+    --accent: #6F9B62;
+    --text: #3F6447;
+    --border: #D3E3C8;
+}
+
+[data-season="summer"] {
+    --bg: #E9F5FF;
+    --card: #B6E0FF;
+    --accent: #247CC4;
+    --text: #205F99;
+    --border: #A0D2F4;
+}
+
+[data-season="autumn"] {
+    --bg: #FAF3E9;
+    --card: #EAD8BF;
+    --accent: #8D6347;
+    --text: #805637;
+    --border: #E5D5C2;
+}
+
+[data-season="winter"] {
+    --bg: #FAFCFF;
+    --card: #FFFFFF;
+    --accent: #8DAEC7;
+    --text: #607D95;
+    --border: #DFE8F1;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Malgun Gothic", sans-serif;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 32px 20px;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 32px;
+}
+
+.header h1 {
+    margin: 0;
+}
+
+.season-select {
+    padding: 10px 14px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: white;
+    color: var(--text);
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.weather-card {
+    padding: 32px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 22px;
+    margin-bottom: 20px;
+}
+
+.weather-card h2 {
+    font-size: 48px;
+    margin: 12px 0;
+}
+
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.info-card {
+    padding: 24px;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 18px;
+}
+
+@media (max-width: 600px) {
+    .header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .card-grid {
+        grid-template-columns: 1fr;
+    }
+}

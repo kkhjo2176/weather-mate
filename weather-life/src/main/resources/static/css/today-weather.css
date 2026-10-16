@@ -21,10 +21,10 @@
     gap: 14px;
 }
 .wl-day-card.is-today {
-    background: var(--c-primary-soft);
-    border: 2px solid var(--c-primary);
+    background: #f4f9ff;
+    border: 2px solid #9cc7f5;
     margin-top: -10px;
-    box-shadow: var(--shadow);
+    box-shadow: 0 8px 22px rgba(59, 130, 246, 0.18);
 }
 
 .wl-day-head {

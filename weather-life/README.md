@@ -7,6 +7,7 @@
 | 작업 | 파일 (`src/main/java/com/weatherlife/` 아래) |
 |---|---|
 | 날짜·시각별 날씨 API | `controller/WeatherDatabaseController.java` |
+| AI 모델 기온 예측 API | `controller/AiForecastController.java` / `service/AiForecastService.java` |
 | 날짜·시각별 복장·소품 API | `controller/TodayOutfitController.java` |
 | 수동 기상청 호출·DB 저장 API | `controller/WeatherCollectDevController.java` |
 | 기상청 호출 | `service/OfficialWeatherService.java` |
@@ -90,3 +91,32 @@ Windows에서는 `gradlew.bat test bootJar`, `gradlew.bat bootRun`을 사용하�
 테스트는 H2를 사용하며 자동·수동 수집을 기본 비활성화합니다. 수동 API 테스트만 수동 설정을 켜고 기상청 응답을 mock으로 대체합니다.
 
 이번 정리 내용과 실제 검증 범위는 [`docs/CLEANUP.md`](docs/CLEANUP.md)에 기록했습니다.
+
+## 별도 AI 예측 서버 연동
+
+기존 4개 날씨/복장 조회 및 기상청 수집 기능은 변경하지 않았습니다. 추가된 `GET /api/weather/ai?gu=영등포구`는 **실시간으로** 별도 AI 서버(`GET /v1/forecasts`)를 호출해 오늘/내일/모레 예측 기온을 반환합니다. DB 저장 및 캐시는 하지 않습니다.
+
+1. AI 서버를 `http://localhost:8000`에서 실행합니다.
+2. **Spring Boot를 실행하는 PowerShell 터미널**에 `AI_FORECAST_API_KEY` 환경 변수를 지정합니다. 예: `$env:AI_FORECAST_API_KEY = '<발급받은 키>'` (실제 키를 소스/커밋에 넣지 마세요).
+3. Spring Boot를 **해당 터미널에서** 재시작하고 `http://localhost:8080/api/weather/ai?gu=영등포구`를 호출합니다. IDE 실행 버튼으로 구동한다면 IDE의 Run Configuration에도 같은 환경 변수를 지정해야 합니다.
+
+주소가 다르면 환경 변수 `AI_FORECAST_BASE_URL`로 변경할 수 있습니다. AI API 인증은 Spring Boot에서 `X-API-Key` 헤더로 전달하며, **브라우저에서는 이 키가 필요하지 않습니다.**
+
+```json
+{
+  "regionName": "영등포구",
+  "model": "Pangu-Weather",
+  "forecasts": [
+    { "date": "2026-10-16", "validTimeKst": "2026-10-16T09:00:00+09:00", "temperatureC": 16.617 },
+    { "date": "2026-10-17", "validTimeKst": "2026-10-17T09:00:00+09:00", "temperatureC": 16.664 },
+    { "date": "2026-10-18", "validTimeKst": "2026-10-18T09:00:00+09:00", "temperatureC": 18.588 }
+  ]
+}
+```
+
+- `gu` 또는 `regionName`: 서울특별시 25개 자치구 이름 및 기존 CSV에 등록된 지역명이 가능합니다.
+- 좌표: 첨부된 `data/short_range_region.csv`의 해당 구 행에서 `위도(초/100)`, `경도(초/100)` 값 사용. **기상청 nx/ny 격자와 다른 좌표입니다.** (영등포구 예: 위도 37.5236111111111, 경도 126.898341666666.)
+- `validTimeKst`는 한국 시각 UTC+9의 **일별 예측 시각**입니다. 해당 서버 응답은 매일 **09:00 데이터 1개씩 총 3개**이며, 시간별 예측이 아닙니다.
+- AI 서버가 꺼져 있거나 응답 지연 시 HTTP 503, 잘못된 AI 응답/상태 코드가 발생하면 HTTP 502, 잘못된 지역을 입력하면 HTTP 400을 반환합니다.
+
+Spring Boot를 **Docker 컨테이너 안에서** 실행한다면 컨테이너 내부의 `localhost:8000`은 PC를 가리키지 않습니다. 이 경우 `AI_FORECAST_BASE_URL=http://host.docker.internal:8000`처럼 접근 가능한 주소를 지정하세요.

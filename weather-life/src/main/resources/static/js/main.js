@@ -7,23 +7,6 @@
     const REGION_PREFIX = '서울특별시 '; // short_range_region.csv 의 "1단계 2단계" 이름 형식
     const GAUGE_COLORS = ['blue', 'green', 'orange', 'red'];
 
-    //이펙트 효과
-    let latestRequest = 0;
-
-    const updateWeatherEffect = (pty) => {
-    // 비/눈이 섞인 경우에는 우선 눈 효과로 표시
-    const effect = {
-        '0': 'none',
-        '1': 'rain',
-        '2': 'snow',
-        '3': 'snow',
-        '4': 'rain'
-    }[String(pty ?? '').trim()] ?? 'none';
-
-    window.setWeatherEffect?.(effect);
-    console.info(LOG, '날씨 효과:', effect, 'PTY:', pty);
-    };
-
     // 강수확률(%) 단계
     const popLevel = (pop) => {
         if (pop < 30) return { status: '낮음', color: 'blue' };
@@ -69,11 +52,7 @@
     };
 
     const loadShortForecast = async (district) => {
-    const requestId = ++latestRequest;
-    window.setWeatherEffect?.('none');
-
-    const regionName = REGION_PREFIX + district;
-
+        const regionName = REGION_PREFIX + district;
         console.info(LOG, '단기예보 요청:', regionName);
 
         try {
@@ -81,8 +60,6 @@
             if (!res.ok) throw new Error(`HTTP ${res.status}`);
 
             const data = await res.json();
-            // 이전에 선택한 지역의 늦은 응답은 무시
-            if (requestId !== latestRequest) return;
             const header = data?.response?.header;
             if (header && header.resultCode !== '00') {
                 throw new Error(`기상청 응답 오류 ${header.resultCode} ${header.resultMsg}`);
@@ -93,7 +70,6 @@
             if (!nearest) throw new Error('예보 항목이 비어 있습니다.');
 
             const { slot, values } = nearest;
-            updateWeatherEffect(values.PTY);
             console.info(LOG, `단기예보 수신: 항목 ${items.length}건, 사용 시각 ${slot}`, values);
 
             const pop = Number(values.POP);
@@ -107,15 +83,8 @@
                 updateGauge('wind', { value: wsd.toFixed(1), percent: (wsd / 14) * 100, ...windLevel(wsd) });
             }
         } catch (e) {
-    if (requestId !== latestRequest) return;
-
-    window.setWeatherEffect?.('none');
-    console.warn(
-        LOG,
-        '단기예보 요청 실패: 게이지 값은 유지하고 효과는 끕니다.',
-        e.message
-    );
-}
+            console.warn(LOG, '단기예보를 불러오지 못해 기존 값을 유지합니다:', e.message);
+        }
     };
 
     document.addEventListener('DOMContentLoaded', () => {

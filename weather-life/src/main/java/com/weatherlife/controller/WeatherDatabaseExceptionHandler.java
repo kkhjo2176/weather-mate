@@ -1,5 +1,6 @@
 package com.weatherlife.controller;
 
+import com.weatherlife.service.AiForecastException;
 import com.weatherlife.service.ForecastNotFoundException;
 import com.weatherlife.service.WeatherForecastMappingException;
 import org.springframework.http.ResponseEntity;
@@ -8,8 +9,13 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.Map;
 
-@RestControllerAdvice(assignableTypes = {WeatherDatabaseController.class, WeatherCollectDevController.class})
+@RestControllerAdvice(assignableTypes = {WeatherDatabaseController.class, WeatherCollectDevController.class, AiForecastController.class})
 public class WeatherDatabaseExceptionHandler {
+    @ExceptionHandler(AiForecastException.class)
+    ResponseEntity<Map<String, String>> aiUnavailable(AiForecastException e) {
+        return ResponseEntity.status(e.status()).body(Map.of("code", "AI_FORECAST_ERROR", "message", e.getMessage()));
+    }
+
     @ExceptionHandler(ForecastNotFoundException.class)
     ResponseEntity<Map<String,String>> notFound(ForecastNotFoundException e) {
         return ResponseEntity.status(404).body(Map.of("code","FORECAST_NOT_FOUND","message",e.getMessage()));

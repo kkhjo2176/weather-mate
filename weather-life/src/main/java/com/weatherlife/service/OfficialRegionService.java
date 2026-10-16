@@ -23,6 +23,10 @@ public class OfficialRegionService {
 
     // 단기예보 지역정보
     private Map<String, RegionShort> shortRegions = Map.of();
+    // AI 예측 서버에는 기상청 격자(nx, ny)가 아닌 실제 위도/경도를 전달합니다.
+    private Map<String, GeoCoordinates> geoCoordinates = Map.of();
+
+    public record GeoCoordinates(double latitude, double longitude) { }
 
     // 서버 실행 시 자동 호출
     @PostConstruct
@@ -74,6 +78,7 @@ public class OfficialRegionService {
     private void loadShortRegions() throws IOException {
 
         Map<String, RegionShort> data = new HashMap<>();
+        Map<String, GeoCoordinates> locations = new HashMap<>();
 
         try (CSVParser parser =
                      openCsv("short_range_region.csv")) {
@@ -95,19 +100,28 @@ public class OfficialRegionService {
                 int ny = Integer.parseInt(row.get("격자 Y").trim());
 
                 RegionShort region = new RegionShort(nx, ny);
+                // 원본 CSV: 위도(초/100), 경도(초/100) 열에 십진수 좌표가 저장되어 있습니다.
+                double latitude = Double.parseDouble(row.get("위도(초/100)").trim());
+                double longitude = Double.parseDouble(row.get("경도(초/100)").trim());
 
                 if (data.putIfAbsent(regionName, region) != null) {
                     log.warn("중복된 지역명 스킵: {}", regionName);
+                } else {
+                    locations.put(regionName, new GeoCoordinates(latitude, longitude));
                 }
             }
         }
 
         shortRegions = Map.copyOf(data);
+        geoCoordinates = Map.copyOf(locations);
     }
 
     // 단기예보 지역정보 조회
     public RegionShort getShortRegion(String regionName) {
-
         return shortRegions.get(regionName);
+    }
+
+    public GeoCoordinates getGeoCoordinates(String regionName) {
+        return geoCoordinates.get(regionName);
     }
 }

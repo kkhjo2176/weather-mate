@@ -16,6 +16,7 @@ from .core import (ATTRIBUTION, LEVELS, SURFACE_IDS, UPPER_IDS, SURFACE_SHAPE,
                    UPPER_SHAPE, UTC, KST, atomic_json, initialization_cutoff, iso, now_utc,
                    read_stations, sha256, utc_time)
 from .storage import publish
+from .locking import exclusive_lock
 
 LOG = logging.getLogger(__name__)
 
@@ -93,6 +94,25 @@ def read_grib(paths: list[Path], init: datetime):
     if missing:
         raise ValueError(f"Missing Pangu input fields/levels: {sorted(missing, key=str)}. No interpolation was applied.")
     return upper, surface
+
+
+def latest_eligible_initialization(source: str) -> datetime:
+    """Newest published 00 UTC input that keeps all three dates on one run."""
+    from ecmwf.opendata import Client
+    client = Client(source=source, model="ifs", resol="0p25", infer_stream_keyword=False,
+                    maximum_retries=3, retry_after=10)
+    head = client.session.head
+
+    def bounded_head(*args, **kwargs):
+        kwargs.setdefault("timeout", (10, 30))
+        return head(*args, **kwargs)
+
+    client.session.head = bounded_head
+    latest = client.latest(time=0, step=0, type="fc", stream="oper")
+    latest = latest.replace(tzinfo=UTC) if latest.tzinfo is None else latest.astimezone(UTC)
+    if latest.hour or latest.minute or latest.second or latest.microsecond:
+        raise ValueError("Expected a published 00 UTC initialization.")
+    return min(latest, initialization_cutoff(now_utc()))
 
 
 def fetch(data_dir: Path, source: str, requested_date: str | None = None) -> Path:
@@ -270,10 +290,12 @@ def main():
     parser.add_argument("--device",choices=["cpu","cuda"],default="cpu")
     args=parser.parse_args()
     logging.basicConfig(level=logging.INFO,format="%(asctime)s %(levelname)s %(message)s")
-    if args.command in {"fetch","update"}:
-        fetch(args.data_dir,args.source,args.date)
-    if args.command in {"predict","update"}:
-        predict(args.data_dir,args.model,args.stations,args.days,args.device)
+    # Manual CLI runs and the automatic GPU worker share the same data lock.
+    with exclusive_lock(args.data_dir.resolve() / "pipeline.lock"):
+        if args.command in {"fetch","update"}:
+            fetch(args.data_dir,args.source,args.date)
+        if args.command in {"predict","update"}:
+            predict(args.data_dir,args.model,args.stations,args.days,args.device)
 
 
 if __name__ == "__main__":

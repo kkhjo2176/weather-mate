@@ -7,9 +7,7 @@ import com.weatherlife.dto.OutfitRequest;
 import com.weatherlife.dto.OutfitResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,13 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-@Slf4j
-@Controller
 @RestController
-@RequestMapping(path = { "/api" })
-@RequiredArgsConstructor // final 및 @NonNull annotation이 적용된 필드를 전달인자로 하는 생성자 메서드 자동 구현
-//@EnableWebSecurity
-//@EnableMethodSecurity
+@RequestMapping("/api")
+@RequiredArgsConstructor
 public class APIController {
 
     private final OfficialWeatherService weatherService;
@@ -46,49 +40,21 @@ public class APIController {
         return clothingCatalog.data();
     }
 
-    @GetMapping("/test")
-    public String test() {
-        log.info("로깅 테스트에요");
-
-        log.info( (weatherService.getShortRangeForecast("서울특별시 영등포구 신길제1동")) );
-        return "API 호출 성공!";
-//        weatherService.
+    // 기상청 원본 단기예보 조회. DB 기반 /api/weather/short와 별개입니다.
+    @GetMapping(value = "/short", produces = MediaType.APPLICATION_JSON_VALUE)
+    public String getShortForecast(@RequestParam String regionName) {
+        return weatherService.getShortRangeForecast(regionName);
     }
 
+    // 중기 육상예보
+    @GetMapping(value = "/medium/land", produces = MediaType.APPLICATION_JSON_VALUE)
+    public String getMediumLandForecast(@RequestParam String regId) {
+        return weatherService.getMediumLandForecast(regId);
+    }
 
-        // 단기예보
-        @GetMapping(
-                value = "/short",
-                produces = MediaType.APPLICATION_JSON_VALUE
-        )
-        public String getShortForecast(
-                @RequestParam String regionName
-        ) {
-
-//            return weatherService.getShortRangeForecast("서울특별시 영등포구");
-            return weatherService.getShortRangeForecast(regionName);
-
-        }
-
-        // 중기 육상예보
-        @GetMapping(
-                value = "/medium/land",
-                produces = MediaType.APPLICATION_JSON_VALUE
-        )
-        public String getMediumLandForecast(
-                @RequestParam String regId
-        ) {
-            return weatherService.getMediumLandForecast(regId);
-        }
-
-        // 중기 기온예보
-        @GetMapping(
-                value = "/medium/temperature",
-                produces = MediaType.APPLICATION_JSON_VALUE
-        )
-        public String getMediumTemperatureForecast(
-                @RequestParam String regId
-        ) {
-            return weatherService.getMediumTemperatureForecast(regId);
-        }
+    // 중기 기온예보
+    @GetMapping(value = "/medium/temperature", produces = MediaType.APPLICATION_JSON_VALUE)
+    public String getMediumTemperatureForecast(@RequestParam String regId) {
+        return weatherService.getMediumTemperatureForecast(regId);
+    }
 }

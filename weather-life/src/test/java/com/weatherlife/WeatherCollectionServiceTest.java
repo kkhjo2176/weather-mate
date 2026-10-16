@@ -57,4 +57,18 @@ class WeatherCollectionServiceTest {
         assertThat(repository.count()).isEqualTo(1);
         assertThat(repository.findAll().getFirst().getTmp()).isEqualTo("14");
     }
+
+    @Test void apiErrorsAndMissingStructureDoNotDestroyOldForecast() {
+        given(official.getShortRangeForecast(REGION)).willReturn(
+                fixture("0800", "14"),
+                "{\"response\":{\"header\":{\"resultCode\":\"03\",\"resultMsg\":\"ERROR\"}}}",
+                "{}");
+        collector.collect(REGION);
+        for (int attempt = 0; attempt < 2; attempt++) {
+            assertThatThrownBy(() -> collector.collect(REGION))
+                    .isInstanceOf(WeatherForecastMappingException.class);
+            assertThat(repository.count()).isEqualTo(1);
+            assertThat(repository.findAll().getFirst().getTmp()).isEqualTo("14");
+        }
+    }
 }

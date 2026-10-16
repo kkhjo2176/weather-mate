@@ -2,6 +2,7 @@ package com.weatherlife.controller;
 
 import com.weatherlife.dto.OutfitResponse;
 import com.weatherlife.dto.TodayOutfitResponse;
+import com.weatherlife.dto.OutfitTypes.Gender;
 import com.weatherlife.service.TodayOutfitService;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
@@ -23,21 +24,30 @@ public class TodayOutfitController {
     @GetMapping(value = "/by-date", produces = MediaType.APPLICATION_JSON_VALUE)
     public TodayOutfitResponse byDate(@RequestParam(required = false) String regionName,
                                       @RequestParam(required = false) String gu,
-                                      @RequestParam LocalDate date) {
-        return todayOutfitService.recommendForDate(resolve(regionName, gu), date);
+                                      @RequestParam LocalDate date,
+                                      @RequestParam(required = false) Gender gender,
+                                      @RequestParam(required = false) Integer count,
+                                      @RequestParam(required = false) Long seed) {
+        return todayOutfitService.recommendForDate(resolve(regionName, gu), date, gender, count, seed);
     }
 
     @GetMapping(value = "/today", produces = MediaType.APPLICATION_JSON_VALUE)
     public TodayOutfitResponse today(@RequestParam(required = false) String regionName,
-                                     @RequestParam(required = false) String gu) {
-        return todayOutfitService.recommendToday(resolve(regionName, gu));
+                                     @RequestParam(required = false) String gu,
+                                     @RequestParam(required = false) Gender gender,
+                                     @RequestParam(required = false) Integer count,
+                                     @RequestParam(required = false) Long seed) {
+        return todayOutfitService.recommendToday(resolve(regionName, gu), gender, count, seed);
     }
 
     @GetMapping(value = "/by-hour", produces = MediaType.APPLICATION_JSON_VALUE)
     public OutfitResponse byHour(@RequestParam(required = false) String regionName,
                                  @RequestParam(required = false) String gu,
-                                 @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime at) {
-        return todayOutfitService.recommendForHour(resolve(regionName, gu), at);
+                                 @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime at,
+                                 @RequestParam(required = false) Gender gender,
+                                 @RequestParam(required = false) Integer count,
+                                 @RequestParam(required = false) Long seed) {
+        return todayOutfitService.recommendForHour(resolve(regionName, gu), at, gender, count, seed);
     }
 
     private static String resolve(String regionName, String gu) {

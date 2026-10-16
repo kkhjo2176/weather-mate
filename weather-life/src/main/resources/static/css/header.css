@@ -1,0 +1,66 @@
+/* ===== 헤더 ===== */
+.wl-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    padding: 8px 4px;
+}
+
+.wl-logo {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    color: inherit;
+    text-decoration: none;
+}
+.wl-logo img { width: 72px; height: 72px; }
+.wl-logo h1 {
+    font-size: 36px;
+    font-weight: 800;
+    color: #1d3c78;
+    letter-spacing: -0.5px;
+}
+.wl-logo p {
+    font-size: 15px;
+    color: #3d5478;
+    margin-top: 2px;
+}
+
+.wl-header-controls {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.wl-select {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    height: 50px;
+    padding: 0 16px;
+    background: #fff;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow);
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--c-text);
+}
+.wl-select-icon { width: 24px; height: 24px; }
+.wl-select-arrow { width: 18px; height: 18px; margin-left: 6px; pointer-events: none; }
+
+/* 지역 선택 드롭다운: 기본 화살표를 숨기고 카드 모양 안에 넣는다 */
+.wl-select { position: relative; cursor: pointer; }
+.wl-select-input {
+    appearance: none;
+    -webkit-appearance: none;
+    border: 0;
+    background: transparent;
+    font: inherit;
+    color: inherit;
+    padding-right: 28px;
+    margin-right: -28px;
+    cursor: pointer;
+    outline: none;
+}

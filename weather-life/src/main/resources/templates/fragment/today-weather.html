@@ -2,44 +2,94 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <body>
 
-<!-- 오늘의 날씨: 오늘 / 내일 / 모레 카드 (오늘 카드에 포커스) -->
+<!--
+  오늘의 날씨: 왼쪽(오늘 큰 카드 + 내일/모레 작은 카드 2칸) / 오른쪽(불쾌지수, 왼쪽 전체 높이에 맞춰 늘어남).
+  초기 렌더링은 th:with 의 목업 값을 보여주고, js/main.js 가 아래 API로 실제 값을 덮어쓴다.
+    - AI 예측 온도(data-field="aiTemp")      : GET /api/weather/aitest (AiForecastController.forecastTest)
+    - 기상청 온도(data-field="kmaTemp")       : GET /api/short?regionName=... (APIController.getShortForecast)
+    - 불쾌지수(data-field="discomfortIndex") : AI 예측 온도 + 기상청 습도(REH)로 계산
+-->
 <section class="wl-card wl-today" th:fragment="today-weather">
     <h2 class="wl-title">
         <img th:src="@{/image/icon/cloud-title.svg}" alt="">
         오늘의 날씨
     </h2>
 
-    <div class="wl-today-slider">
-        <ul class="wl-today-list">
-            <li class="wl-day-card" th:each="day : ${dailyWeathers}"
-                th:classappend="${day.today} ? 'is-today'">
+    <div class="wl-today-grid">
+        <div class="wl-today-main">
+            <!-- 오늘: AI 예측 온도 / 기상청 온도 -->
+            <article class="wl-today-card" data-day="today">
                 <div class="wl-day-head">
-                    <span class="wl-day-date" th:text="${day.dateLabel}">07. 12 (일)</span>
-                    <span class="wl-day-tag" th:text="${day.dayTag}">오늘</span>
-                </div>
-
-                <div class="wl-day-temp">
-                    <img th:src="@{${day.weatherIcon}}" th:alt="${day.condition}">
-                    <strong><span th:text="${day.temperature}">22</span><small>℃</small></strong>
-                </div>
-
-                <div class="wl-day-desc">
-                    <p class="wl-day-condition" th:text="${day.condition}">비</p>
-                    <p th:text="|예측 ${day.forecastTemp}°C / 체감 ${day.feelsLikeTemp}°C|">예측 22°C / 체감 24°C</p>
-                    <p th:text="|기상청 ${day.kmaTemp}°C|">기상청 22°C</p>
-                </div>
-
-                <img class="wl-day-character" th:src="@{${day.characterImage}}" alt="날씨 캐릭터">
-
-                <div class="wl-discomfort">
-                    <p>불쾌지수 <strong th:text="${day.discomfortIndex}">78</strong></p>
-                    <div class="wl-discomfort-bar">
-                        <img class="wl-discomfort-marker" th:src="@{/image/character/face.svg}" alt=""
-                             th:style="|left: ${day.discomfortIndex}%|">
+                    <div class="wl-day-head-left">
+                        <span class="wl-day-date" data-field="dateLabel" th:text="${dailyWeathers[0].dateLabel}">07. 12 (일)</span>
+                        <span class="wl-day-tag">오늘</span>
                     </div>
+
+                    <!-- 지역 선택: 서울특별시 25개 구 (기본 선택값은 ${location}) -->
+                    <label class="wl-select wl-today-select">
+                        <img th:src="@{/image/icon/pin.svg}" alt="" class="wl-select-icon">
+                        <select name="district" class="wl-select-input" aria-label="지역 선택">
+                            <option th:each="district : ${districts}"
+                                    th:value="${district}" th:text="${district}"
+                                    th:selected="${district == location}">종로구</option>
+                        </select>
+                        <img th:src="@{/image/icon/chevron-down.svg}" alt="" class="wl-select-arrow">
+                    </label>
                 </div>
-            </li>
-        </ul>
+                <div class="wl-today-body">
+                    <p class="wl-today-label">오늘의 온도</p>
+                    <p class="wl-today-temp">
+                        <strong data-field="aiTemp" th:text="${dailyWeathers[0].temperature}">22</strong><span class="wl-deg">℃</span>
+                        <span class="wl-sep">/</span>
+                        <strong data-field="kmaTemp" th:text="${dailyWeathers[0].kmaTemp}">22</strong><span class="wl-deg">℃</span>
+                        <span class="wl-kma-tag">기상청</span>
+                    </p>
+                </div>
+            </article>
+
+            <!-- 내일 / 모레: AI 예측 온도 / 기상청 온도 -->
+            <div class="wl-mini-cards">
+                <article class="wl-mini-card" data-day="tomorrow">
+                    <p class="wl-mini-title" th:text="${dailyWeathers[1].dayTag}">내일</p>
+                    <p class="wl-mini-temp">
+                        <strong data-field="aiTemp" th:text="${dailyWeathers[1].temperature}">26</strong><span class="wl-deg">℃</span>
+                        <span class="wl-sep">/</span>
+                        <strong data-field="kmaTemp" th:text="${dailyWeathers[1].kmaTemp}">26</strong><span class="wl-deg">℃</span>
+                        <span class="wl-kma-tag">기상청</span>
+                    </p>
+                </article>
+                <article class="wl-mini-card" data-day="dayafter">
+                    <p class="wl-mini-title" th:text="${dailyWeathers[2].dayTag}">모레</p>
+                    <p class="wl-mini-temp">
+                        <strong data-field="aiTemp" th:text="${dailyWeathers[2].temperature}">27</strong><span class="wl-deg">℃</span>
+                        <span class="wl-sep">/</span>
+                        <strong data-field="kmaTemp" th:text="${dailyWeathers[2].kmaTemp}">27</strong><span class="wl-deg">℃</span>
+                        <span class="wl-kma-tag">기상청</span>
+                    </p>
+                </article>
+            </div>
+        </div>
+
+        <!-- 불쾌지수: AI 예측 온도(오늘) + 기상청 습도로 계산, 온도계 100분위 위치에 bag.svg 표시 -->
+        <aside class="wl-discomfort-card">
+            <div class="wl-discomfort-head">
+                <p class="wl-discomfort-title">불쾌지수</p>
+                <small class="wl-discomfort-date" data-field="discomfortDate">오늘 (07월 12일)</small>
+            </div>
+
+            <div class="wl-thermometer">
+                <div class="wl-thermometer-track">
+                    <img class="wl-thermometer-marker" data-field="discomfortMarker"
+                         th:src="@{/image/icon/bag.svg}" alt="불쾌지수 위치"
+                         th:style="|bottom: ${dailyWeathers[0].discomfortIndex}%|">
+                </div>
+                <div class="wl-thermometer-bulb"></div>
+            </div>
+
+            <p class="wl-discomfort-value">
+                <strong data-field="discomfortIndex" th:text="${dailyWeathers[0].discomfortIndex}">78</strong>
+            </p>
+        </aside>
     </div>
 </section>
 

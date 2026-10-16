@@ -28,12 +28,6 @@
     margin-top: 2px;
 }
 
-.wl-header-controls {
-    display: flex;
-    gap: 12px;
-    flex-wrap: wrap;
-}
-
 .wl-select {
     display: flex;
     align-items: center;

@@ -202,3 +202,144 @@
 
     window.loadOutfitCard = loadOutfitCard;
 })();
+
+// ===== 오늘의 날씨: 오늘/내일/모레 AI 예측 온도 + 기상청 온도, 불쾌지수 =====
+// AI 예측 온도(AiForecastController.forecastTest, GET /api/weather/aitest)와
+// 기상청 온도·습도(APIController.getShortForecast, GET /api/short)로 각 카드를 채운다.
+// 불쾌지수는 오늘의 AI 예측 온도 + 기상청 습도(REH)로 계산해 온도계 하단에 표시하고,
+// 온도계를 0~100 로 보고 그 값의 위치에 /image/icon/bag.svg 마커를 놓는다.
+(() => {
+    const LOG = '[weather-life]';
+    const REGION_PREFIX = '서울특별시 ';
+    const DAY_KEYS = ['today', 'tomorrow', 'dayafter'];
+    const WEEKDAYS = ['일', '월', '화', '수', '목', '금', '토'];
+
+    const pad = (n) => String(n).padStart(2, '0');
+    const kmaDateKey = (d) => `${d.getFullYear()}${pad(d.getMonth() + 1)}${pad(d.getDate())}`;
+    const isoDateKey = (d) => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+    const formatDateLabel = (d) => `${pad(d.getMonth() + 1)}. ${pad(d.getDate())} (${WEEKDAYS[d.getDay()]})`;
+    const formatDiscomfortDate = (d) => `오늘 (${pad(d.getMonth() + 1)}월 ${pad(d.getDate())}일)`;
+
+    // 오늘/내일/모레 날짜(자정 기준)
+    const targetDates = () => {
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        return DAY_KEYS.map((key, i) => {
+            const date = new Date(today);
+            date.setDate(date.getDate() + i);
+            return { key, date };
+        });
+    };
+
+    // AiForecastController.forecastTest 응답: 날짜(yyyy-MM-dd) -> AI 예측 기온
+    const fetchAiTemps = async () => {
+        const res = await fetch('/api/weather/aitest');
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
+        const byDate = new Map();
+        (data?.forecasts ?? []).forEach((f) => {
+            if (f?.date) byDate.set(f.date, f.temperatureC);
+        });
+        return byDate;
+    };
+
+    // APIController.getShortForecast 응답: 날짜(yyyyMMdd) -> { TMP:{hhmm:값}, REH:{hhmm:값} }
+    const fetchKmaByDate = async (district) => {
+        const regionName = REGION_PREFIX + district;
+        const res = await fetch(`/api/short?regionName=${encodeURIComponent(regionName)}`);
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
+        const header = data?.response?.header;
+        if (header && header.resultCode !== '00') {
+            throw new Error(`기상청 응답 오류 ${header.resultCode} ${header.resultMsg}`);
+        }
+
+        const items = data?.response?.body?.items?.item ?? [];
+        const byDate = new Map();
+        items.forEach((item) => {
+            if (item.category !== 'TMP' && item.category !== 'REH') return;
+            if (!byDate.has(item.fcstDate)) byDate.set(item.fcstDate, { TMP: {}, REH: {} });
+            byDate.get(item.fcstDate)[item.category][item.fcstTime] = Number(item.fcstValue);
+        });
+        return byDate;
+    };
+
+    // 기준 시각(HHmm) 이후 가장 가까운 시각의 값을 고른다. 없으면 그 날의 마지막 값을 쓴다.
+    const pickByHour = (hourMap, nowHourKey) => {
+        const hours = Object.keys(hourMap ?? {}).sort();
+        if (hours.length === 0) return null;
+        const hour = hours.find((h) => h >= nowHourKey) ?? hours[hours.length - 1];
+        return hourMap[hour];
+    };
+
+    // 기상청 불쾌지수 공식: 0.81*T + 0.01*RH*(0.99*T - 14.3) + 46.3
+    const calcDiscomfortIndex = (tempC, humidityPct) =>
+        0.81 * tempC + 0.01 * humidityPct * (0.99 * tempC - 14.3) + 46.3;
+
+    const setField = (scope, field, value) => {
+        scope.querySelectorAll(`[data-field="${field}"]`).forEach((el) => {
+            el.textContent = value;
+        });
+    };
+
+    const loadTodayWeather = async (district) => {
+        console.info(LOG, '오늘의 날씨 요청:', district);
+        try {
+            const [aiTemps, kmaByDate] = await Promise.all([fetchAiTemps(), fetchKmaByDate(district)]);
+
+            const now = new Date();
+            const nowHourKey = `${pad(now.getHours())}00`;
+            let todayAiTemp = null;
+            let todayHumidity = null;
+
+            targetDates().forEach(({ key, date }) => {
+                const card = document.querySelector(`[data-day="${key}"]`);
+                if (!card) return;
+
+                const aiTemp = aiTemps.get(isoDateKey(date));
+                if (typeof aiTemp === 'number' && Number.isFinite(aiTemp)) {
+                    setField(card, 'aiTemp', Math.round(aiTemp));
+                    if (key === 'today') todayAiTemp = aiTemp;
+                }
+
+                const kmaDay = kmaByDate.get(kmaDateKey(date));
+                const kmaTemp = pickByHour(kmaDay?.TMP, nowHourKey);
+                if (typeof kmaTemp === 'number' && Number.isFinite(kmaTemp)) {
+                    setField(card, 'kmaTemp', Math.round(kmaTemp));
+                }
+
+                if (key === 'today') {
+                    const reh = pickByHour(kmaDay?.REH, nowHourKey);
+                    if (typeof reh === 'number' && Number.isFinite(reh)) todayHumidity = reh;
+
+                    const dateEl = card.querySelector('[data-field="dateLabel"]');
+                    if (dateEl) dateEl.textContent = formatDateLabel(date);
+
+                    const discomfortDateEl = document.querySelector('[data-field="discomfortDate"]');
+                    if (discomfortDateEl) discomfortDateEl.textContent = formatDiscomfortDate(date);
+                }
+            });
+
+            if (typeof todayAiTemp === 'number' && typeof todayHumidity === 'number') {
+                const di = Math.max(0, Math.min(100, calcDiscomfortIndex(todayAiTemp, todayHumidity)));
+                const diRounded = Math.round(di);
+                setField(document, 'discomfortIndex', diRounded);
+
+                const marker = document.querySelector('[data-field="discomfortMarker"]');
+                if (marker) marker.style.bottom = `${di}%`;
+
+                console.info(LOG, `불쾌지수 계산: AI 예측 온도 ${todayAiTemp}, 습도 ${todayHumidity} -> ${diRounded}`);
+            }
+        } catch (e) {
+            console.warn(LOG, '오늘의 날씨를 불러오지 못해 기존 값을 유지합니다:', e.message);
+        }
+    };
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const select = document.querySelector('select[name="district"]');
+        if (!select) return;
+
+        loadTodayWeather(select.value);
+        select.addEventListener('change', () => loadTodayWeather(select.value));
+    });
+})();

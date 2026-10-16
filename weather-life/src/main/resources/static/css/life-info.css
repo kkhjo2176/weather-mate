@@ -138,3 +138,31 @@
 @media (max-width: 860px) {
     .wl-life-grid { grid-template-columns: 1fr; }
 }
+/* 캐릭터가 잘리지 않도록 표시 */
+.wl-life-character {
+    display: block;
+    min-width: 0;
+    max-width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: contain;
+    border-radius: 12px;
+}
+.wl-life-character[hidden] {
+    display: none;
+}
+.wl-laundry-image[hidden] {
+    display: none;
+}
+
+.wl-laundry-status {
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.wl-laundry-status p {
+    width: 100%;
+    margin: 0;
+    color: var(--c-text-sub);
+    font-size: 12px;
+    line-height: 1.5;
+}

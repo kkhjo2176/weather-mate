@@ -165,11 +165,32 @@ public class OutfitService {
             if (set.tags().contains("WIND_SENSITIVE")) score -= 20;
         }
 
-        if (season(ctx.request().date().getMonthValue()) == set.season()) {
-            score += 0.5;
-        }
+        // 봄·가을처럼 기온대가 겹치는 날에는 달력 계절을 보조 기준으로 사용합니다.
+        // 한여름·한겨울에 가까운 날씨라면 기존 기온·강수·바람 점수를 우선합니다.
+        score += seasonalScore(set, ctx);
 
         return score;
+    }
+
+    private double seasonalScore(Definition set, WeatherRules.Context ctx) {
+        Season currentSeason = season(ctx.request().date().getMonthValue());
+        Season setSeason = set.season();
+        double temperature = ctx.temperature();
+        double humidity = ctx.request().humidity();
+
+        boolean isSpringOrAutumn = currentSeason == Season.SPRING
+                || currentSeason == Season.AUTUMN;
+        boolean isTransitionalSet = setSeason == Season.SPRING
+                || setSeason == Season.AUTUMN;
+        boolean isMildWeather = temperature >= 10 && temperature <= 23;
+        boolean isSummerLike = temperature >= 22 && humidity >= 75;
+
+        if (!isSpringOrAutumn || !isTransitionalSet
+                || !isMildWeather || isSummerLike) {
+            return 0;
+        }
+
+        return currentSeason == setSeason ? 10 : -10;
     }
 
     private Outfit assemble(
@@ -220,8 +241,8 @@ public class OutfitService {
         var structure = dress == null
                 ? Structure.SEPARATES
                 : inner == null
-                    ? Structure.ONE_PIECE
-                    : Structure.LAYERED_ONE_PIECE;
+                ? Structure.ONE_PIECE
+                : Structure.LAYERED_ONE_PIECE;
 
         String signature = set.key() + "|" + String.join(
                 "|", id(top), id(bottom), id(dress),
@@ -293,7 +314,7 @@ public class OutfitService {
             double score =
                     100 - Math.abs(
                             temperature - garment.idealTemperature()) * 2
-                    - distance(
+                            - distance(
                             temperature,
                             garment.minTemperature(),
                             garment.maxTemperature()) * 8;

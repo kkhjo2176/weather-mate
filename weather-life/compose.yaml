@@ -1,0 +1,39 @@
+services:
+  db:
+    image: mariadb:11
+    environment:
+      MARIADB_DATABASE: ${DB_NAME:-weather}
+      MARIADB_USER: ${DB_USER:?Set DB_USER in your .env}
+      MARIADB_PASSWORD: ${DB_PASSWORD:?Set DB_PASSWORD in your .env}
+      MARIADB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:?Set DB_ROOT_PASSWORD in your .env}
+      TZ: Asia/Seoul
+    volumes:
+      - db-data:/var/lib/mysql
+    ports:
+      - "127.0.0.1:${DB_PORT:-3306}:3306"
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      start_period: 30s
+      retries: 10
+
+  app:
+    build:
+      context: .
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mariadb://db:3306/${DB_NAME:-weather}?characterEncoding=UTF-8&serverTimezone=Asia/Seoul
+      SPRING_DATASOURCE_USERNAME: ${DB_USER:?Set DB_USER in your .env}
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD:?Set DB_PASSWORD in your .env}
+      KMA_SHORT_AUTH-KEY: ${KMA_SHORT_AUTH_KEY:-}
+      KMA_MEDIUM_SERVICE-KEY: ${KMA_MEDIUM_SERVICE_KEY:-}
+      AI_FORECAST_BASE-URL: ${AI_FORECAST_BASE_URL:-}
+      AI_FORECAST_API-KEY: ${AI_FORECAST_API_KEY:-}
+    ports:
+      - "127.0.0.1:${APP_PORT:-8080}:8080"
+
+volumes:
+  db-data:

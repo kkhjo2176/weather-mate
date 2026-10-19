@@ -45,6 +45,8 @@ public class WeatherCollectScheduler {
     // 서버 시작 시 기상청 외부 호출은 하지 않습니다. 수동 collect-all로 최초 데이터 적재 가능합니다.
     @EventListener(ApplicationReadyEvent.class)
     public void onApplicationReady() {
-        if (enabled) cleanup();
+        if (!enabled) return;
+        cleanup();
+        batch.collectAll();
     }
 }

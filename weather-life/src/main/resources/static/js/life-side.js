@@ -106,7 +106,8 @@
 
         if (!accessories.length) {
             const li = document.createElement("li");
-            li.textContent = "추가로 추천된 준비물이 없어요";
+            // li.textContent = "추가로 추천된 준비물이 없어요";
+            li.textContent = "";
             fragment.appendChild(li);
         }
 
